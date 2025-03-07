@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3030:3030'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+# docker-compose up --build

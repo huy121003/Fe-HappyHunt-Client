@@ -1,0 +1,8 @@
+export enum API_KEY {
+  GET_NEW_ACCESS_TOKEN = 'GET_NEW_ACCESS_TOKEN',
+  GET_ACCOUNT_INFO = 'GET_ACCOUNT_INFO',
+}
+export enum IType {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}

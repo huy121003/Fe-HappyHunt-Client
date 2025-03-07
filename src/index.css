@@ -1,0 +1,27 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ant-pagination-item-active {
+  border-color: #fc6d26 !important;
+  /* Màu viền của mục đang hoạt động */
+  background-color: #fff5f8 !important;
+  /* Nền mục đang hoạt động */
+}
+
+.ant-table-thead>tr>th {
+  background-color: #fc6d26 !important;
+  /* Nền header */
+  color: #ffffff !important;
+  /* Màu chữ */
+  border: 1px solid #fc6d26 !important;
+  /* Viền header */
+  text-align: center;
+
+  /* Căn giữa chữ */
+}
+
+.ant-table-wrapper .ant-table {
+  scrollbar-color: unset;
+}
