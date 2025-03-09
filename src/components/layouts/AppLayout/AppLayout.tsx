@@ -15,7 +15,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       <Header />
       <Content className="mt-[100px] ">
         {children}
-        <Bottom />
+       
       </Content>
     </Layout>
   );

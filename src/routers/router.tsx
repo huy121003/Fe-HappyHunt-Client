@@ -15,6 +15,9 @@ const ForgotPasswordPage = lazy(
   () => import("@/pages/public/forgot-password/ForgotPasswordPage")
 );
 const HomePage = lazy(() => import("@/pages/private/home/HomePage"));
+const CreatPostPage = lazy(
+  () => import("@/pages/private/create-post/CreateNewPost")
+);
 const router = createBrowserRouter([
   {
     path: "*",
@@ -34,18 +37,140 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Outlet />,
+    element: (
+      <AppLayout>
+        <Outlet />
+      </AppLayout>
+    ),
     children: [
       {
         index: true,
-        element: withSuspense(
-          <AppLayout>
-            <HomePage />
-          </AppLayout>,
-          <CLoadingPage />
-        ),
+        element: withSuspense(<HomePage />, <CLoadingPage />),
+      },
+      {
+        path: "profile/:slugProfile",
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(<div>Active Post</div>, <CLoadingPage />),
+          },
+          {
+            path: "selling-post",
+            element: withSuspense(<div>Active Post</div>, <CLoadingPage />),
+          },
+          {
+            path: "sold-post",
+            element: withSuspense(<div>Sell Post</div>, <CLoadingPage />),
+          },
+        ],
+      },
+      {
+        path: "change-password",
+        element: withSuspense(<div>Change Password</div>, <CLoadingPage />),
+      },
+      {
+        path: "change-profile",
+        element: withSuspense(<div>Change Profile</div>, <CLoadingPage />),
+      },
+      {
+        path: "create-post",
+        element: withSuspense(<CreatPostPage />, <CLoadingPage />),
+      },
+      {
+        path: "post-management",
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(
+              <div>Post ActiveActive</div>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: "active",
+            element: withSuspense(<div>Post Active</div>, <CLoadingPage />),
+          },
+          {
+            path: "expired",
+            element: withSuspense(<div>Post Expired</div>, <CLoadingPage />),
+          },
+          {
+            path: "pending",
+            element: withSuspense(<div>Post Pending</div>, <CLoadingPage />),
+          },
+          {
+            path: "reject",
+            element: withSuspense(<div>Post Reject</div>, <CLoadingPage />),
+          },
+          {
+            path: "hidden",
+            element: withSuspense(<div>Post Hidden</div>, <CLoadingPage />),
+          },
+        ],
+      },
+      {
+        path: "post/:slugPost",
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(<div>Post Detail</div>, <CLoadingPage />),
+          },
+          {
+            path: "edit",
+            element: withSuspense(<div>Edit Post</div>, <CLoadingPage />),
+          },
+        ],
+      },
+      {
+        path: "messages",
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(<div>Messages</div>, <CLoadingPage />),
+          },
+          {
+            path: ":slugChat",
+            element: withSuspense(<div>Chat</div>, <CLoadingPage />),
+          },
+        ],
+      },
+      {
+        path: "category/:slugCategory",
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(<div>Category</div>, <CLoadingPage />),
+          },
+          {
+            path: "post/:slugPost",
+            element: withSuspense(<div>Post Detail</div>, <CLoadingPage />),
+          },
+          {
+            path: "child-category/:slugChildCategory",
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: withSuspense(
+                  <div>Child Category</div>,
+                  <CLoadingPage />
+                ),
+              },
+              {
+                path: "post/:slugPost",
+                element: withSuspense(<div>Post Detail</div>, <CLoadingPage />),
+              },
+            ],
+          },
+        ],
       },
     ],
   },
 ]);
+
 export default router;

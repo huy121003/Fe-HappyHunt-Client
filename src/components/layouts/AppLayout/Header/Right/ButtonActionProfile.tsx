@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/redux/reduxHook";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Flex, Image, MenuProps } from "antd";
+import { Button, Dropdown, Flex, Image, MenuProps, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import ButtonLogout from "../../../../buttons/ButtonLogout";
 
@@ -11,25 +11,20 @@ function ButtonActionProfile() {
     {
       key: "profile",
       label: (
-        <Button
-          icon={<UserOutlined />}
-          type="link"
-          onClick={() => navigate("/profile")}
-        >
-          Profile
-        </Button>
+        <Typography.Text onClick={() => navigate("/profile")}>
+          <UserOutlined /> Profile
+        </Typography.Text>
       ),
     },
     {
       key: "change-password",
       label: (
-        <Button
-          icon={<LockOutlined />}
-          type="link"
+        <Typography.Text
+          className="text-black"
           onClick={() => navigate("/change-password")}
         >
-          Change Password
-        </Button>
+          <LockOutlined /> Change Password
+        </Typography.Text>
       ),
     },
     {

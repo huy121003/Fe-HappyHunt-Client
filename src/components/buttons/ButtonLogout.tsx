@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/redux/reduxHook";
 import { logoutAction } from "@/redux/slice/SAuthSlice";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
-import { Button } from "antd";
+import { Button, Typography } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -35,15 +35,13 @@ function ButtonLogout() {
   };
   return (
     <>
-      <Button
-        icon={<LogoutOutlined />}
-        type="link"
+      <Typography.Text
         onClick={() => {
           setOpen(true);
         }}
       >
-        Logout
-      </Button>
+        <LogoutOutlined /> Logout
+      </Typography.Text>
       <CDeleteModal
         message="Are you sure you want to logout?"
         open={open}

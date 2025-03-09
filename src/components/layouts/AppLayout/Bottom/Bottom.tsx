@@ -1,35 +1,43 @@
 import { Row, Col, Typography, Divider, Flex } from "antd";
 import ButtonGitHub from "../../../buttons/ButtonGitHub";
 import ButtonFb from "../../../buttons/ButtonFb";
-import ButtionLinkedIn from "../../../buttons/ButtionLinkedIn";
+import ButtonLinkedIn from "../../../buttons/ButtonLinkedIn";
 
 const { Text } = Typography;
 
 function Bottom() {
   return (
     <div className="bg-black w-full py-4 px-8">
-      <Row justify="space-between" align="middle">
+      <Row justify="space-between" gutter={[16, 16]}>
         {/* Contact */}
-        <Col span={6} className="text-center">
+        <Col xs={24} sm={12} md={6} className="text-center">
           <Text className="text-white font-bold">Contact</Text>
+          <Text className="text-white block mt-4">
+            Email: quanghuy2003.hh@gmail.com
+          </Text>
+          <Text className="text-white block mt-2">Phone: 0398601186</Text>
         </Col>
 
         {/* Help & Support */}
-        <Col span={6} className="text-center">
+        <Col xs={24} sm={12} md={6} className="text-center">
           <Text className="text-white font-bold">Help & Support</Text>
+          <Text className="text-white block mt-4">FAQ</Text>
+          <Text className="text-white block mt-2">Support</Text>
         </Col>
 
         {/* Privacy Policy */}
-        <Col span={6} className="text-center">
+        <Col xs={24} sm={12} md={6} className="text-center">
           <Text className="text-white font-bold">Privacy Policy</Text>
+          <Text className="text-white block mt-4">Terms & Conditions</Text>
+          <Text className="text-white block mt-2">Privacy Policy</Text>
         </Col>
 
         {/* Social Media */}
-        <Col span={6} className="text-center">
+        <Col xs={24} sm={12} md={6} className="text-center">
           <Text className="text-white font-bold">Social Media</Text>
-          <Row justify="center" gutter={[8, 8]}>
+          <Row justify="center" gutter={[8, 8]} className="mt-4">
             <Col>
-              <ButtionLinkedIn />
+              <ButtonLinkedIn />
             </Col>
             <Col>
               <ButtonGitHub />
@@ -40,11 +48,13 @@ function Bottom() {
           </Row>
         </Col>
       </Row>
-      <Divider className="border-white" />
+
+      <Divider className="bg-white opacity-30 my-4" />
+
       <Flex justify="center">
-        <Typography.Text className="text-white text-center">
+        <Text className="text-white text-center">
           © 2025 All rights reserved. Designed by Quang Huy.
-        </Typography.Text>
+        </Text>
       </Flex>
     </div>
   );
