@@ -1,21 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
   isAuthenticated: false,
   isLoading: true,
   account: {
-    name: '',
-    phoneNumber: '',
-    avatar: '',
+    name: "",
+    phoneNumber: "",
+    avatar: "",
     isVip: false,
     isBanned: false,
     role: {
       _id: null,
-      name: '',
+      name: "",
       permissions: [
         {
-          name: '',
-          codeName: '',
+          name: "",
+          codeName: "",
           isView: false,
           isCreate: false,
           isUpdate: false,
@@ -23,14 +23,15 @@ export const initialState = {
         },
       ],
     },
-    username: '',
+    username: "",
     address: null,
     _id: null,
+    coin: 0,
   },
 };
 
 export const SAuthSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     loginaction: (state, action) => {
@@ -50,21 +51,21 @@ export const SAuthSlice = createSlice({
       state.isLoading = false;
     },
     logoutAction: (state) => {
-      localStorage.removeItem('access_token');
+      localStorage.removeItem("access_token");
       state.isAuthenticated = false;
       state.account = {
-        name: '',
-        phoneNumber: '',
-        avatar: '',
+        name: "",
+        phoneNumber: "",
+        avatar: "",
         isVip: false,
         isBanned: false,
         role: {
           _id: null,
-          name: '',
+          name: "",
           permissions: [
             {
-              name: '',
-              codeName: '',
+              name: "",
+              codeName: "",
               isView: false,
               isCreate: false,
               isUpdate: false,
@@ -72,9 +73,10 @@ export const SAuthSlice = createSlice({
             },
           ],
         },
-        username: '',
+        username: "",
         address: null,
         _id: null,
+        coin: 0,
       };
     },
   },

@@ -22,6 +22,7 @@
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "fe-happyhunt-client": "file:",
+    "leo-profanity": "^1.7.0",
     "lodash": "^4.17.21",
     "postcss": "^8.5.2",
     "react": "^18.3.1",

@@ -27,6 +27,7 @@ function LoginForm() {
         localStorage.setItem("access_token", access_token);
         dispatch(loginaction(account));
         navigate("/");
+        window.scrollTo(0, 0);
       });
     },
 

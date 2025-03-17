@@ -1,14 +1,15 @@
-import { ThemeConfig } from 'antd';
+import { ThemeConfig } from "antd";
 
 const theme: ThemeConfig = {
   token: {
-    colorPrimary: '#FC6D26',
-    colorLink: '#3437b3',
+    colorPrimary: "#dd4904",
+    colorLink: "#3437b3",
     fontSize: 16,
     wireframe: false,
   },
   components: {
     Button: {
+      colorPrimary: "#000",
       algorithm: true,
       controlHeightLG: 48,
       controlHeight: 40,
@@ -25,11 +26,11 @@ const theme: ThemeConfig = {
       itemHeight: 48,
     },
     Tabs: {
-      cardBg: '#f5f5f5',
+      cardBg: "#f5f5f5",
       cardGutter: 0,
-      colorBorderSecondary: 'none',
+      colorBorderSecondary: "none",
       margin: 0,
-      colorText: '#000000',
+      colorText: "#000000",
     },
     Segmented: {
       borderRadiusLG: 6,
@@ -38,12 +39,15 @@ const theme: ThemeConfig = {
       handleWidth: 0,
     },
     Spin: {
-      colorLink: '#dd4904',
-      colorText: '#dd4904',
-      colorLinkHover: '#dd4904',
-      colorLinkActive: '#dd4904',
+      colorLink: "#dd4904",
+      colorText: "#dd4904",
+      colorLinkHover: "#dd4904",
+      colorLinkActive: "#dd4904",
       fontSize: 24,
-      colorPrimary: '#dd4904',
+      colorPrimary: "#dd4904",
+    },
+    TreeSelect: {
+      fontSize: 16,
     },
   },
 };

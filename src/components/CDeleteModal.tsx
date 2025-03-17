@@ -1,5 +1,5 @@
-import { Modal } from 'antd';
-import React from 'react';
+import { Modal } from "antd";
+import React from "react";
 
 interface CDeleteModalProps {
   message: string;
@@ -17,6 +17,7 @@ const CDeleteModal: React.FC<CDeleteModalProps> = ({
 }) => {
   return (
     <Modal
+      style={{ top: "40%" }}
       title="Confirm"
       open={open}
       onOk={() => {

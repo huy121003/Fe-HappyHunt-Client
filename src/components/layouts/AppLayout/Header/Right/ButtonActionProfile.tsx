@@ -11,7 +11,12 @@ function ButtonActionProfile() {
     {
       key: "profile",
       label: (
-        <Typography.Text onClick={() => navigate("/profile")}>
+        <Typography.Text
+          onClick={() => {
+            navigate("/profile");
+            window.scrollTo(0, 0);
+          }}
+        >
           <UserOutlined /> Profile
         </Typography.Text>
       ),

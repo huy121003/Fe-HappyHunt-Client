@@ -2,6 +2,9 @@ import { createBrowserRouter, Outlet } from "react-router-dom";
 import { ReactNode, Suspense, lazy } from "react";
 import { CLoadingPage, CNotFoundPage } from "@/components";
 import AppLayout from "@/components/layouts/AppLayout/AppLayout";
+import { PostFilterProvider } from "@/features/posts/components/ui/PostFilterProvider ";
+
+import PostManagementLayout from "@/features/posts/layout/PostManagementLayout";
 //import RoleProtectedRoute from "@/components/layouts/RoleProtectedRoute";
 const withSuspense = (
   node: ReactNode,
@@ -15,8 +18,15 @@ const ForgotPasswordPage = lazy(
   () => import("@/pages/public/forgot-password/ForgotPasswordPage")
 );
 const HomePage = lazy(() => import("@/pages/private/home/HomePage"));
-const CreatPostPage = lazy(
-  () => import("@/pages/private/create-post/CreateNewPost")
+const PostCreatePage = lazy(
+  () => import("@/pages/private/posts/create/PostCreatePage")
+);
+const PostPage = lazy(() => import("@/pages/private/posts/PostPage"));
+const PostUpdatePage = lazy(
+  () => import("@/pages/private/posts/update/PostUpdatePage")
+);
+const PostDetailPage = lazy(
+  () => import("@/pages/private/posts/detail/PostDetailPage")
 );
 const router = createBrowserRouter([
   {
@@ -75,38 +85,33 @@ const router = createBrowserRouter([
       },
       {
         path: "create-post",
-        element: withSuspense(<CreatPostPage />, <CLoadingPage />),
+        element: withSuspense(<PostCreatePage />, <CLoadingPage />),
+      },
+      {
+        path: "update-post/:slugPost",
+        element: withSuspense(<PostUpdatePage />, <CLoadingPage />),
+      },
+      {
+        path: "detail-post/:slugPost",
+        element: withSuspense(<PostDetailPage />, <CLoadingPage />),
       },
       {
         path: "post-management",
-        element: <Outlet />,
+        element: (
+          <PostFilterProvider>
+            <PostManagementLayout>
+              <Outlet />
+            </PostManagementLayout>
+          </PostFilterProvider>
+        ),
         children: [
           {
             index: true,
-            element: withSuspense(
-              <div>Post ActiveActive</div>,
-              <CLoadingPage />
-            ),
+            element: withSuspense(<PostPage />, <CLoadingPage />),
           },
           {
-            path: "active",
-            element: withSuspense(<div>Post Active</div>, <CLoadingPage />),
-          },
-          {
-            path: "expired",
-            element: withSuspense(<div>Post Expired</div>, <CLoadingPage />),
-          },
-          {
-            path: "pending",
-            element: withSuspense(<div>Post Pending</div>, <CLoadingPage />),
-          },
-          {
-            path: "reject",
-            element: withSuspense(<div>Post Reject</div>, <CLoadingPage />),
-          },
-          {
-            path: "hidden",
-            element: withSuspense(<div>Post Hidden</div>, <CLoadingPage />),
+            path: ":status",
+            element: withSuspense(<PostPage />, <CLoadingPage />),
           },
         ],
       },

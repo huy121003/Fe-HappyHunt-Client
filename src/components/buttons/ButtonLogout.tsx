@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/redux/reduxHook";
 import { logoutAction } from "@/redux/slice/SAuthSlice";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
-import { Button, Typography } from "antd";
+import { Typography } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -26,6 +26,7 @@ function ButtonLogout() {
         localStorage.removeItem("access_token");
         dispatch(logoutAction());
         navigate("/login");
+        window.scrollTo(0, 0);
       });
     },
     onError,

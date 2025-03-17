@@ -1,0 +1,4 @@
+export enum API_KEY {
+  EVALUATE = "EVALUATE",
+  EVALUATE_COUNT = "EVALUATE_COUNT",
+}

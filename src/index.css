@@ -4,18 +4,18 @@
 @tailwind utilities;
 
 .ant-pagination-item-active {
-  border-color: #fc6d26 !important;
+  border-color: #000000 !important;
   /* Màu viền của mục đang hoạt động */
   background-color: #fff5f8 !important;
   /* Nền mục đang hoạt động */
 }
 
 .ant-table-thead>tr>th {
-  background-color: #fc6d26 !important;
+  background-color: #000000 !important;
   /* Nền header */
   color: #ffffff !important;
   /* Màu chữ */
-  border: 1px solid #fc6d26 !important;
+  border: 1px solid #000 !important;
   /* Viền header */
   text-align: center;
 

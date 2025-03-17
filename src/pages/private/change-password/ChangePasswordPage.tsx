@@ -1,11 +1,5 @@
-import React from 'react'
-
 function ChangePasswordPage() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div></div>;
 }
 
-export default ChangePasswordPage
+export default ChangePasswordPage;

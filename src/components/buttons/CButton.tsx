@@ -1,9 +1,9 @@
-import { Button, ButtonProps } from 'antd';
-import React from 'react';
+import { Button, ButtonProps } from "antd";
+import React from "react";
 
 type TCustomButtonProps = {
-  type?: 'default' | 'primary' | 'dashed' | 'link' | 'text';
-  htmlType?: 'submit' | 'button' | 'reset';
+  type?: "default" | "primary" | "dashed" | "link" | "text";
+  htmlType?: "submit" | "button" | "reset";
   className?: string;
   fullWidth?: boolean;
   hasMinW?: boolean;
@@ -16,18 +16,18 @@ const CButton: React.FC<
   type,
   htmlType,
   className,
-  fullWidth = true,
+  fullWidth = false,
   hasMinW = true,
   ...props
 }) => {
   return (
     <Button
       {...props}
-      type={type ?? 'primary'}
+      type={type ?? "primary"}
       htmlType={htmlType}
-      className={`${fullWidth ? 'w-full' : ''} ${className}`}
+      className={`${fullWidth ? "w-full" : ""} ${className}`}
     >
-      <span className={`${hasMinW ? 'min-w-[82px]' : ''} `}>{children}</span>
+      <span className={`${hasMinW ? "min-w-[82px]" : ""} `}>{children}</span>
     </Button>
   );
 };

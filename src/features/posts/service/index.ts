@@ -1,0 +1,115 @@
+import apiRequest from "@/libs/axios";
+import { EMethod } from "@/constants";
+import { ICommonResponse, IPagedResponse } from "@/interfaces";
+import {
+  ICountSold,
+  ICountStatus,
+  IPost,
+  IPostItem,
+  IPostPayload,
+  ISearchPost,
+} from "../data/interface";
+
+const convertObjectToFormData = (data: IPostPayload) => {
+  const formData = new FormData();
+  formData.append("name", data.name);
+  formData.append("description", data.description);
+  formData.append("price", data.price.toString());
+  formData.append("isIndividual", data.isIndividual.toString());
+  if (data.category) {
+    formData.append("category", data.category.toString());
+  }
+  formData.append("categoryParent", data.categoryParent.toString());
+  if (data.saveImages) {
+    formData.append("saveImages", JSON.stringify(data.saveImages));
+  }
+  if (Array.isArray(data.images) && data.images.length > 0) {
+    data.images.forEach((image) => {
+      formData.append("images", image as Blob);
+    });
+  }
+
+  formData.append("address", JSON.stringify(data.address));
+  formData.append("attributes", JSON.stringify(data.attributes));
+  return formData;
+};
+
+class PostService {
+  private static baseUrl = "/post";
+  static create = (data: IPostPayload): Promise<ICommonResponse> => {
+    return apiRequest(
+      EMethod.POST,
+      `${PostService.baseUrl}`,
+      true,
+      convertObjectToFormData(data)
+    );
+  };
+  static update = (
+    id: number,
+    data: IPostPayload
+  ): Promise<ICommonResponse> => {
+    return apiRequest(
+      EMethod.PATCH,
+      `${PostService.baseUrl}/${id}`,
+      true,
+      convertObjectToFormData(data)
+    );
+  };
+
+  static countStatus = (
+    idUser: number
+  ): Promise<ICommonResponse<ICountStatus>> => {
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/count-status/${idUser}`,
+      false
+    );
+  };
+  static updateStatus = (
+    id: number,
+    status: string
+  ): Promise<ICommonResponse> => {
+    return apiRequest(
+      EMethod.PATCH,
+      `${PostService.baseUrl}/${id}/status`,
+      true,
+      {
+        status,
+      }
+    );
+  };
+
+  static getAllPagination = (
+    idUser: number,
+    params: ISearchPost
+  ): Promise<IPagedResponse<IPostItem[]>> => {
+    const newParams = new URLSearchParams(params as any).toString();
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/${idUser}/pagination?${newParams}`,
+      false
+    );
+  };
+  static getById = (id: number): Promise<ICommonResponse<IPost>> => {
+    return apiRequest(EMethod.GET, `${PostService.baseUrl}/${id}`, false);
+  };
+  static getBySlug = (slug: string): Promise<ICommonResponse<IPost>> => {
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/slug/${slug}`,
+      false
+    );
+  };
+  static remove = (id: number): Promise<ICommonResponse> => {
+    return apiRequest(EMethod.DELETE, `${PostService.baseUrl}/${id}`, false);
+  };
+  static countSold = (idUser: number): Promise<ICommonResponse<ICountSold>> => {
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/count-sold/${idUser}`,
+      false
+    );
+  };
+}
+
+export default PostService;

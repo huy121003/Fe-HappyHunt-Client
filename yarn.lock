@@ -971,7 +971,7 @@ ansi-styles@^6.1.0:
 
 antd-img-crop@^4.24.0:
   version "4.24.0"
-  resolved "https://registry.yarnpkg.com/antd-img-crop/-/antd-img-crop-4.24.0.tgz#7b7a2c8d14482cbd9d37bfc685c10eadf901078c"
+  resolved "https://registry.npmjs.org/antd-img-crop/-/antd-img-crop-4.24.0.tgz"
   integrity sha512-RqY/XqvmUnHlj7oLV2kN/ytdZdHUFAZyM3TN+QlTlLrze1Q74isAePgG+QTkLAbrkR9L/IgVRpjsuH/nevpU7Q==
   dependencies:
     react-easy-crop "^5.2.0"
@@ -1515,9 +1515,10 @@ fastq@^1.6.0:
     "@tanstack/react-query-devtools" "^5.67.1"
     "@types/react-redux" "^7.1.34"
     antd "^5.24.1"
+    antd-img-crop "^4.24.0"
     axios "^1.7.9"
     dayjs "^1.11.13"
-    fe-happyhunt-client "file:C:/Users/quang/AppData/Local/Yarn/Cache/v6/npm-fe-happyhunt-client-0.0.0-2d8063d4-330d-4017-9456-8b6c484e3c51-1741522916077/node_modules/fe-happyhunt-client"
+    fe-happyhunt-client "file:C:/Users/quang/AppData/Local/Yarn/Cache/v6/npm-fe-happyhunt-client-0.0.0-fa4a2f06-67a5-43b8-b528-392c6016eb6a-1742203342200/node_modules/fe-happyhunt-client"
     lodash "^4.17.21"
     postcss "^8.5.2"
     react "^18.3.1"
@@ -1588,6 +1589,11 @@ fraction.js@^4.3.7:
   version "4.3.7"
   resolved "https://registry.npmjs.org/fraction.js/-/fraction.js-4.3.7.tgz"
   integrity sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==
+
+french-badwords-list@^1.0.6:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/french-badwords-list/-/french-badwords-list-1.0.7.tgz#8ed2442cb20fa2781c38b5a75c944f8e91a73c08"
+  integrity sha512-H1ziKs2PJh2+UXZ9oCGJ/rRQpsI9NBykGf2Sc7WaKaj1OnWFuBXfsvANTdRcfVmOghGQaUmRyZ1hJOPbDpy04Q==
 
 fsevents@~2.3.2, fsevents@~2.3.3:
   version "2.3.3"
@@ -1844,6 +1850,14 @@ keyv@^4.5.4:
   dependencies:
     json-buffer "3.0.1"
 
+leo-profanity@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/leo-profanity/-/leo-profanity-1.7.0.tgz#4c7e77a0a1376afdff44a727235d08a489a57d93"
+  integrity sha512-88j1R08jrQzOib9Yxk4nxrzMlrHJi3DzFzAmv0L4APQ+ciGEfJ1rftVEvFjoqL0m+0KGFL3csQGRlxXGnYrA7w==
+  optionalDependencies:
+    french-badwords-list "^1.0.6"
+    russian-bad-words "^0.5.0"
+
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.npmjs.org/levn/-/levn-0.4.1.tgz"
@@ -1988,7 +2002,7 @@ normalize-range@^0.1.2:
 
 normalize-wheel@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/normalize-wheel/-/normalize-wheel-1.0.1.tgz#aec886affdb045070d856447df62ecf86146ec45"
+  resolved "https://registry.npmjs.org/normalize-wheel/-/normalize-wheel-1.0.1.tgz"
   integrity sha512-1OnlAPZ3zgrk8B91HyRj+eVv+kS5u+Z0SCsak6Xil/kmgEia50ga7zfkumayonZrImffAxPU/5WcyGhzetHNPA==
 
 object-assign@^4.0.1:
@@ -2521,7 +2535,7 @@ react-dom@^18.3.1:
 
 react-easy-crop@^5.2.0:
   version "5.4.1"
-  resolved "https://registry.yarnpkg.com/react-easy-crop/-/react-easy-crop-5.4.1.tgz#41aebb2d602dc3cdf2c2c17df1af776c40188ce0"
+  resolved "https://registry.npmjs.org/react-easy-crop/-/react-easy-crop-5.4.1.tgz"
   integrity sha512-Djtsi7bWO75vkKYkVxNRrJWY69pXLahIAkUN0mmt9cXNnaq2tpG59ctSY6P7ipJgBc7COJDRMRuwb2lYwtACNQ==
   dependencies:
     normalize-wheel "^1.0.1"
@@ -2678,6 +2692,11 @@ run-parallel@^1.1.9:
   integrity sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==
   dependencies:
     queue-microtask "^1.2.2"
+
+russian-bad-words@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/russian-bad-words/-/russian-bad-words-0.5.0.tgz#d4abcdc55f7af37606cdbac44bcb9e0bde6c3855"
+  integrity sha512-euNvEYki6iYYpkNbeudW+lEMMYGEmN7EBwVF8ezlbv0bZoQpVYB7W10cCeUIGV7Ed50sJynLQ0c559q5iI0ejQ==
 
 scheduler@^0.23.2:
   version "0.23.2"
@@ -2894,7 +2913,7 @@ tsconfck@^3.0.3:
 
 tslib@^2.0.1, tslib@^2.8.1:
   version "2.8.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
+  resolved "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz"
   integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==
 
 turbo-stream@2.4.0:

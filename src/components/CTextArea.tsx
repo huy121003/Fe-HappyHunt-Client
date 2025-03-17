@@ -1,13 +1,13 @@
-import { Input } from 'antd';
-import { TextAreaProps } from 'antd/es/input';
+import { Input } from "antd";
+import { TextAreaProps } from "antd/es/input";
 
 const CTextArea = ({
   maxLength = 2000,
-  autoSize = { minRows: 3, maxRows: 10 },
+  autoSize = { minRows: 4, maxRows: 10 },
   onInput,
   ...rest
 }: TextAreaProps) => {
-  const handleInput: TextAreaProps['onInput'] = (e) => {
+  const handleInput: TextAreaProps["onInput"] = (e) => {
     const target = e.target as HTMLInputElement;
 
     if (target.value?.length > maxLength) {
