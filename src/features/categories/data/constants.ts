@@ -3,3 +3,12 @@ export enum API_KEY {
   GET_CATEGORY_PARENT = "GET_CATEGORY_PARENT",
   GET_CATEGORY_BY_ID = "GET_CATEGORY_BY_ID",
 }
+
+export enum Type {
+  STRING = "STRING",
+  SELECT = "SELECT",
+  NUMBER = "NUMBER",
+  BOOLEAN = "BOOLEAN",
+  RADIO = "RADIO",
+  YEAR = "YEAR",
+}

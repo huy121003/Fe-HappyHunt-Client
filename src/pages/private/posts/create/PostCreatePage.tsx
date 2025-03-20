@@ -1,3 +1,4 @@
+import ContentLayout from "@/components/layouts/ContentLayout";
 import PostForm from "@/features/posts/components/form/PostForm";
 import { IPostPayload } from "@/features/posts/data/interface";
 import usePostState from "@/features/posts/hooks/usePostState";
@@ -24,7 +25,29 @@ function PostCreatePage() {
     mutate(data);
   };
 
-  return <PostForm onSubmit={onSubmit} loading={isPending} />;
+  return (
+    <ContentLayout
+      mb={100}
+      title={
+        <div className="flex items-center gap-1">
+          <h1
+            className="text-sm font-semibold text-flame-orange cursor-pointer"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Home
+          </h1>
+          <h1 className="text-sm font-semibold text-gray-400">{"/"}</h1>
+          <h1 className="text-sm font-semibold text-gray-400">
+            Create New Post
+          </h1>
+        </div>
+      }
+    >
+      <PostForm onSubmit={onSubmit} loading={isPending} />
+    </ContentLayout>
+  );
 }
 
 export default PostCreatePage;

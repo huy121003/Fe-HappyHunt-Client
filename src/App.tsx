@@ -1,6 +1,5 @@
 import { RouterProvider } from "react-router-dom";
 import router from "@/routers/router";
-import { ConfigProvider } from "antd";
 
 import { useAppDispatch, useAppSelector } from "./redux/reduxHook";
 
@@ -8,7 +7,6 @@ import { getUserAction } from "./redux/slice/SAuthSlice";
 import { CLoadingPage } from "./components";
 
 import ToastMessage from "./components/ToastMessage";
-import theme from "./libs/theme";
 import { useQuery } from "@tanstack/react-query";
 import { API_KEY } from "./features/auth/data/constant";
 import AuthService from "./features/auth/service";
@@ -37,11 +35,10 @@ function App() {
 
   if (isAuthenticated || authPages.includes(window.location.pathname)) {
     return (
-      <ConfigProvider theme={theme}>
+      <>
         <RouterProvider router={router} />
-
         <ToastMessage />
-      </ConfigProvider>
+      </>
     );
   }
 }

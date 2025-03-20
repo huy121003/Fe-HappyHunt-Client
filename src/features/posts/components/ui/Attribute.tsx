@@ -1,28 +1,52 @@
-import { Card, Col, Row, Typography } from "antd";
 import React from "react";
+import { Table, Typography, Flex } from "antd";
+
 interface IProps {
-  attributes: {
+  attributes?: {
     name: string;
     value: string;
   }[];
 }
-const Attribute: React.FC<IProps> = ({ attributes }) => {
+
+const Attribute: React.FC<IProps> = ({ attributes = [] }) => {
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (value: string) => (
+        <p>
+          <i className="fas fa-check-circle text-green-500 mr-2"></i>
+          {value}
+        </p>
+      ),
+      width: "30%",
+    },
+
+    {
+      title: "Value",
+      dataIndex: "value",
+      key: "value",
+    },
+  ];
+
   return (
-    <>
-      <Card className="p-4 bg-gray-50 rounded-2xl shadow-lg gap-6 border border-gray-300">
-        <Typography.Title level={5}>Attributes</Typography.Title>
-        <Row gutter={[16, 16]}>
-          {attributes.map((attribute, index) => (
-            <Col key={index} span={12}>
-              <Typography.Text>
-                <i className="fas fa-check-circle text-flame-orange mr-2"></i>
-                {attribute.name}: {attribute.value}
-              </Typography.Text>
-            </Col>
-          ))}
-        </Row>
-      </Card>
-    </>
+    <Flex
+      vertical
+      className=" bg-white rounded-lg shadow-sm flex-1 my-4 p-4  border-t-2 border-t-flame-orange"
+    >
+      <Typography.Title level={5} className="p-4 text-gray-700">
+        Attribute
+      </Typography.Title>
+      <Table
+        columns={columns}
+        dataSource={
+          attributes.map((item, index) => ({ ...item, key: index })) || []
+        }
+        pagination={false}
+        bordered
+      />
+    </Flex>
   );
 };
 

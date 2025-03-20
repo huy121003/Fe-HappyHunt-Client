@@ -13,7 +13,6 @@ function NoPost() {
         type="default"
         onClick={() => {
           navigate("/create-post");
-          window.scrollTo(0, 0);
         }}
       >
         Create New Post

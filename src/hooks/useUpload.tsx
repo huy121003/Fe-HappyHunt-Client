@@ -75,7 +75,7 @@ const useUpload = (form: FormInstance) => {
         return Upload.LIST_IGNORE;
       }
 
-      return false;
+      return true;
     };
   };
 

@@ -26,7 +26,7 @@ export const CCTruncateWithNewLine: React.FC<TruncateProps> = ({ text }) => {
 export const CTruncateWithDots: React.FC<TruncateProps> = ({ text }) => {
   return (
     <Text ellipsis={{ tooltip: text }}>
-      {text.length > 20 ? `${text.slice(0, 30)}...` : text}
+      {text.length > 20 ? `${text.slice(0, 15)}...` : text}
     </Text>
   );
 };

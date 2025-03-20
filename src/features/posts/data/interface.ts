@@ -14,7 +14,11 @@ export interface IPost {
     name: string;
     _id: number;
   };
-  images: string[];
+  images: {
+    url: string;
+    index: number;
+  }[];
+
   status: string;
   createdAt: string;
   slug: string;
@@ -42,14 +46,18 @@ export interface IPost {
   };
   attributes: {
     name: string;
-    value: string;
+    value?: string | number | boolean;
   }[];
 }
 export interface IPostItem {
   _id: number;
   name: string;
   price: number;
-  images: string[];
+  images: {
+    url: string;
+    index: number;
+    reasonReject?: string[];
+  }[];
   createdAt: string;
   category: {
     name: string;
@@ -107,6 +115,7 @@ export interface IPostPayload {
     value: string;
   }[];
   saveImages?: string[];
+  pricePayment?: number;
 }
 export interface ISearchPost extends ISearchParams {
   category?: number;

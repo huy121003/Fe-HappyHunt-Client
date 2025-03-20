@@ -1,4 +1,5 @@
 import CPermissionEditPost from "@/components/CPermissionEditPost";
+import ContentLayout from "@/components/layouts/ContentLayout";
 import PostForm from "@/features/posts/components/form/PostForm";
 import { API_KEY, EPostStatus } from "@/features/posts/data/constant";
 import { IPostPayload } from "@/features/posts/data/interface";
@@ -31,7 +32,6 @@ function PostUpdatePage() {
     onSuccess: () => {
       onSuccess("Post updated successfully", () => {
         navigate("/post-management/waiting");
-        window.scrollTo(0, 0);
       });
     },
     onError,
@@ -50,25 +50,37 @@ function PostUpdatePage() {
     }
   }
   return (
-    <PostForm
-      onSubmit={onSubmit}
-      loading={isPending || isLoading}
-      data={data}
+    <ContentLayout
+      mb={100}
       title={
-        <>
+        <div className="flex items-center gap-1">
           <h1
-            className="text-2xl font-semibold text-flame-orange "
+            className="text-sm font-semibold text-flame-orange cursor-pointer"
             onClick={() => {
-              navigate(`/detail-post/${data?.slug}`);
-              window.scrollTo(0, 0);
+              navigate("/");
+            }}
+          >
+            Home
+          </h1>
+          <h1 className="text-sm font-semibold text-gray-400">{"/"}</h1>
+          <h1
+            className="text-sm font-semibold text-flame-orange "
+            onClick={() => {
+              navigate(`/detail-post/${data?.slug}`, { replace: true });
             }}
           >
             {data?.name}
           </h1>
-          <h1 className="text-2xl font-semibold text-gray-400">{"> "}Update</h1>
-        </>
+          <h1 className="text-sm font-semibold text-gray-400">{"/ "}Update</h1>
+        </div>
       }
-    />
+    >
+      <PostForm
+        onSubmit={onSubmit}
+        loading={isPending || isLoading}
+        data={data}
+      />
+    </ContentLayout>
   );
 }
 

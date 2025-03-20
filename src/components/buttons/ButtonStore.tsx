@@ -8,7 +8,6 @@ function ButtonStore() {
       icon="fas fa-store"
       onClick={() => {
         navigate("/post-management");
-        window.scrollTo(0, 0);
       }}
     />
   );

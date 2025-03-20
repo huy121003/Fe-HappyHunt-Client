@@ -2,13 +2,27 @@ import React, { useCallback, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useAppSelector } from "@/redux/reduxHook";
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Flex, Image, Spin, Tabs, Typography } from "antd";
+import { PlusOutlined, ShopOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Flex,
+  Image,
+  Spin,
+  Tabs,
+  Typography,
+  Badge,
+  Tooltip,
+  Dropdown,
+  Menu,
+} from "antd";
 import { API_KEY, EPostStatus } from "../data/constant";
 import PostService from "../service";
 import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 import { CSearch } from "@/components";
 import FilterLayout from "@/components/layouts/FilterLayout";
+
+import ContentLayout from "@/components/layouts/ContentLayout";
 import { usePostFilterContext } from "../components/ui/PostFilterProvider ";
 
 interface Props {
@@ -19,6 +33,7 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
   const account = useAppSelector((state) => state?.auth?.account);
   const navigate = useNavigate();
   const location = useLocation();
+
   // Fetch post status counts
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.POST_STATUS, account?._id],
@@ -30,15 +45,31 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
 
   const { handleInputSearch, handleStatusChange } = usePostFilterContext();
 
-  // Tab configurations
+  // Tab configurations with enhanced styling and icons
   const tabsData = useMemo(
     () =>
       [
-        { key: EPostStatus.SELLING, label: "Selling" },
-        { key: EPostStatus.EXPIRED, label: "Expired" },
-        { key: EPostStatus.REJECTED, label: "Rejected" },
-        { key: EPostStatus.WAITING, label: "Waiting" },
-        { key: EPostStatus.HIDDEN, label: "Hidden" },
+        { key: EPostStatus.SELLING, label: "Selling", icon: <ShopOutlined /> },
+        {
+          key: EPostStatus.EXPIRED,
+          label: "Expired",
+          icon: <i className="far fa-calendar-times" />,
+        },
+        {
+          key: EPostStatus.REJECTED,
+          label: "Rejected",
+          icon: <i className="fas fa-ban" />,
+        },
+        {
+          key: EPostStatus.WAITING,
+          label: "Waiting",
+          icon: <i className="fas fa-hourglass-half" />,
+        },
+        {
+          key: EPostStatus.HIDDEN,
+          label: "Hidden",
+          icon: <i className="fas fa-eye-slash" />,
+        },
       ].map((tab) => ({
         ...tab,
         navigateLink: String(tab.key).toLowerCase(),
@@ -62,99 +93,162 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
       if (tab?.key) {
         handleStatusChange(tab.key);
         navigate(tab.navigateLink);
-        window.scrollTo(0, 0);
       }
     },
-    [navigate, tabsData]
+    [navigate, tabsData, handleStatusChange]
+  );
+
+  const userActions = (
+    <Menu>
+      <Menu.Item key="profile" onClick={() => navigate("/profile")}>
+        <i className="fas fa-user mr-2"></i> View Profile
+      </Menu.Item>
+
+      <Menu.Divider />
+      <Menu.Item key="newPost" onClick={() => navigate("/create-post")}>
+        <i className="fas fa-plus mr-2"></i> Create New Post
+      </Menu.Item>
+    </Menu>
   );
 
   return (
     <Spin spinning={isLoading}>
-      <Flex
-        vertical
-        className="w-screen overflow-x-hidden bg-slate-100 max-h-full"
-        justify="center"
-        align="center"
-      >
-        <Card className="lg:w-3/4 ư-full h-full overflow-x-hidden m-2">
-          <Flex justify="start" align="center" gap={10} className="mb-4">
-            <h1
-              className="text-2xl font-semibold text-flame-orange cursor-pointer"
-              onClick={() => {navigate("/")
-                window.scrollTo(0, 0);
-              }}
-            >
-              HappyHunt
-            </h1>
-            <h1 className="text-2xl font-semibold text-gray-400">{">"}</h1>
-            <h1 className="text-2xl font-semibold text-gray-400">
-              Post Management
-            </h1>
-          </Flex>
+      <>
+        <ContentLayout
+          title={
+            <div className="flex items-center gap-2">
+              <h1
+                className="text-sm font-semibold text-flame-orange cursor-pointer hover:underline transition-all"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                Home
+              </h1>
+              <span className="text-sm text-gray-400">/</span>
+              <h1 className="text-sm font-semibold text-gray-600">
+                Post Management
+              </h1>
+            </div>
+          }
+        >
           {/* User Account Info */}
-          <Card className="p-4 bg-gray-50 rounded-2xl shadow-lg gap-6 border border-gray-300">
+          <Card className="w-full rounded-lg shadow-sm border-t-2 border-t-flame-orange">
             <Flex justify="space-between" align="center">
-              <Flex align="center" gap={12}>
-                <Image
-                  src={account?.avatar}
-                  width={50}
-                  height={50}
-                  className="rounded-full"
-                />
-                <Flex vertical>
-                  <Typography.Title level={5} className="mb-0">
-                    {account?.name}
-                  </Typography.Title>
-                </Flex>
-              </Flex>
-
-              {/* Search Bar */}
-              <Flex vertical justify="end" align="end" gap={10}>
-                <FilterLayout>
-                  <CSearch
-                    placeholder="Search your post"
-                    onInput={handleInputSearch}
-                  />
-                </FilterLayout>
-
-                <Button
-                  type="text"
-                  className="w-40 px-4 py-2  text-flame-orange rounded-lg transition-all duration-300 hover:bg-flame-orange hover:text-white"
+              <Dropdown overlay={userActions} trigger={["click"]}>
+                <Flex
+                  align="center"
+                  gap={12}
+                  className="cursor-pointer hover:opacity-90 transition-all"
                 >
-                  <Flex align="center" gap={5}>
-                    <Typography.Title
-                      level={5}
-                      className="mb-0 flex items-center"
-                    >
-                      <i className="fas fa-coins mr-2"></i> Balance:{" "}
-                      {account?.coin || 0}
-                      <PlusOutlined className="ml-2 text-flame-orange group-hover:text-white transition-all duration-300" />
+                  <Badge
+                    //  dot={account?.hasNotifications}
+                    offset={[-5, 5]}
+                    color="green"
+                  >
+                    <Image
+                      src={account?.avatar}
+                      width={60}
+                      height={60}
+                      className="rounded-full border-2 border-flame-orange p-1"
+                      preview={false}
+                    />
+                  </Badge>
+                  <Flex vertical>
+                    <Typography.Title level={4} className="mb-0">
+                      {account?.name}
                     </Typography.Title>
+                    {/* <Typography.Text type="secondary">
+                      <i className="fas fa-map-marker-alt mr-1"></i>
+                      {account?.location || "No location set"}
+                    </Typography.Text> */}
                   </Flex>
-                </Button>
+                </Flex>
+              </Dropdown>
+
+              {/* Search Bar and Balance */}
+              <Flex vertical justify="end" align="end" gap={8}>
+                <Flex align="center" gap={10}>
+                  <FilterLayout>
+                    <CSearch
+                      placeholder="Search your post"
+                      onInput={handleInputSearch}
+                      allowClear
+                      className="min-w-60"
+                    />
+                  </FilterLayout>
+                </Flex>
+
+                <Tooltip title="Click to top up your balance">
+                  <Button
+                    type="text"
+                    className="group px-4 bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-200 text-amber-600 rounded-lg transition-all duration-300 hover:from-flame-orange hover:to-flame-orange hover:text-white"
+                    onClick={() => navigate("/coins/purchase")}
+                  >
+                    <Flex align="center" gap={5}>
+                      <Typography.Title
+                        level={5}
+                        className="mb-0 flex items-center"
+                      >
+                        <i className="fas fa-coins mr-2"></i> Balance:{" "}
+                        <span className="font-bold ml-1">
+                          {account?.coin || 0}
+                        </span>
+                        <PlusOutlined className="ml-2 text-amber-600 group-hover:text-white transition-all duration-300" />
+                      </Typography.Title>
+                    </Flex>
+                  </Button>
+                </Tooltip>
               </Flex>
             </Flex>
           </Card>
 
           {/* Tabs and Content */}
-          <Flex vertical className="w-full overflow-x-hidden">
+          <Card
+            className="w-full rounded-lg shadow-sm p-0 min-h-screen border-none"
+            bodyStyle={{ padding: 0 }}
+          >
             <Tabs
               activeKey={String(activeTab)}
               type="card"
-              size="middle"
-              tabBarStyle={{ padding: "10px", width: "100%" }}
+              size="large"
+              tabBarStyle={{
+                padding: "12px 16px 0",
+                marginBottom: 0,
+                borderBottom: "1px solid #f0f0f0",
+                background: "#fafafa",
+              }}
               onTabClick={handleTabClick}
-              items={tabsData.map(({ key, label }) => ({
+              items={tabsData.map(({ key, label, icon }) => ({
                 key: String(key),
-                label: `${label} (${data?.[key] ?? 0})`,
+                label: (
+                  <Flex align="center" gap={6}>
+                    <span className="flex items-center justify-center">
+                      {icon}
+                    </span>
+                    <span>{label}</span>
+                    <Badge
+                      count={data?.[key] ?? 0}
+                      showZero
+                      style={{
+                        backgroundColor:
+                          String(key) === String(activeTab)
+                            ? "#ff4d4f"
+                            : "#999",
+                        marginLeft: "4px",
+                        fontSize: "12px",
+                      }}
+                    />
+                  </Flex>
+                ),
               }))}
             />
 
-            {children}
-          </Flex>
-        </Card>
-      </Flex>
-      <Bottom />
+            <div className="p-4">{children}</div>
+          </Card>
+        </ContentLayout>
+        <Bottom />
+      </>
     </Spin>
   );
 };

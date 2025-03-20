@@ -4,14 +4,25 @@ interface CButtonActionIconProps {
   icon: string;
   href?: string;
   onClick?: () => void;
+  color?: string;
 }
-function CButtonActionIcon({ icon, href, onClick }: CButtonActionIconProps) {
+function CButtonActionIcon({
+  icon,
+  href,
+  onClick,
+  color,
+}: CButtonActionIconProps) {
   return (
     <Button
       type="link"
-      size="middle"
+      size="small"
       shape="circle"
-      icon={<i className={`${icon} text-white  text-3xl`}></i>}
+      icon={
+        <i
+          className={`${icon}  text-${color || "white"}
+        text-xl`}
+        ></i>
+      }
       onClick={onClick}
       href={href}
     />

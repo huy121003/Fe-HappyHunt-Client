@@ -23,6 +23,7 @@ const CButton: React.FC<
   return (
     <Button
       {...props}
+      size="middle"
       type={type ?? "primary"}
       htmlType={htmlType}
       className={`${fullWidth ? "w-full" : ""} ${className}`}

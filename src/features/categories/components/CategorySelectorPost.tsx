@@ -18,7 +18,6 @@ interface IProps {
     value: string;
   }[];
 }
-
 const BuildMenuTree = (categories: ICategoryItem[]): INode[] => {
   const map = new Map<number, INode>();
 
@@ -53,9 +52,7 @@ const BuildMenuTree = (categories: ICategoryItem[]): INode[] => {
 
   return tree;
 };
-
 const CategorySelectorPost = ({ form, defaultValue }: IProps) => {
-  console.log("defaultValue", defaultValue);
   const { data, isFetched } = useQuery({
     queryKey: [API_KEY.GET_CATEGORIES],
     queryFn: async () => {
@@ -66,6 +63,7 @@ const CategorySelectorPost = ({ form, defaultValue }: IProps) => {
 
   return (
     <TreeSelect
+      disabled={!!defaultValue}
       allowClear
       size="large"
       style={{ width: "100%" }}
@@ -74,8 +72,26 @@ const CategorySelectorPost = ({ form, defaultValue }: IProps) => {
       placeholder="Select category"
       treeDefaultExpandAll
       loading={!isFetched}
-      onChange={(value) => {
-        form.setFieldsValue({ category: value, attributes: [] });
+      onChange={(value: string | string[]) => {
+        form.setFieldsValue({
+          category: value,
+          attributes: [],
+
+          isPayment: (data ?? []).find(
+            (item) =>
+              item._id ===
+              Number(
+                typeof value === "string" ? value.split("-")[1] : value?.[1]
+              )
+          )?.isPayment,
+          pricePayment: (data ?? []).find(
+            (item) =>
+              item._id ===
+              Number(
+                typeof value === "string" ? value.split("-")[1] : value?.[1]
+              )
+          )?.pricePayment,
+        });
       }}
       treeNodeLabelProp="fullPath"
       value={defaultValue?.map((item) => item.value)}

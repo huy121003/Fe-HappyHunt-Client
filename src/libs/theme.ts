@@ -2,14 +2,18 @@ import { ThemeConfig } from "antd";
 
 const theme: ThemeConfig = {
   token: {
-    colorPrimary: "#dd4904",
-    colorLink: "#3437b3",
+    colorPrimary: "#FF5722",
+    colorLink: "#FF5722",
     fontSize: 16,
     wireframe: false,
+    colorBgContainer: "#FFFFFF",
+    colorText: "#000000",
+    colorBorder: "#E0E0E0",
+    borderRadius: 8,
   },
   components: {
     Button: {
-      colorPrimary: "#000",
+      colorPrimary: "#FF5722",
       algorithm: true,
       controlHeightLG: 48,
       controlHeight: 40,
@@ -21,9 +25,14 @@ const theme: ThemeConfig = {
     },
     Typography: {
       algorithm: true,
+      colorText: "#000000",
     },
     Menu: {
       itemHeight: 48,
+      colorItemBg: "#FFFFFF",
+      colorItemText: "#000000",
+      colorItemTextHover: "#FF5722",
+      colorItemBgHover: "rgba(255, 87, 34, 0.1)",
     },
     Tabs: {
       cardBg: "#f5f5f5",
@@ -31,23 +40,39 @@ const theme: ThemeConfig = {
       colorBorderSecondary: "none",
       margin: 0,
       colorText: "#000000",
+      colorPrimary: "#FF5722",
     },
     Segmented: {
-      borderRadiusLG: 6,
+      borderRadiusLG: 8,
+      colorBgLayout: "#FFFFFF",
     },
     InputNumber: {
       handleWidth: 0,
     },
     Spin: {
-      colorLink: "#dd4904",
-      colorText: "#dd4904",
-      colorLinkHover: "#dd4904",
-      colorLinkActive: "#dd4904",
+      colorPrimary: "#FF5722",
+      colorLink: "#FF5722",
+      colorText: "#FF5722",
+      colorLinkHover: "#FF5722",
+      colorLinkActive: "#FF5722",
       fontSize: 24,
-      colorPrimary: "#dd4904",
     },
     TreeSelect: {
       fontSize: 16,
+      colorBgContainer: "#FFFFFF",
+      colorText: "#000000",
+    },
+    Input: {
+      colorBgContainer: "#FFFFFF",
+      colorBorder: "#E0E0E0",
+      colorPrimary: "#FF5722",
+      colorText: "#000000",
+    },
+    Select: {
+      colorBgContainer: "#FFFFFF",
+      colorBorder: "#E0E0E0",
+      colorPrimary: "#FF5722",
+      colorText: "#000000",
     },
   },
 };

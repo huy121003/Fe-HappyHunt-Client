@@ -1,8 +1,10 @@
 import { ISearchParams } from "@/interfaces";
+import { Type } from "./constants";
 
 export interface IAttribute {
   name: string;
-  values: string[];
+  type: Type;
+  values?: string[];
 }
 export interface ICategory {
   _id: number;
@@ -16,12 +18,16 @@ export interface ICategory {
   image: string;
   attributes: IAttribute[];
   keywords: string[];
+  isPayment: boolean;
+  pricePayment: number;
 }
 export interface ICategoryItem {
   _id: number;
   name: string;
   image?: string;
-  url?: string;
+  isPayment?: boolean;
+  pricePayment?: number;
+  slug?: string;
   parent?: {
     _id: number;
     name: string;

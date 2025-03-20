@@ -1,9 +1,9 @@
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 10 * 1000, // 5 phút
+      staleTime: 0 * 1000, // 5 phút
       retry: 0, // Thử lại 3 lần nếu lỗi
       retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
       refetchOnWindowFocus: true, // Không refetch khi chuyển tab

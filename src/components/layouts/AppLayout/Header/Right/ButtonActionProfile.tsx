@@ -14,7 +14,6 @@ function ButtonActionProfile() {
         <Typography.Text
           onClick={() => {
             navigate("/profile");
-            window.scrollTo(0, 0);
           }}
         >
           <UserOutlined /> Profile

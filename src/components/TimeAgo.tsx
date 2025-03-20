@@ -10,7 +10,12 @@ interface TimeAgoProps {
 }
 
 const TimeAgo: React.FC<TimeAgoProps> = ({ date }) => {
-  return dayjs(date).fromNow();
+  return (
+    <p className="text-xs text-gray-400">
+      <i className="far fa-clock mr-1"></i>
+      {dayjs(date).fromNow()}
+    </p>
+  );
 };
 
 export default TimeAgo;

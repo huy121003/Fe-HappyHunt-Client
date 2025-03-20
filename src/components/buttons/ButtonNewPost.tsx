@@ -6,10 +6,9 @@ function ButtonNewPost() {
   return (
     <Button
       type="default"
-      size="large"
+      size="small"
       onClick={() => {
         navigate("/create-post");
-        window.scrollTo(0, 0);
       }}
       icon={<i className="fas fa-plus"></i>}
     >

@@ -24,11 +24,7 @@ const PostListStatus: React.FC<IProps> = ({
   const [record, setRecord] = useState<IPostItem | null>(null);
   return (
     <Spin spinning={isLoading}>
-      <Flex
-        vertical
-        gap="20px"
-        className="min-h-[calc(100vh/1.5)] overflow-hidden"
-      >
+      <Flex vertical gap="20px" className=" overflow-hidden">
         {!notFound && data && data.length > 0 ? (
           <>
             {data.map((item: IPostItem) => (

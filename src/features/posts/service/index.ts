@@ -28,6 +28,9 @@ const convertObjectToFormData = (data: IPostPayload) => {
       formData.append("images", image as Blob);
     });
   }
+  if (data.pricePayment) {
+    formData.append("pricePayment", data.pricePayment.toString());
+  }
 
   formData.append("address", JSON.stringify(data.address));
   formData.append("attributes", JSON.stringify(data.attributes));
@@ -107,6 +110,13 @@ class PostService {
     return apiRequest(
       EMethod.GET,
       `${PostService.baseUrl}/count-sold/${idUser}`,
+      false
+    );
+  };
+  static updateClickCount = (id: number): Promise<ICommonResponse> => {
+    return apiRequest(
+      EMethod.PATCH,
+      `${PostService.baseUrl}/click-count/${id}`,
       false
     );
   };

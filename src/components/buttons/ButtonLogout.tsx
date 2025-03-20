@@ -26,7 +26,6 @@ function ButtonLogout() {
         localStorage.removeItem("access_token");
         dispatch(logoutAction());
         navigate("/login");
-        window.scrollTo(0, 0);
       });
     },
     onError,

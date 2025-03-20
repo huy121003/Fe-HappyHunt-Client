@@ -5,6 +5,7 @@ import AppLayout from "@/components/layouts/AppLayout/AppLayout";
 import { PostFilterProvider } from "@/features/posts/components/ui/PostFilterProvider ";
 
 import PostManagementLayout from "@/features/posts/layout/PostManagementLayout";
+import RedirectPage from "@/pages/private/redirect/RedirectPage";
 //import RoleProtectedRoute from "@/components/layouts/RoleProtectedRoute";
 const withSuspense = (
   node: ReactNode,
@@ -93,7 +94,14 @@ const router = createBrowserRouter([
       },
       {
         path: "detail-post/:slugPost",
-        element: withSuspense(<PostDetailPage />, <CLoadingPage />),
+        element: withSuspense(
+          <PostDetailPage key={window.location.pathname} />,
+          <CLoadingPage />
+        ),
+      },
+      {
+        path: "redirect",
+        element: withSuspense(<RedirectPage />, <CLoadingPage />),
       },
       {
         path: "post-management",

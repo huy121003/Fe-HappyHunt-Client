@@ -3,39 +3,67 @@ import ButtonGitHub from "../../../buttons/ButtonGitHub";
 import ButtonFb from "../../../buttons/ButtonFb";
 import ButtonLinkedIn from "../../../buttons/ButtonLinkedIn";
 
-const { Text } = Typography;
+const { Text, Link } = Typography;
 
-function Bottom() {
+function Footer() {
   return (
-    <div className="bg-black w-full py-4 px-8">
-      <Row justify="space-between" gutter={[16, 16]}>
+    <div className="bg-black w-full py-6 px-8">
+      <Row justify="space-between" gutter={[16, 24]}>
         {/* Contact */}
-        <Col xs={24} sm={12} md={6} className="text-center">
-          <Text className="text-white font-bold">Contact</Text>
-          <Text className="text-white block mt-4">
+        <Col xs={24} sm={12} md={6} className="text-center sm:text-left">
+          <Text className="text-white font-bold text-lg">Contact</Text>
+          <Link
+            href="mailto:quanghuy2003.hh@gmail.com"
+            className="text-white block mt-4 hover:text-blue-300"
+          >
             Email: quanghuy2003.hh@gmail.com
-          </Text>
-          <Text className="text-white block mt-2">Phone: 0398601186</Text>
+          </Link>
+          <Link
+            href="tel:0398601186"
+            className="text-white block mt-2 hover:text-blue-300"
+          >
+            Phone: 0398601186
+          </Link>
         </Col>
 
         {/* Help & Support */}
-        <Col xs={24} sm={12} md={6} className="text-center">
-          <Text className="text-white font-bold">Help & Support</Text>
-          <Text className="text-white block mt-4">FAQ</Text>
-          <Text className="text-white block mt-2">Support</Text>
+        <Col xs={24} sm={12} md={6} className="text-center sm:text-left">
+          <Text className="text-white font-bold text-lg">Help & Support</Text>
+          <Link
+            href="/faq"
+            className="text-white block mt-4 hover:text-blue-300"
+          >
+            FAQ
+          </Link>
+          <Link
+            href="/support"
+            className="text-white block mt-2 hover:text-blue-300"
+          >
+            Support
+          </Link>
         </Col>
 
         {/* Privacy Policy */}
-        <Col xs={24} sm={12} md={6} className="text-center">
-          <Text className="text-white font-bold">Privacy Policy</Text>
-          <Text className="text-white block mt-4">Terms & Conditions</Text>
-          <Text className="text-white block mt-2">Privacy Policy</Text>
+        <Col xs={24} sm={12} md={6} className="text-center sm:text-left">
+          <Text className="text-white font-bold text-lg">Legal</Text>
+          <Link
+            href="/terms"
+            className="text-white block mt-4 hover:text-blue-300"
+          >
+            Terms & Conditions
+          </Link>
+          <Link
+            href="/privacy"
+            className="text-white block mt-2 hover:text-blue-300"
+          >
+            Privacy Policy
+          </Link>
         </Col>
 
         {/* Social Media */}
         <Col xs={24} sm={12} md={6} className="text-center">
-          <Text className="text-white font-bold">Social Media</Text>
-          <Row justify="center" gutter={[8, 8]} className="mt-4">
+          <Text className="text-white font-bold text-lg">Social Media</Text>
+          <Row justify="center" gutter={[16, 8]} className="mt-4">
             <Col>
               <ButtonLinkedIn />
             </Col>
@@ -49,15 +77,16 @@ function Bottom() {
         </Col>
       </Row>
 
-      <Divider className="bg-white opacity-30 my-4" />
+      <Divider className="bg-white opacity-30 my-6" />
 
       <Flex justify="center">
         <Text className="text-white text-center">
-          © 2025 All rights reserved. Designed by Quang Huy.
+          © {new Date().getFullYear()} All rights reserved. Designed by Quang
+          Huy.
         </Text>
       </Flex>
     </div>
   );
 }
 
-export default Bottom;
+export default Footer;

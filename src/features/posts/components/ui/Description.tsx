@@ -1,4 +1,4 @@
-import { Card, Typography } from "antd";
+import { Flex, Typography } from "antd";
 import React from "react";
 
 interface IProps {
@@ -7,7 +7,10 @@ interface IProps {
 
 const Description: React.FC<IProps> = ({ description }) => {
   return (
-    <Card className="p-4 bg-gray-50 rounded-2xl shadow-lg gap-6 border border-gray-300">
+    <Flex
+      vertical
+      className="p-4 bg-white rounded-lg shadow-sm gap-6  border-t-2 border-t-flame-orange"
+    >
       <Typography.Title level={5} className="mb-2 text-gray-700">
         Description
       </Typography.Title>
@@ -17,7 +20,7 @@ const Description: React.FC<IProps> = ({ description }) => {
       >
         {description}
       </Typography.Paragraph>
-    </Card>
+    </Flex>
   );
 };
 

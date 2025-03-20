@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Carousel, Image, Row, Col } from "antd";
+import { Carousel, Image } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
@@ -15,54 +15,49 @@ const ImagePostCarousel: React.FC<Props> = ({ images }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [liked, setLiked] = useState(false);
   const carouselRef = useRef<any>(null);
-
   const handleThumbnailClick = (index: number) => {
     setCurrentSlide(index);
     carouselRef.current?.goTo(index);
   };
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center p-4">
-      {/* Carousel chính */}
-      <div className="relative overflow-hidden rounded-xl shadow-lg">
+    <div className="flex flex-col items-center w-full">
+      {/* Main Carousel */}
+      <div className="relative overflow-hidden w-full max-w-[550px] bg-white rounded-lg shadow-sm">
         <Carousel
           infinite={false}
           ref={carouselRef}
           autoplay
           dots={false}
           afterChange={(index) => setCurrentSlide(index)}
-          className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] rounded-xl object-cover"
+          className="w-full aspect-square"
         >
           {images.map((img, index) => (
             <div
               key={index}
-              className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] relative  flex items-center justify-center"
+              className="w-full h-full relative flex items-center justify-center"
             >
-              {/* Ảnh chính */}
-              <Image
+              {/* Main image automatically scales with carousel */}
+              <img
                 src={img}
                 alt={`product-image-${index}`}
-                width="100%"
-                height="100%"
+                className="w-full h-full object-contain rounded-lg"
               />
 
-              {/* Overlay tối nhẹ */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 rounded-xl"></div>
-
-              {/* Icon Like & Share */}
-              <div className="absolute top-3 right-3 flex gap-3">
+              {/* Like & Share Icons */}
+              <div className="absolute top-3 right-3 flex gap-2">
                 <button
                   onClick={() => setLiked(!liked)}
-                  className="bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition-all duration-300"
+                  className="bg-white/90 p-2 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-200 backdrop-blur-sm"
                 >
                   {liked ? (
-                    <HeartFilled className="text-red-500 text-lg transition-all scale-110" />
+                    <HeartFilled className="text-orange-500 text-lg transition-transform scale-110" />
                   ) : (
-                    <HeartOutlined className="text-red-500 text-lg" />
+                    <HeartOutlined className="text-black text-lg" />
                   )}
                 </button>
                 <button
-                  className="bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition"
+                  className="bg-white/90 p-2 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-200 backdrop-blur-sm"
                   onClick={() => {
                     navigator.clipboard.writeText(window.location.href);
                     postMessageHandler({
@@ -71,7 +66,7 @@ const ImagePostCarousel: React.FC<Props> = ({ images }) => {
                     });
                   }}
                 >
-                  <ShareAltOutlined className="text-blue-500 text-lg" />
+                  <ShareAltOutlined className="text-black text-lg" />
                 </button>
               </div>
             </div>
@@ -80,28 +75,27 @@ const ImagePostCarousel: React.FC<Props> = ({ images }) => {
       </div>
 
       {/* Thumbnail selector */}
-      <Row gutter={[10, 10]} justify="center" className="mt-4">
+      <div className="mt-4 overflow-y-hidden overflow-x-auto flex w-full max-w-md gap-2 justify-start px-1">
         {images.map((img, index) => (
-          <Col key={index}>
-            <div
-              className={`cursor-pointer overflow-hidden rounded-lg border-2 transition-all duration-300 ${
-                currentSlide === index
-                  ? "border-orange-500 scale-105 shadow-md"
-                  : "border-transparent"
-              }`}
+          <div key={index} className="flex-shrink-0">
+            <Image
               onClick={() => handleThumbnailClick(index)}
-            >
-              <Image
-                src={img}
-                width={80}
-                height={80}
-                preview={false}
-                className="object-cover rounded-lg hover:opacity-80 transition duration-200"
-              />
-            </div>
-          </Col>
+              src={img}
+              width={50}
+              height={50}
+              preview={false}
+              className={`object-cover rounded-lg hover:opacity-90 transition-all duration-200
+              cursor-pointer shadow-sm
+              ${
+                index === currentSlide
+                  ? "border-2 border-orange-500 scale-105"
+                  : "border border-gray-200 hover:border-orange-300"
+              }`}
+              alt={`product-thumbnail-${index}`}
+            />
+          </div>
         ))}
-      </Row>
+      </div>
     </div>
   );
 };

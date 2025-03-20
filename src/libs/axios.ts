@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from "axios";
 import { EMethod } from "@/constants";
-import { postMessageHandler } from "@/components/ToastMessage";
 import AuthService from "@/features/auth/service";
 import { ICommonResponse } from "@/interfaces";
 const baseURL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
@@ -23,70 +22,66 @@ apiConfig.interceptors.request.use((config) => {
 // Interceptor Response
 
 // Xử lý thông báo lỗi
-const showError = (message: string) => {
-  postMessageHandler({ type: "error", text: message });
-};
 
 // Interceptor xử lý response
 apiConfig.interceptors.response.use(
   (response: AxiosResponse) => response?.data ?? response,
 
   async (error: AxiosError<ICommonResponse>) => {
-    const { config, response } = error;
+    const { config, response, code } = error;
 
     console.log("error", error);
 
-    if (!config || !response) {
-      return Promise.reject(error);
-    }
+    let errorMessage = "Something went wrong, please try again!";
 
-    const { status } = response;
+    if (code === "ECONNABORTED") {
+      errorMessage = "Request timeout. Please try again!";
+    } else if (code === "ERR_NETWORK") {
+      errorMessage = "Network error. Please check your connection!";
+    } else if (response && config) {
+      const { status, data } = response;
 
-    // Xử lý lỗi 401 - Unauthorized (Không retry nếu đã thử refresh trước đó)
-    if (status === 401 && !config.headers[NO_RETRY_HEADER]) {
-      try {
-        if (
-          ["/login", "/register", "/forgot-password"].includes(
-            window.location.pathname
-          )
-        ) {
-          return Promise.reject(error); // Không xử lý refresh token trên trang không cần auth
+      if (status === 401 && !config.headers[NO_RETRY_HEADER]) {
+        try {
+          if (
+            ["/login", "/register", "/forgot-password"].includes(
+              window.location.pathname
+            )
+          ) {
+            return Promise.reject(error);
+          }
+
+          const res = await AuthService.getNewAccessToken();
+          const accessToken = res?.data?.access_token;
+
+          if (!accessToken) {
+            throw new Error("Failed to get new access token");
+          }
+
+          localStorage.setItem("access_token", accessToken);
+          config.headers.Authorization = `Bearer ${accessToken}`;
+          config.headers[NO_RETRY_HEADER] = "true";
+
+          return apiConfig.request(config);
+        } catch (refreshError) {
+          errorMessage = "Your session has expired, please login again!";
+          localStorage.removeItem("access_token");
+
+          if (
+            !["/login", "/register", "/forgot-password"].includes(
+              window.location.pathname
+            )
+          ) {
+            window.location.href = "/login";
+          }
+          return Promise.reject({ ...refreshError, message: errorMessage });
         }
-
-        // Lấy token mới
-        const res = await AuthService.getNewAccessToken();
-        const accessToken = res?.data?.access_token;
-
-        if (!accessToken) {
-          throw new Error("Failed to get new access token");
-        }
-
-        // Lưu token mới vào localStorage
-        localStorage.setItem("access_token", accessToken);
-
-        // Gán token mới vào request header
-        config.headers.Authorization = `Bearer ${accessToken}`;
-        config.headers[NO_RETRY_HEADER] = "true"; // Đánh dấu để tránh lặp vô hạn
-
-        // Gửi lại request
-        return apiConfig.request(config);
-      } catch (refreshError) {
-        showError("Your session has expired, please login again!");
-        localStorage.removeItem("access_token");
-
-        if (
-          !["/login", "/register", "/forgot-password"].includes(
-            window.location.pathname
-          )
-        ) {
-          window.location.href = "/login";
-        }
-        return Promise.reject(refreshError);
       }
+
+      errorMessage = data?.message || errorMessage; // Nếu API có trả về message, dùng nó
     }
 
-    // Trả về lỗi để các hàm gọi API có thể xử lý tiếp
-    return Promise.reject(response?.data ?? error);
+    return Promise.reject({ ...error, message: errorMessage });
   }
 );
 
