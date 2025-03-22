@@ -38,6 +38,28 @@ function PostDetailPage() {
             >
               Home
             </h1>
+            {data?.categoryParent?.name && (
+              <h1
+                className="text-sm font-semibold text-flame-orange cursor-pointer"
+                onClick={() => {
+                  navigate(`/category/${data?.categoryParent?.slug}`);
+                }}
+              >
+                / {data?.categoryParent?.name}
+              </h1>
+            )}
+            {data?.category?.name && (
+              <h1
+                className="text-sm font-semibold text-flame-orange cursor-pointer"
+                onClick={() => {
+                  navigate(
+                    `/category/${data?.categoryParent?.slug}/child-category/${data?.category?.slug}`
+                  );
+                }}
+              >
+                / {data?.category?.name}
+              </h1>
+            )}
             <h1 className="text-sm font-semibold text-gray-400">
               / {data?.name}
             </h1>

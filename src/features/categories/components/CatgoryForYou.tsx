@@ -21,7 +21,7 @@ function CatgoryForYou() {
 
   if (isLoading) {
     return (
-      <div className="w-full min-h-[300px] flex items-center justify-center">
+      <div className="w-full min-h-[300px] flex items-center justify-center m-2">
         <Spin size="large" className="scale-125" />
       </div>
     );
@@ -29,7 +29,7 @@ function CatgoryForYou() {
 
   return (
     <Card
-      className="shadow-sm border-0 overflow-hidden bg-white rounded-xl border-t-2 border-t-orange-500"
+      className="m-4 shadow-sm border-0 overflow-hidden bg-white rounded-xl border-t-2 border-t-orange-500"
       bodyStyle={{ padding: 0 }}
     >
       <div className="p-6">

@@ -4,14 +4,13 @@ import { Tooltip } from "antd";
 function ButtonStore() {
   const navigate = useNavigate();
   return (
-    <Tooltip title="Post Management">
-      <CButtonActionIcon
-        icon="fas fa-store"
-        onClick={() => {
-          navigate("/post-management");
-        }}
-      />
-    </Tooltip>
+    <CButtonActionIcon
+      icon="fas fa-store"
+      onClick={() => {
+        navigate("/post-management");
+      }}
+      title="Post Management"
+    />
   );
 }
 

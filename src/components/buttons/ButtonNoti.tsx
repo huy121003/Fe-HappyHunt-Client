@@ -2,9 +2,7 @@ import CButtonActionIcon from "./CButtonActionIcon";
 import { Tooltip } from "antd";
 function ButtonNoti() {
   return (
-    <Tooltip title="Notification">
-      <CButtonActionIcon icon="fas fa-bell" />
-    </Tooltip>
+    <CButtonActionIcon icon="fas fa-bell" title="Notification" />
   );
 }
 

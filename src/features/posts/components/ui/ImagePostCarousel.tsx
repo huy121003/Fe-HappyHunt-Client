@@ -1,19 +1,19 @@
 import React, { useState, useRef } from "react";
-import { Carousel, Image } from "antd";
-import {
-  HeartOutlined,
-  HeartFilled,
-  ShareAltOutlined,
-} from "@ant-design/icons";
+import { Carousel, Image, Tooltip } from "antd";
+
 import { postMessageHandler } from "@/components/mesage/ToastMessage";
+import ButtonFavorite1 from "@/features/favorite-posts/components/ui/ButtonFavorite1";
+import { data } from "react-router-dom";
+import { IPost } from "../../data/interface";
+import { ShareAltOutlined } from "@ant-design/icons";
 
 interface Props {
-  images: string[];
+  record: IPost;
 }
 
-const ImagePostCarousel: React.FC<Props> = ({ images }) => {
+const ImagePostCarousel: React.FC<Props> = ({ record }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [liked, setLiked] = useState(false);
+
   const carouselRef = useRef<any>(null);
   const handleThumbnailClick = (index: number) => {
     setCurrentSlide(index);
@@ -32,42 +32,38 @@ const ImagePostCarousel: React.FC<Props> = ({ images }) => {
           afterChange={(index) => setCurrentSlide(index)}
           className="w-full aspect-square"
         >
-          {images.map((img, index) => (
+          {record.images.map((img, index) => (
             <div
               key={index}
               className="w-full h-full relative flex items-center justify-center"
             >
               {/* Main image automatically scales with carousel */}
               <img
-                src={img}
+                src={img.url}
                 alt={`product-image-${index}`}
                 className="w-full h-full object-contain rounded-lg"
               />
 
               {/* Like & Share Icons */}
               <div className="absolute top-3 right-3 flex gap-2">
-                <button
-                  onClick={() => setLiked(!liked)}
-                  className="bg-white/90 p-2 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-200 backdrop-blur-sm"
-                >
-                  {liked ? (
-                    <HeartFilled className="text-orange-500 text-lg transition-transform scale-110" />
-                  ) : (
-                    <HeartOutlined className="text-black text-lg" />
-                  )}
-                </button>
-                <button
-                  className="bg-white/90 p-2 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-200 backdrop-blur-sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(window.location.href);
-                    postMessageHandler({
-                      text: "Copied link to clipboard!",
-                      type: "success",
-                    });
-                  }}
-                >
-                  <ShareAltOutlined className="text-black text-lg" />
-                </button>
+                <ButtonFavorite1
+                  postId={record._id}
+                  isFavorite={record.isFavorite ?? false}
+                />
+                <Tooltip title="Share">
+                  <button
+                    className="bg-white/90 p-2 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-200 backdrop-blur-sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(window.location.href);
+                      postMessageHandler({
+                        text: "Copied link to clipboard!",
+                        type: "success",
+                      });
+                    }}
+                  >
+                    <ShareAltOutlined className="text-black text-lg" />
+                  </button>
+                </Tooltip>
               </div>
             </div>
           ))}
@@ -76,11 +72,11 @@ const ImagePostCarousel: React.FC<Props> = ({ images }) => {
 
       {/* Thumbnail selector */}
       <div className="mt-4 overflow-y-hidden overflow-x-auto flex w-full max-w-md gap-2 justify-start px-1">
-        {images.map((img, index) => (
+        {record.images.map((img, index) => (
           <div key={index} className="flex-shrink-0">
             <Image
               onClick={() => handleThumbnailClick(index)}
-              src={img}
+              src={img.url}
               width={50}
               height={50}
               preview={false}

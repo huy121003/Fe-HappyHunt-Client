@@ -33,7 +33,7 @@ const PostDetail: React.FC<IProps> = ({ data, isLoading }) => {
               vertical
               gap={10}
             >
-              <ImagePostCarousel images={data.images.map((img) => img.url)} />
+              <ImagePostCarousel record={data} />
             </Flex>
 
             {/* User info section */}
@@ -55,10 +55,7 @@ const PostDetail: React.FC<IProps> = ({ data, isLoading }) => {
 
           {/* User's other posts section */}
           <Flex vertical className="w-full mb-4 " gap={10}>
-            <PostListUser
-              idUser={data.createdBy._id}
-              name={data.createdBy.name}
-            />
+            <PostListUser record={data} />
           </Flex>
         </Card>
       </Flex>

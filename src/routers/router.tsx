@@ -161,7 +161,7 @@ const router = createBrowserRouter([
           },
           {
             path: "post/:slugPost",
-            element: withSuspense(<div>Post Detail</div>, <CLoadingPage />),
+            element: withSuspense(<PostDetailPage />, <CLoadingPage />),
           },
           {
             path: "child-category/:slugChildCategory",
@@ -176,7 +176,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "post/:slugPost",
-                element: withSuspense(<div>Post Detail</div>, <CLoadingPage />),
+                element: withSuspense(<PostDetailPage />, <CLoadingPage />),
               },
             ],
           },

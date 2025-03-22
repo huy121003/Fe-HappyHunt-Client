@@ -8,20 +8,20 @@ import DistrictsService from "../../service";
 
 interface IProps extends SelectProps {
   defaultSelected?: Partial<IDistrictItem>[];
-  provinceId?: number;
+  province?: number;
 }
 type ILabelRender = SelectProps["labelRender"];
 
 const SelectDictrict: React.FC<IProps> = ({
   defaultSelected,
-  provinceId,
+  province,
   ...props
 }) => {
   const fetchFn = ({ search, ...filter }: IFilters) => {
     return DistrictsService.getAll({
       ...filter,
       name: search || "",
-      ...(provinceId && { provinceId }),
+      ...(province && { province }),
     });
   };
 

@@ -10,30 +10,32 @@ import { ShopOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 import ScrollableContainer2 from "@/components/scroll/ScrollableContainer2";
+import { IPost } from "../../data/interface";
 
 interface IProps {
-  idUser: number;
-  name: string;
+  record: IPost;
 }
 
-const PostListUser: React.FC<IProps> = ({ idUser, name }) => {
+const PostListUser: React.FC<IProps> = ({ record }) => {
   const { computtedFilter } = usePostFilter();
 
   const navigate = useNavigate();
 
   const { data, isLoading } = useQuery({
-    queryKey: [API_KEY.POST, idUser, computtedFilter],
+    queryKey: [API_KEY.POST, record.createdBy._id, computtedFilter],
     queryFn: async () => {
-      const response = await PostService.getAllPagination(idUser, {
+      const response = await PostService.getAllPagination({
         ...computtedFilter,
         status: EPostStatus.SELLING,
+        createdBy: record.createdBy._id,
+        ...(record.slug ? { currentSlug: record.slug } : {}),
       });
       return response.data.documentList;
     },
   });
 
   const handleViewAll = () => {
-    navigate(`/user-posts/${idUser}`);
+    navigate(`/user-posts/${record.createdBy._id}`);
   };
 
   return (
@@ -51,7 +53,7 @@ const PostListUser: React.FC<IProps> = ({ idUser, name }) => {
                 level={4}
                 className="m-0 text-gray-800 font-semibold"
               >
-                More from {name}
+                More from {record.createdBy.name}
               </Typography.Title>
             </Flex>
             <Button
@@ -79,7 +81,7 @@ const PostListUser: React.FC<IProps> = ({ idUser, name }) => {
                 <Flex vertical align="center" gap={2}>
                   <ShopOutlined className="text-4xl text-gray-300" />
                   <Typography.Text>
-                    No posts available from {name}
+                    No posts available from {record.createdBy.name}
                   </Typography.Text>
                 </Flex>
               </Flex>

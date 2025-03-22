@@ -30,6 +30,7 @@ import { API_KEY as API_KEY_CATEGORY } from "@/features/categories/data/constant
 import ReasonRejectedModal, {
   RejectedImage,
 } from "@/features/posts/components/ui/ReasonRejectedModal";
+import { postMessageHandler } from "../mesage/ToastMessage";
 
 interface IProps {
   record: IPostItem;
@@ -142,6 +143,7 @@ const PostCardManagement: React.FC<IProps> = ({
       <Menu.Item
         key="stats"
         icon={<BarChartOutlined />}
+        hidden={record.status !== EPostStatus.SELLING}
         onClick={() => navigate(`/post-analytics/${record.slug}`)}
       >
         View Analytics
@@ -149,6 +151,7 @@ const PostCardManagement: React.FC<IProps> = ({
       <Menu.Divider />
 
       <Menu.Item
+        hidden={record.status !== EPostStatus.SELLING}
         key="promote"
         icon={<i className="fas fa-bullhorn" />}
         disabled={!isSelling}
@@ -339,6 +342,15 @@ const PostCardManagement: React.FC<IProps> = ({
                     type="text"
                     size="small"
                     icon={<ShareAltOutlined />}
+                    onClick={() => {
+                      postMessageHandler({
+                        text: `Copy link to  ${record.name} successfully`,
+                        type: "success",
+                      });
+                      navigator.clipboard.writeText(
+                        `${window.location.origin}/detail-post/${record.slug}`
+                      );
+                    }}
                     className="w-24 text-xs flex items-center justify-center hover:text-orange-500"
                   >
                     Share

@@ -19,10 +19,10 @@ function PostPage() {
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [API_KEY.POST, computtedFilter],
     queryFn: async () => {
-      const response = await PostService.getAllPagination(
-        Number(account?._id),
-        computtedFilter
-      );
+      const response = await PostService.getAllPagination({
+        ...computtedFilter,
+        ...(account?._id ? { createdBy: account._id } : {}),
+      });
 
       return response.data;
     },

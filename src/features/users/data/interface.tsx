@@ -1,4 +1,4 @@
-import { ISearchParams } from '@/interfaces';
+import { ISearchParams } from "@/interfaces";
 export interface IUser {
   role?: {
     name: string;
@@ -12,15 +12,15 @@ export interface IUser {
   avatar?: string;
   phoneNumber?: string;
   address: {
-    provinceId: {
+    province: {
       _id: number;
       name: string;
     };
-    districtId: {
+    district: {
       _id: number;
       name: string;
     };
-    wardId: {
+    ward: {
       _id: number;
       name: string;
     };
@@ -38,15 +38,15 @@ export interface IUserItem {
   createdAt: string;
   updatedAt?: string;
   address: {
-    provinceId: {
+    province: {
       _id: number;
       name: string;
     };
-    districtId: {
+    district: {
       _id: number;
       name: string;
     };
-    wardId: {
+    ward: {
       _id: number;
       name: string;
     };
@@ -58,7 +58,7 @@ export interface ISearchUser extends ISearchParams {
   name?: string;
   phoneNumber?: string;
   isBanned?: boolean;
-  provinceId?: number;
-  districtId?: number;
-  wardId?: number;
+  province?: number;
+  district?: number;
+  ward?: number;
 }

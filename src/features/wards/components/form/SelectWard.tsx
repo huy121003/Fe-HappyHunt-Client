@@ -8,22 +8,22 @@ import WardService from "../../service";
 
 interface IProps extends SelectProps {
   defaultSelected?: Partial<IWardItem>[];
-  districtId?: number;
-  provinceId?: number;
+  district?: number;
+  province?: number;
 }
 type ILabelRender = SelectProps["labelRender"];
 const SelectWard: React.FC<IProps> = ({
   defaultSelected,
-  districtId,
-  provinceId,
+  district,
+  province,
   ...props
 }) => {
   const fetchFn = ({ search, ...filter }: IFilters) => {
     return WardService.getAll({
       ...filter,
       name: search || "",
-      ...(districtId && { districtId }),
-      ...(provinceId && { provinceId }),
+      ...(district && { district }),
+      ...(province && { province }),
     });
   };
 

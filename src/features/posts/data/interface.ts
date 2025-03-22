@@ -3,16 +3,20 @@ import { UploadFile } from "antd";
 import { EPostStatus } from "./constant";
 
 export interface IPost {
+  _id: number;
   name: string;
   description: string;
   price: number;
   category: {
     name: string;
     _id: number;
+    slug: string;
   };
+  isFavorite?: boolean;
   categoryParent: {
     name: string;
     _id: number;
+    slug: string;
   };
   images: {
     url: string;
@@ -58,6 +62,7 @@ export interface IPostItem {
     index: number;
     reasonReject?: string[];
   }[];
+  isFavorite?: boolean;
   createdAt: string;
   category: {
     name: string;
@@ -128,6 +133,7 @@ export interface ISearchPost extends ISearchParams {
   minPrice?: number;
   maxPrice?: number;
   name?: string;
+  createdBy?: number;
 }
 export interface ICountStatus {
   SELLING: number;

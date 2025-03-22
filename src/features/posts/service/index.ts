@@ -83,13 +83,12 @@ class PostService {
   };
 
   static getAllPagination = (
-    idUser: number,
     params: ISearchPost
   ): Promise<IPagedResponse<IPostItem[]>> => {
     const newParams = new URLSearchParams(params as any).toString();
     return apiRequest(
       EMethod.GET,
-      `${PostService.baseUrl}/${idUser}/pagination?${newParams}`,
+      `${PostService.baseUrl}/pagination?${newParams}`,
       false
     );
   };
@@ -117,6 +116,13 @@ class PostService {
     return apiRequest(
       EMethod.PATCH,
       `${PostService.baseUrl}/click-count/${id}`,
+      false
+    );
+  };
+  static getAllSuggestion = (): Promise<IPagedResponse<IPostItem[]>> => {
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/suggestion?sort=relevance`,
       false
     );
   };

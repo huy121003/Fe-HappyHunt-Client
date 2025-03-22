@@ -53,9 +53,9 @@ const PostForm: React.FC<IPostFormProps> = ({
         category: `${data.categoryParent._id}${
           data.category?._id ? `-${data.category._id}` : ""
         }`,
-        provinceId: data.address.province._id,
-        districtId: data.address.district._id,
-        wardId: data.address.ward._id,
+        province: data.address.province._id,
+        district: data.address.district._id,
+        ward: data.address.ward._id,
         specificAddress: data.address.specificAddress,
       });
       setFileList(
@@ -109,9 +109,9 @@ const PostForm: React.FC<IPostFormProps> = ({
         fileList.find((file) => file.url === image.url)
       ),
       address: {
-        province: values.provinceId,
-        district: values.districtId,
-        ward: values.wardId,
+        province: values.province,
+        district: values.district,
+        ward: values.ward,
         specificAddress: values.specificAddress,
       },
     };

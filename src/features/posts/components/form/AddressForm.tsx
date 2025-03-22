@@ -10,14 +10,14 @@ interface IProps {
   form: FormInstance;
 }
 const AddressForm: React.FC<IProps> = ({ data, form }) => {
-  const provinceId = Form.useWatch(["provinceId"], form);
-  const districtId = Form.useWatch(["districtId"], form);
-  const wardId = Form.useWatch(["wardId"], form);
+  const province = Form.useWatch(["province"], form);
+  const district = Form.useWatch(["district"], form);
+  const ward = Form.useWatch(["ward"], form);
   return (
     <Card title="Address" className="mb-4">
       <Form.Item
         label="Province"
-        name="provinceId"
+        name="province"
         rules={[
           {
             required: true,
@@ -29,8 +29,8 @@ const AddressForm: React.FC<IProps> = ({ data, form }) => {
           placeholder="Select province"
           onChange={() => {
             form.setFieldsValue({
-              districtId: undefined,
-              wardId: undefined,
+              district: undefined,
+              ward: undefined,
               specificAddress: undefined,
             });
           }}
@@ -47,7 +47,7 @@ const AddressForm: React.FC<IProps> = ({ data, form }) => {
         />
       </Form.Item>
       <Form.Item
-        name="districtId"
+        name="district"
         label="District"
         rules={[
           {
@@ -59,12 +59,12 @@ const AddressForm: React.FC<IProps> = ({ data, form }) => {
         <SelectDictrict
           onChange={() => {
             form.setFieldsValue({
-              wardId: undefined,
+              ward: undefined,
               specificAddress: undefined,
             });
           }}
           placeholder="Select district"
-          provinceId={provinceId}
+          province={province}
           defaultSelected={
             data?.address.district
               ? [
@@ -75,11 +75,11 @@ const AddressForm: React.FC<IProps> = ({ data, form }) => {
                 ]
               : undefined
           }
-          disabled={!provinceId}
+          disabled={!province}
         />
       </Form.Item>
       <Form.Item
-        name="wardId"
+        name="ward"
         label="Ward"
         rules={[{ required: true, message: "Please select ward!" }]}
       >
@@ -90,8 +90,8 @@ const AddressForm: React.FC<IProps> = ({ data, form }) => {
               specificAddress: undefined,
             });
           }}
-          provinceId={provinceId}
-          districtId={districtId}
+          province={province}
+          district={district}
           defaultSelected={
             data?.address.ward
               ? [
@@ -102,7 +102,7 @@ const AddressForm: React.FC<IProps> = ({ data, form }) => {
                 ]
               : undefined
           }
-          disabled={!provinceId || !districtId}
+          disabled={!province || !district}
         />
       </Form.Item>
       <Form.Item
@@ -118,7 +118,7 @@ const AddressForm: React.FC<IProps> = ({ data, form }) => {
       >
         <CInput
           placeholder="Enter specific address"
-          disabled={!provinceId || !districtId || !wardId}
+          disabled={!province || !district || !ward}
         />
       </Form.Item>
     </Card>

@@ -17,6 +17,7 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { truncateWithDots } from "@/configs/truncateWithDots";
+import ButtonFavorite1 from "@/features/favorite-posts/components/ui/ButtonFavorite1";
 
 interface IProps {
   record: IPostItem;
@@ -27,7 +28,7 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
   const client = useQueryClient();
   const navigate = useNavigate();
   const { onError } = usePostState();
-  const [isFavorite, setIsFavorite] = useState(false);
+
   const [isHovered, setIsHovered] = useState(false);
 
   const { mutate } = useMutation({
@@ -53,12 +54,6 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
     }
     invalidateQueries();
     navigate(`/detail-post/${record.slug}`);
-  };
-
-  const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsFavorite(!isFavorite);
-    // Add logic to save to favorites
   };
 
   const handleMessageClick = (e: React.MouseEvent) => {
@@ -161,23 +156,10 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
 
           {/* Action buttons */}
           <Flex gap={2}>
-            <Tooltip
-              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
-            >
-              <Button
-                icon={
-                  isFavorite ? (
-                    <HeartFilled className="text-orange-500" />
-                  ) : (
-                    <HeartOutlined className="hover:text-orange-500" />
-                  )
-                }
-                type="text"
-                className="hover:bg-orange-50 p-1 rounded-full transition-colors duration-300"
-                onClick={handleFavoriteClick}
-              />
-            </Tooltip>
-
+            <ButtonFavorite1
+              postId={record._id}
+              isFavorite={record.isFavorite ?? false}
+            />
             <Tooltip title="Message seller">
               <Button
                 icon={<MessageOutlined className="hover:text-orange-500" />}
