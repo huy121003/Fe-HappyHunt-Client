@@ -1,4 +1,4 @@
-import { postMessageHandler } from "@/components/ToastMessage";
+import { postMessageHandler } from "@/components/mesage/ToastMessage";
 import { ICommonResponse } from "@/interfaces";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";

@@ -1,8 +1,8 @@
 import CButton from "@/components/buttons/CButton";
-import CInput from "@/components/CInput";
+import CInput from "@/components/form/CInput";
 import { Flex, Form, Typography } from "antd";
 import { ILoginRequest } from "../../data/interface";
-import CPassword from "@/components/CPassword";
+import CPassword from "@/components/form/CPassword";
 import { useMutation } from "@tanstack/react-query";
 import AuthService from "../../service";
 import { loginaction } from "@/redux/slice/SAuthSlice";

@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Typography, Flex } from "antd";
+import { TagsOutlined } from "@ant-design/icons";
 
 interface IProps {
   attributes?: {
@@ -15,29 +16,32 @@ const Attribute: React.FC<IProps> = ({ attributes = [] }) => {
       dataIndex: "name",
       key: "name",
       render: (value: string) => (
-        <p>
-          <i className="fas fa-check-circle text-green-500 mr-2"></i>
-          {value}
+        <p className="flex items-center gap-2">
+          <i className="fas fa-check-circle text-orange-500"></i>
+          <span className="font-medium text-gray-700">{value}</span>
         </p>
       ),
       width: "30%",
     },
-
     {
       title: "Value",
       dataIndex: "value",
       key: "value",
+      render: (value: string) => <span className="text-gray-600">{value}</span>,
     },
   ];
 
   return (
     <Flex
       vertical
-      className=" bg-white rounded-lg shadow-sm flex-1 my-4 p-4  border-t-2 border-t-flame-orange"
+      className="bg-white rounded-xl shadow-sm flex-1 my-4 p-6 border-t-2 border-t-orange-500"
     >
-      <Typography.Title level={5} className="p-4 text-gray-700">
-        Attribute
-      </Typography.Title>
+      <Flex align="center" gap={2} className="mb-4">
+        <TagsOutlined className="text-2xl text-orange-500" />
+        <Typography.Title level={5} className="m-0 text-gray-700">
+          Attributes
+        </Typography.Title>
+      </Flex>
       <Table
         columns={columns}
         dataSource={
@@ -45,6 +49,7 @@ const Attribute: React.FC<IProps> = ({ attributes = [] }) => {
         }
         pagination={false}
         bordered
+        className="rounded-lg overflow-hidden"
       />
     </Flex>
   );

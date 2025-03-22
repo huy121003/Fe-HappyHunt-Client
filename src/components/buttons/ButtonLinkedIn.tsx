@@ -1,10 +1,13 @@
-import CButtonActionIcon from "@/components/CButtonActionIcon";
+import CButtonActionIcon from "@/components/buttons/CButtonActionIcon";
+import { Tooltip } from "antd";
 function ButtionLinkedIn() {
   return (
-    <CButtonActionIcon
-      icon="fa-brands fa-linkedin"
-      href="https://www.linkedin.com/in/quanghuy2003/"
-    />
+    <Tooltip title="LinkedIn">
+      <CButtonActionIcon
+        icon="fa-brands fa-linkedin"
+        href="https://www.linkedin.com/in/quanghuy2003/"
+      />
+    </Tooltip>
   );
 }
 

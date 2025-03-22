@@ -1,10 +1,13 @@
-import CButtonActionIcon from "@/components/CButtonActionIcon";
+import CButtonActionIcon from "@/components/buttons/CButtonActionIcon";
+import { Tooltip } from "antd";
 function ButtonGitHub() {
   return (
-    <CButtonActionIcon
-      icon="fa-brands fa-github"
-      href="https://github.com/huy121003"
-    />
+    <Tooltip title="GitHub">
+      <CButtonActionIcon
+        icon="fa-brands fa-github"
+        href="https://github.com/huy121003"
+      />
+    </Tooltip>
   );
 }
 

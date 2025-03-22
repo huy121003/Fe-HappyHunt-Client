@@ -24,7 +24,7 @@ export interface ICategory {
 export interface ICategoryItem {
   _id: number;
   name: string;
-  image?: string;
+  icon?: string;
   isPayment?: boolean;
   pricePayment?: number;
   slug?: string;

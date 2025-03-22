@@ -2,7 +2,7 @@ import { FormInstance, Image, Upload } from "antd";
 import { useMemo, useState } from "react";
 import { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 
-import { postMessageHandler } from "@/components/ToastMessage";
+import { postMessageHandler } from "@/components/mesage/ToastMessage";
 
 export const isFileSizeValid = (file: File, maxSizeInMB: number): boolean => {
   const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
@@ -35,6 +35,22 @@ export const isFileAllowed = (
     return false;
   });
 };
+
+const isDuplicateImage = (
+  file: RcFile,
+  currentFileList: UploadFile[]
+): boolean => {
+  return currentFileList.some((existingFile) => {
+    if (existingFile.originFileObj) {
+      return (
+        existingFile.originFileObj.name === file.name &&
+        existingFile.originFileObj.size === file.size
+      );
+    }
+    return false;
+  });
+};
+
 const useUpload = (form: FormInstance) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -58,6 +74,7 @@ const useUpload = (form: FormInstance) => {
     return (file: RcFile) => {
       const isAcceptedType = isFileAllowed(file, accept);
       const isAcceptedSize = isFileSizeValid(file, size);
+      const isDuplicate = isDuplicateImage(file, fileList);
 
       if (!isAcceptedType) {
         postMessageHandler({
@@ -71,6 +88,14 @@ const useUpload = (form: FormInstance) => {
         postMessageHandler({
           type: "error",
           text: "File size must be less than 2MB",
+        });
+        return Upload.LIST_IGNORE;
+      }
+
+      if (isDuplicate) {
+        postMessageHandler({
+          type: "error",
+          text: "This image has already been uploaded",
         });
         return Upload.LIST_IGNORE;
       }

@@ -1,6 +1,6 @@
 import { Button, Flex, Image, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
-import Bottom from "./layouts/AppLayout/Bottom/Bottom";
+import Bottom from "../layouts/AppLayout/Bottom/Bottom";
 
 function CPermissionEditPost() {
   const naviagate = useNavigate();

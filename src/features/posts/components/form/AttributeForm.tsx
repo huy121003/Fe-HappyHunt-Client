@@ -1,5 +1,5 @@
-import CInput from "@/components/CInput";
-import CSelect from "@/components/CSelect";
+import CInput from "@/components/form/CInput";
+import CSelect from "@/components/form/CSelect";
 import { API_KEY, Type } from "@/features/categories/data/constants";
 import CategoryService from "@/features/categories/service";
 import { useQuery } from "@tanstack/react-query";

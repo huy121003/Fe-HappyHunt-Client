@@ -5,7 +5,7 @@ import { useAppSelector } from "@/redux/reduxHook";
 import { API_KEY, EPostStatus } from "@/features/posts/data/constant";
 import PostService from "@/features/posts/service";
 import PostDetail from "@/features/posts/components/ui/PostDetail";
-import CPostIsNotAvailable from "@/components/CPostIsNotAvailable";
+import CPostIsNotAvailable from "@/components/ui/CPostIsNotAvailable";
 import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 import ContentLayout from "@/components/layouts/ContentLayout";
 

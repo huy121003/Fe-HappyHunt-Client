@@ -1,13 +1,12 @@
 import useUpload from "@/hooks/useUpload";
 import { UploadOutlined } from "@ant-design/icons";
 import { Form, Flex, Upload, Button, Card, Radio, UploadFile } from "antd";
-const baseURL = import.meta.env.VITE_PUBLIC_URL;
 import ImgCrop from "antd-img-crop";
 import { Typography } from "antd";
 import CategorySelectorPost from "@/features/categories/components/CategorySelectorPost";
-import CInput from "@/components/CInput";
+import CInput from "@/components/form/CInput";
 import AttributeForm from "./AttributeForm";
-import CTextArea from "@/components/CTextArea";
+import CTextArea from "@/components/form/CTextArea";
 import CButton from "@/components/buttons/CButton";
 import ChooseCategory from "./ChooseCategory";
 import { IPost, IPostPayload } from "../../data/interface";
@@ -15,6 +14,8 @@ import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import checkProfanity from "@/configs/checkProfanity";
 import AddressForm from "./AddressForm";
+import { checkText } from "@/configs/checkText";
+
 interface IPostFormProps {
   onSubmit: (values: IPostPayload, id?: number) => void;
   data?: IPost;
@@ -63,10 +64,7 @@ const PostForm: React.FC<IPostFormProps> = ({
 
           name: image.url,
           status: "done",
-          url:
-            image.url?.includes("http://") || image.url?.includes("https://")
-              ? image.url
-              : `${baseURL}${image.url}`,
+          url: image.url,
         }))
       );
     }
@@ -76,16 +74,25 @@ const PostForm: React.FC<IPostFormProps> = ({
   }, [navigate]);
   const onFinish = async () => {
     const values = await form.getFieldsValue();
-    // if (fileList.length < 3 || fileList.length > 10) {
-    //   form.setFields([
-    //     {
-    //       name: "images",
-    //       errors: ["Please upload 3 to 10 images"],
-    //     },
-    //   ]);
-    //   return;
-    // }
-    console.log(values);
+    if (fileList.length < 3 || fileList.length > 10) {
+      form.setFields([
+        {
+          name: "images",
+          errors: ["Please upload 3 to 10 images"],
+        },
+      ]);
+      return;
+    }
+    if (values.price < 1000 || values.price > 1000000000) {
+      form.setFields([
+        {
+          name: "price",
+          errors: ["Price must be between 1.000 and 1.000.000.000 VND"],
+        },
+      ]);
+      return;
+    }
+
     const payload: IPostPayload = {
       ...values,
       ...(values._id ? { _id: values._id } : {}),
@@ -228,6 +235,10 @@ const PostForm: React.FC<IPostFormProps> = ({
                             if (res) {
                               return Promise.reject(new Error(res));
                             }
+                            const resText = checkText(value);
+                            if (resText) {
+                              return Promise.reject(new Error(resText));
+                            }
                             return Promise.resolve();
                           },
                         },
@@ -255,6 +266,10 @@ const PostForm: React.FC<IPostFormProps> = ({
                             const profanityCheck = checkProfanity(value);
                             if (profanityCheck) {
                               errors.push(profanityCheck);
+                            }
+                            const resText = checkText(value);
+                            if (resText) {
+                              errors.push(resText);
                             }
                             if (errors.length > 0) {
                               return Promise.reject(

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { IRegisterOtpRequest, IRegisterRequest } from "../../data/interface";
 import { Flex, Form, Typography } from "antd";
-import CInput from "@/components/CInput";
-import CPassword from "@/components/CPassword";
+import CInput from "@/components/form/CInput";
+import CPassword from "@/components/form/CPassword";
 import CButton from "@/components/buttons/CButton";
 import OtpInput from "react18-input-otp";
 import { useNavigate } from "react-router-dom";

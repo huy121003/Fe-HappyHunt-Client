@@ -18,7 +18,7 @@ const ContentLayout: React.FC<IProps> = ({ children, title }) => {
       >
         <>{title && title}</>
         <div
-          className={` flex-1 flex flex-col gap-2 justify-center items-center`}
+          className={` flex-1 flex flex-col gap-2 justify-center items-center w-full`}
         >
           {children}
         </div>

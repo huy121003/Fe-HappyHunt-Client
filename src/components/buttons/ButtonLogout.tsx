@@ -1,4 +1,4 @@
-import CDeleteModal from "@/components/CDeleteModal";
+import CDeleteModal from "@/components/modal/CDeleteModal";
 import useAuthState from "@/features/auth/hooks/useAuthState";
 
 import AuthService from "@/features/auth/service";

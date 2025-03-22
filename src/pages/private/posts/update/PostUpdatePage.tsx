@@ -1,4 +1,4 @@
-import CPermissionEditPost from "@/components/CPermissionEditPost";
+import CPermissionEditPost from "@/components/ui/CPermissionEditPost";
 import ContentLayout from "@/components/layouts/ContentLayout";
 import PostForm from "@/features/posts/components/form/PostForm";
 import { API_KEY, EPostStatus } from "@/features/posts/data/constant";

@@ -6,7 +6,7 @@ import Description from "./Description";
 import Attribute from "./Attribute";
 import InfoUser from "./InfoUser";
 import PostListUser from "./PostListUser";
-const baseURL = import.meta.env.VITE_PUBLIC_URL;
+
 interface IProps {
   isLoading?: boolean;
   data: IPost;
@@ -14,7 +14,6 @@ interface IProps {
 }
 
 const PostDetail: React.FC<IProps> = ({ data, isLoading }) => {
-  console.log(baseURL);
   return (
     <Spin spinning={isLoading}>
       <Flex
@@ -25,7 +24,7 @@ const PostDetail: React.FC<IProps> = ({ data, isLoading }) => {
         <Card className="bg-gray-100 !m-0" bodyStyle={{ padding: 0 }}>
           <Flex
             justify="center"
-            className=" md:flex-row flex-col rounded-lg  mb-2 "
+            className=" lg:flex-row flex-col rounded-lg  mb-2 "
             gap={10}
           >
             {/* Image carousel section */}
@@ -34,17 +33,7 @@ const PostDetail: React.FC<IProps> = ({ data, isLoading }) => {
               vertical
               gap={10}
             >
-              <ImagePostCarousel
-                images={data.images.map((img) => {
-                  if (
-                    img.url.includes("http://") ||
-                    img.url.includes("https://")
-                  ) {
-                    return img.url;
-                  }
-                  return `${baseURL}${img.url}`;
-                })}
-              />
+              <ImagePostCarousel images={data.images.map((img) => img.url)} />
             </Flex>
 
             {/* User info section */}

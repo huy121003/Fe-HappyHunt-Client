@@ -5,7 +5,7 @@ import {
   HeartFilled,
   ShareAltOutlined,
 } from "@ant-design/icons";
-import { postMessageHandler } from "@/components/ToastMessage";
+import { postMessageHandler } from "@/components/mesage/ToastMessage";
 
 interface Props {
   images: string[];
@@ -23,7 +23,7 @@ const ImagePostCarousel: React.FC<Props> = ({ images }) => {
   return (
     <div className="flex flex-col items-center w-full">
       {/* Main Carousel */}
-      <div className="relative overflow-hidden w-full max-w-[550px] bg-white rounded-lg shadow-sm">
+      <div className="relative overflow-hidden w-full max-w-[600px] bg-white rounded-lg shadow-sm">
         <Carousel
           infinite={false}
           ref={carouselRef}

@@ -20,7 +20,7 @@ import {
   BarChartOutlined,
   MoreOutlined,
 } from "@ant-design/icons";
-import TimeAgo from "@/components/TimeAgo";
+import TimeAgo from "@/components/ui/TimeAgo";
 import { IPostItem } from "../../features/posts/data/interface";
 import { API_KEY, EPostStatus } from "../../features/posts/data/constant";
 import StatusModal from "../../features/posts/components/ui/StatusModal";
@@ -30,7 +30,7 @@ import { API_KEY as API_KEY_CATEGORY } from "@/features/categories/data/constant
 import ReasonRejectedModal, {
   RejectedImage,
 } from "@/features/posts/components/ui/ReasonRejectedModal";
-const baseURL = import.meta.env.VITE_PUBLIC_URL;
+
 interface IProps {
   record: IPostItem;
   isShowLoading: boolean;
@@ -231,22 +231,13 @@ const PostCardManagement: React.FC<IProps> = ({
             {record?.images[0] ? (
               <div className="overflow-hidden rounded-lg">
                 <Image
-                  src={
-                    record.images[0].url.includes("http://") ||
-                    record.images[0].url.includes("https://")
-                      ? record.images[0].url
-                      : `${baseURL}${record.images[0].url}`
-                  }
+                  src={record.images[0].url}
                   width={140}
                   height={140}
                   className="rounded-lg object-cover hover:scale-105 transition-transform duration-300"
                   alt={record?.name}
                   preview={{
-                    src:
-                      record.images[0].url.includes("http://") ||
-                      record.images[0].url.includes("https://")
-                        ? record.images[0].url
-                        : `${baseURL}${record.images[0].url}`,
+                    src: record.images[0].url,
                     visible: false,
                     mask: (
                       <div className="flex items-center justify-center text-white">
@@ -373,6 +364,7 @@ const PostCardManagement: React.FC<IProps> = ({
         isLoading={isShowLoading}
       />
       <ReasonRejectedModal
+        slug={record.slug}
         isOpen={showReason}
         onClose={closeReason}
         images={

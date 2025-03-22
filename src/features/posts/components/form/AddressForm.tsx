@@ -1,7 +1,7 @@
 import React from "react";
 import { IPost } from "../../data/interface";
 import { Card, Form, FormInstance } from "antd";
-import CInput from "@/components/CInput";
+import CInput from "@/components/form/CInput";
 import SelectWard from "@/features/wards/components/form/SelectWard";
 import SelectDictrict from "@/features/districts/components/form/SelectDictrict";
 import SelectProvince from "@/features/provinces/components/form/SelectProvince";

@@ -1,7 +1,7 @@
 import React from "react";
-import { Modal, Image, Tag } from "antd";
+import { Modal, Image, Tag, Button, Flex } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-const baseURL = import.meta.env.VITE_PUBLIC_URL;
+import { useNavigate } from "react-router-dom";
 export interface RejectedImage {
   url: string;
   index: number;
@@ -12,13 +12,16 @@ interface ReasonRejectedModalProps {
   isOpen: boolean;
   onClose: () => void;
   images: RejectedImage[];
+  slug: string;
 }
 
 const ReasonRejectedModal: React.FC<ReasonRejectedModalProps> = ({
   isOpen,
   onClose,
   images = [],
+  slug,
 }) => {
+  const navigate = useNavigate();
   return (
     <Modal
       open={isOpen}
@@ -47,12 +50,7 @@ const ReasonRejectedModal: React.FC<ReasonRejectedModalProps> = ({
               <div className="flex items-start gap-4">
                 <div className="relative w-32 h-32">
                   <Image
-                    src={
-                      image.url.includes("http://") ||
-                      image.url.includes("https://")
-                        ? image.url
-                        : `${baseURL}${image.url}`
-                    }
+                    src={image.url}
                     alt={`Rejected image ${image.index + 1}`}
                     className="rounded-lg object-cover"
                     width={128}
@@ -79,6 +77,14 @@ const ReasonRejectedModal: React.FC<ReasonRejectedModalProps> = ({
             </div>
           ))}
         </div>
+        <Flex justify="end" className="mt-4">
+          <Button
+            type="primary"
+            onClick={() => navigate(`/update-post/${slug}`)}
+          >
+            Edit Post
+          </Button>
+        </Flex>
       </div>
     </Modal>
   );

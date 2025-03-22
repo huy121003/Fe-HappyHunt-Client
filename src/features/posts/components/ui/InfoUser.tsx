@@ -18,7 +18,7 @@ import {
   Button,
   Tag,
 } from "antd";
-import TimeAgo from "@/components/TimeAgo";
+import TimeAgo from "@/components/ui/TimeAgo";
 import CButton from "@/components/buttons/CButton";
 import { useNavigate } from "react-router-dom";
 import PostService from "../../service";

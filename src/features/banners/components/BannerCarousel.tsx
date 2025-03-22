@@ -13,17 +13,19 @@ function BannerCarousel() {
   });
   return (
     <Spin spinning={isLoading}>
-      <Carousel autoplay>
-        {data?.map((item) => (
-          <div key={item._id}>
-            <img
-              src={item.image}
-              alt={item.image}
-              className=" h-[600px]  w-full  object-cover"
-            />
-          </div>
-        ))}
-      </Carousel>
+      <div className="w-screen h-[calc(100vw/2)] overflow-hidden">
+        <Carousel autoplay>
+          {data?.map((item) => (
+            <div key={item._id}>
+              <img
+                src={item.image}
+                alt={item.image}
+                className="w-full  object-cover"
+              />
+            </div>
+          ))}
+        </Carousel>
+      </div>
     </Spin>
   );
 }

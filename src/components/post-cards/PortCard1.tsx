@@ -1,12 +1,11 @@
 import { IPostItem } from "@/features/posts/data/interface";
 import { Badge, Button, Flex, Image, Tag, Tooltip, Typography } from "antd";
 import React, { useState } from "react";
-import TimeAgo from "../TimeAgo";
+import TimeAgo from "../ui/TimeAgo";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_KEY } from "@/features/posts/data/constant";
 import { API_KEY as API_KEY_CATEGORY } from "@/features/categories/data/constants";
-import { CTruncateWithDots } from "../CTruncateWithNewLine";
 import PostService from "@/features/posts/service";
 import usePostState from "@/features/posts/hooks/usePostState";
 import { useAppSelector } from "@/redux/reduxHook";
@@ -15,14 +14,15 @@ import {
   HeartFilled,
   MessageOutlined,
   EyeOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
-const baseURL = import.meta.env.VITE_PUBLIC_URL;
+import { truncateWithDots } from "@/configs/truncateWithDots";
+
 interface IProps {
   record: IPostItem;
 }
 
 const PortCard1: React.FC<IProps> = ({ record }) => {
-  console.log("ddb", baseURL);
   const account = useAppSelector((state) => state.auth.account);
   const client = useQueryClient();
   const navigate = useNavigate();
@@ -68,11 +68,9 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
     );
   };
 
-  // Calculate how recent the post is (for highlighting new posts)
-
   return (
     <div
-      className="relative bg-white rounded-lg transition-all duration-300 overflow-hidden border border-gray-100 hover:border-orange-500"
+      className="relative bg-white rounded-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-orange-500 hover:shadow-lg group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleCardClick}
@@ -81,27 +79,22 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
       <div className="relative overflow-hidden">
         {record.images.length > 0 ? (
           <Image
-            src={
-              record.images[0].url.includes("http://") ||
-              record.images[0].url.includes("https://")
-                ? record.images[0].url
-                : `${baseURL}${record.images[0].url}`
-            }
+            src={record.images[0].url}
             height={250}
             width="100%"
-            className="object-cover transition-transform duration-500 hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
             preview={false}
             alt={record.name}
           />
         ) : (
           <div className="h-[250px] w-full bg-gray-50 flex items-center justify-center">
-            <i className="fas fa-image text-4xl text-gray-200"></i>
+            <ShoppingCartOutlined className="text-4xl text-gray-200" />
           </div>
         )}
 
         {/* Image overlay with additional actions */}
         <div
-          className={`absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent transition-opacity duration-300 ${
             isHovered ? "opacity-100" : "opacity-0"
           } flex items-end justify-between p-4`}
         >
@@ -117,7 +110,7 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
               type="primary"
               size="small"
               icon={<EyeOutlined />}
-              className="bg-white text-black border-none hover:bg-orange-500 hover:text-white"
+              className="bg-white text-black border-none hover:bg-orange-500 hover:text-white transition-colors duration-300"
               onClick={handleCardClick}
             >
               View
@@ -129,7 +122,7 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
       {/* Content */}
       <div className="p-4 space-y-3">
         <Flex className="text-xs text-gray-400 mb-1" align="center" gap={1}>
-          <i className="fas fa-tag"></i>
+          <i className="fas fa-tag text-orange-500"></i>
           <span>{record.categoryParent?.name}</span>
           {record.category && (
             <>
@@ -139,8 +132,8 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
           )}
         </Flex>
 
-        <h1 className="text-gray-900 font-bold text-lg leading-tight">
-          <CTruncateWithDots text={record.name} />
+        <h1 className="text-gray-900 font-bold text-lg leading-tight group-hover:text-orange-500 transition-colors duration-300">
+          {truncateWithDots(record.name, 20)}
         </h1>
 
         {/* Price */}
@@ -180,7 +173,7 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
                   )
                 }
                 type="text"
-                className="hover:bg-gray-50 p-1 rounded-full"
+                className="hover:bg-orange-50 p-1 rounded-full transition-colors duration-300"
                 onClick={handleFavoriteClick}
               />
             </Tooltip>
@@ -189,7 +182,7 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
               <Button
                 icon={<MessageOutlined className="hover:text-orange-500" />}
                 type="text"
-                className="hover:bg-gray-50 p-1 rounded-full"
+                className="hover:bg-orange-50 p-1 rounded-full transition-colors duration-300"
                 onClick={handleMessageClick}
               />
             </Tooltip>
@@ -202,7 +195,7 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
         <div className="absolute top-0 right-0">
           <Tag
             color={record.isIndividual ? "default" : "orange"}
-            className="rounded-bl-md rounded-tr-md rounded-br-none rounded-tl-none border-none font-medium"
+            className="rounded-bl-md rounded-tr-md rounded-br-none rounded-tl-none border-none font-medium shadow-sm"
           >
             {record.isIndividual ? "Individual" : "Pro"}
           </Tag>

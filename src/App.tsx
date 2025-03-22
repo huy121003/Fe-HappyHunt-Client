@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "./redux/reduxHook";
 import { getUserAction } from "./redux/slice/SAuthSlice";
 import { CLoadingPage } from "./components";
 
-import ToastMessage from "./components/ToastMessage";
+import ToastMessage from "./components/mesage/ToastMessage";
 import { useQuery } from "@tanstack/react-query";
 import { API_KEY } from "./features/auth/data/constant";
 import AuthService from "./features/auth/service";
