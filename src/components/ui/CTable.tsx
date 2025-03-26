@@ -1,5 +1,5 @@
-import { Empty, Table, Typography } from 'antd';
-import type { TableProps } from 'antd/es/table';
+import { Empty, Table, Typography } from "antd";
+import type { TableProps } from "antd/es/table";
 const { Text } = Typography;
 interface CTableProps<T> extends TableProps<T> {
   notFound?: boolean;
@@ -25,7 +25,7 @@ function CTable<T>(props: CTableProps<T>) {
           <Empty
             description={
               <Text type="secondary">
-                {notFound ? 'No data found' : 'No data'}
+                {notFound ? "No data found" : "No data"}
               </Text>
             }
           />
@@ -40,13 +40,13 @@ function CTable<T>(props: CTableProps<T>) {
           ? false
           : {
               showSizeChanger: true,
-              pageSizeOptions: ['10', '20', '50', '100'],
+              pageSizeOptions: ["10", "20", "50", "100"],
               ...pagination,
             }
       }
       showSorterTooltip={false}
       rowKey={rowKey}
-      scroll={{ x: 800, y: 400 }}
+      scroll={{ x: 800 }}
     />
   );
 }

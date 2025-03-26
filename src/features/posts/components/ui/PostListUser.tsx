@@ -22,7 +22,7 @@ const PostListUser: React.FC<IProps> = ({ record }) => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useQuery({
-    queryKey: [API_KEY.POST, record.createdBy._id, computtedFilter],
+    queryKey: [API_KEY.POST_USER, record.createdBy._id, computtedFilter],
     queryFn: async () => {
       const response = await PostService.getAllPagination({
         ...computtedFilter,

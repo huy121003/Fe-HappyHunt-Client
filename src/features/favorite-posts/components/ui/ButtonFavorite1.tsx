@@ -10,7 +10,7 @@ interface IProps {
 }
 function ButtonFavorite1({ postId, isFavorite }: IProps) {
   const [favorite, setFavorite] = useState(isFavorite);
-  const { onSuccess, onError } = useFavoritePostState();
+  const { onSuccess } = useFavoritePostState();
   const { mutate } = useMutation({
     mutationFn: async () => {
       const response = favorite
@@ -27,7 +27,6 @@ function ButtonFavorite1({ postId, isFavorite }: IProps) {
         }
       );
     },
-    onError,
   });
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();

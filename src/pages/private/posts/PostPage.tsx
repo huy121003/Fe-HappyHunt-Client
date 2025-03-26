@@ -14,7 +14,7 @@ function PostPage() {
     usePostFilterContext();
   const [openModal, setOpenModal] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
-  const { onSuccess, onError } = usePostState();
+  const { onSuccess } = usePostState();
   const account = useAppSelector((state) => state.auth.account);
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [API_KEY.POST, computtedFilter],
@@ -49,7 +49,7 @@ function PostPage() {
       onSuccess: () => {
         onSuccess("Post status updated successfully");
       },
-      onError,
+     
     });
 
   const handleDelete = (record: IPostItem) => {

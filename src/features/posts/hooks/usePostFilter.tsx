@@ -5,7 +5,6 @@ import { debounce } from "lodash";
 import usePagination from "@/hooks/usePagination";
 import { EPostStatus } from "../data/constant";
 import { useLocation } from "react-router-dom";
-import { useAppSelector } from "@/redux/reduxHook";
 
 const usePostFilter = () => {
   const [search, setSearch] = useState<string>("");
@@ -13,9 +12,9 @@ const usePostFilter = () => {
   const [category, setCategory] = useState<number>();
   const [categoryParent, setCategoryParent] = useState<number>();
   const [isIndividual, setIsIndividual] = useState<boolean>();
-  const [city, setCity] = useState<string>();
-  const [district, setDistrict] = useState<string>();
-  const [ward, setWard] = useState<string>();
+  const [city, setCity] = useState<number>();
+  const [district, setDistrict] = useState<number>();
+  const [ward, setWard] = useState<number>();
   const [minPrice, setMinPrice] = useState<number>();
   const [maxPrice, setMaxPrice] = useState<number>();
   const location = useLocation();
@@ -34,7 +33,6 @@ const usePostFilter = () => {
 
   const [status, setStatus] = useState<EPostStatus>(getStatusFromPath());
 
-  console.log(status);
 
   const {
     parsedPagination,
@@ -91,15 +89,15 @@ const usePostFilter = () => {
     setIsIndividual(isIndividual);
     handleResetPagination();
   };
-  const handleSelectCity = (city: string | undefined) => {
+  const handleSelectCity = (city: number | undefined) => {
     setCity(city);
     handleResetPagination();
   };
-  const handleSelectDistrict = (district: string | undefined) => {
+  const handleSelectDistrict = (district: number | undefined) => {
     setDistrict(district);
     handleResetPagination();
   };
-  const handleSelectWard = (ward: string | undefined) => {
+  const handleSelectWard = (ward: number | undefined) => {
     setWard(ward);
     handleResetPagination();
   };

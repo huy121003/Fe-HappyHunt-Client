@@ -83,11 +83,11 @@ const PostForm: React.FC<IPostFormProps> = ({
       ]);
       return;
     }
-    if (values.price < 1000 || values.price > 1000000000) {
+    if (values.price < 1000 || values.price > 100000000) {
       form.setFields([
         {
           name: "price",
-          errors: ["Price must be between 1.000 and 1.000.000.000 VND"],
+          errors: ["Price must be between 1.000 and 100.000.000 VND"],
         },
       ]);
       return;

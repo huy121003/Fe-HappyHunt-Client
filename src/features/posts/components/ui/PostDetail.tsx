@@ -6,6 +6,7 @@ import Description from "./Description";
 import Attribute from "./Attribute";
 import InfoUser from "./InfoUser";
 import PostListUser from "./PostListUser";
+import PostRelatedList from "./PostRelatedList";
 
 interface IProps {
   isLoading?: boolean;
@@ -56,6 +57,9 @@ const PostDetail: React.FC<IProps> = ({ data, isLoading }) => {
           {/* User's other posts section */}
           <Flex vertical className="w-full mb-4 " gap={10}>
             <PostListUser record={data} />
+          </Flex>
+          <Flex vertical className="w-full mb-4 " gap={10}>
+            <PostRelatedList record={data} />
           </Flex>
         </Card>
       </Flex>

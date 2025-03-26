@@ -158,10 +158,6 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
                     <Typography.Title level={4} className="mb-0">
                       {account?.name}
                     </Typography.Title>
-                    {/* <Typography.Text type="secondary">
-                      <i className="fas fa-map-marker-alt mr-1"></i>
-                      {account?.location || "No location set"}
-                    </Typography.Text> */}
                   </Flex>
                 </Flex>
               </Dropdown>
@@ -183,7 +179,7 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
                   <Button
                     type="text"
                     className="group px-4 bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-200 text-amber-600 rounded-lg transition-all duration-300 hover:from-flame-orange hover:to-flame-orange hover:text-white"
-                    onClick={() => navigate("/coins/purchase")}
+                    onClick={() => navigate("/payment")}
                   >
                     <Flex align="center" gap={5}>
                       <Typography.Title
@@ -192,7 +188,7 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
                       >
                         <i className="fas fa-coins mr-2"></i> Balance:{" "}
                         <span className="font-bold ml-1">
-                          {account?.coin || 0}
+                          {account?.balance || 0}
                         </span>
                         <PlusOutlined className="ml-2 text-amber-600 group-hover:text-white transition-all duration-300" />
                       </Typography.Title>

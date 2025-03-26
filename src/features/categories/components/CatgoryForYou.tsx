@@ -4,13 +4,13 @@ import CategoryService from "../service";
 import { Card, Flex, Image, Typography, Spin, theme } from "antd";
 import { AppstoreOutlined } from "@ant-design/icons";
 import ScrollableContainer from "@/components/scroll/ScrollableContainer";
+import { useNavigate } from "react-router-dom";
 
 const { Text } = Typography;
 const { useToken } = theme;
-
 function CatgoryForYou() {
   const { token } = useToken();
-
+  const navigate = useNavigate();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.GET_CATEGORY_PARENT],
     queryFn: async () => {
@@ -50,6 +50,9 @@ function CatgoryForYou() {
         <ScrollableContainer gap={50}>
           {data?.map((item) => (
             <div
+              onClick={() => {
+                navigate(`/category/${item.slug}`);
+              }}
               key={item._id}
               className="group cursor-pointer w-[130px] transition-transform duration-300 hover:-translate-y-1 flex-shrink-0"
             >

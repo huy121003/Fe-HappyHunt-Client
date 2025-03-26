@@ -7,11 +7,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_KEY } from "@/features/posts/data/constant";
 import { API_KEY as API_KEY_CATEGORY } from "@/features/categories/data/constants";
 import PostService from "@/features/posts/service";
-import usePostState from "@/features/posts/hooks/usePostState";
 import { useAppSelector } from "@/redux/reduxHook";
 import {
-  HeartOutlined,
-  HeartFilled,
   MessageOutlined,
   EyeOutlined,
   ShoppingCartOutlined,
@@ -27,7 +24,6 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
   const account = useAppSelector((state) => state.auth.account);
   const client = useQueryClient();
   const navigate = useNavigate();
-  const { onError } = usePostState();
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -36,7 +32,6 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
       const response = await PostService.updateClickCount(id);
       return response.data;
     },
-    onError,
   });
 
   const invalidateQueries = () => {
@@ -75,15 +70,15 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
         {record.images.length > 0 ? (
           <Image
             src={record.images[0].url}
-            height={250}
+            height={180}
             width="100%"
             className="object-cover transition-transform duration-500 group-hover:scale-110"
             preview={false}
             alt={record.name}
           />
         ) : (
-          <div className="h-[250px] w-full bg-gray-50 flex items-center justify-center">
-            <ShoppingCartOutlined className="text-4xl text-gray-200" />
+          <div className="h-[180px] w-full bg-gray-50 flex items-center justify-center">
+            <ShoppingCartOutlined className="text-3xl text-gray-200" />
           </div>
         )}
 
@@ -115,8 +110,8 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
       </div>
 
       {/* Content */}
-      <div className="p-4 space-y-3">
-        <Flex className="text-xs text-gray-400 mb-1" align="center" gap={1}>
+      <div className="p-3 space-y-2">
+        <Flex className="text-xs text-gray-400 mb-0.5" align="center" gap={1}>
           <i className="fas fa-tag text-orange-500"></i>
           <span>{record.categoryParent?.name}</span>
           {record.category && (
@@ -127,13 +122,13 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
           )}
         </Flex>
 
-        <h1 className="text-gray-900 font-bold text-lg leading-tight group-hover:text-orange-500 transition-colors duration-300">
+        <h1 className="text-gray-900 font-bold text-base leading-tight group-hover:text-orange-500 transition-colors duration-300">
           {truncateWithDots(record.name, 20)}
         </h1>
 
         {/* Price */}
         <div className="flex items-center">
-          <h1 className="text-orange-500 font-bold text-xl">
+          <h1 className="text-orange-500 font-bold text-lg">
             {record.price.toLocaleString()} đ
           </h1>
         </div>
@@ -142,7 +137,7 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
         <Flex
           justify="space-between"
           align="center"
-          className="mt-3 pt-3 border-t border-gray-100"
+          className="mt-2 pt-2 border-t border-gray-100"
         >
           <Flex vertical gap={1}>
             <Typography.Text className="text-gray-700 text-xs flex items-center gap-1">

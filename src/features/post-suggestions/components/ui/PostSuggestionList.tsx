@@ -4,8 +4,8 @@ import { API_KEY } from "@/features/posts/data/constant";
 import PostService from "@/features/posts/service";
 
 import { useQuery } from "@tanstack/react-query";
-import { Button, Card, Flex, Spin, Typography } from "antd";
-import { useMemo } from "react";
+import {  Card, Flex, Spin, Typography } from "antd";
+
 
 function PostSuggestionList() {
   const { data, isLoading } = useQuery({

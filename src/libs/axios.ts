@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from "axios";
 import { EMethod } from "@/constants";
 import AuthService from "@/features/auth/service";
 import { ICommonResponse } from "@/interfaces";
+import { postMessageHandler } from "@/components/mesage/ToastMessage";
 const baseURL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const NO_RETRY_HEADER = "x-no-retry";
 const apiConfig = axios.create({
@@ -28,18 +29,32 @@ apiConfig.interceptors.response.use(
   (response: AxiosResponse) => response?.data ?? response,
 
   async (error: AxiosError<ICommonResponse>) => {
-    const { config, response, code } = error;
+    const { config, response } = error;
 
-    console.log("error", error);
+    console.log("error", error.code);
 
     let errorMessage = "Something went wrong, please try again!";
 
-    if (code === "ECONNABORTED") {
-      errorMessage = "Request timeout. Please try again!";
-    } else if (code === "ERR_NETWORK") {
+    if (error.code === "ECONNABORTED") {
+      postMessageHandler({
+        text: "Request timeout. Please try again!",
+        type: "error",
+      });
+    } else if (error.code === "ERR_NETWORK") {
       errorMessage = "Network error. Please check your connection!";
+      postMessageHandler({
+        text: errorMessage,
+        type: "error",
+      });
     } else if (response && config) {
       const { status, data } = response;
+      if (status === 500) {
+        postMessageHandler({
+          text: "Something went wrong, please try again!",
+          type: "error",
+        });
+        return Promise.reject(error);
+      }
 
       if (status === 401 && !config.headers[NO_RETRY_HEADER]) {
         try {
@@ -76,6 +91,12 @@ apiConfig.interceptors.response.use(
           }
           return Promise.reject({ ...refreshError, message: errorMessage });
         }
+      }
+      if (status) {
+        postMessageHandler({
+          text: data?.message || errorMessage,
+          type: "error",
+        });
       }
 
       errorMessage = data?.message || errorMessage; // Nếu API có trả về message, dùng nó

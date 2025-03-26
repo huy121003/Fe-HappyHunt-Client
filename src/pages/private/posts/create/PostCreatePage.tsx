@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 function PostCreatePage() {
   const navigate = useNavigate();
-  const { onSuccess, onError } = usePostState();
+  const { onSuccess } = usePostState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: IPostPayload) => {
       const response = await PostService.create(data);
@@ -19,7 +19,7 @@ function PostCreatePage() {
         navigate("/post-management/waiting");
       });
     },
-    onError,
+
   });
   const onSubmit = (data: IPostPayload) => {
     mutate(data);

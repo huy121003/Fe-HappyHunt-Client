@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 function ButtonLogout() {
   const [open, setOpen] = React.useState(false);
-  const { onSuccess, onError } = useAuthState();
+  const { onSuccess } = useAuthState();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { mutate, isPending } = useMutation({
@@ -28,7 +28,7 @@ function ButtonLogout() {
         navigate("/login");
       });
     },
-    onError,
+
   });
   const handleLogout = () => {
     mutate();

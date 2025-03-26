@@ -1,7 +1,11 @@
 import { ISearchParams } from "@/interfaces";
 import { UploadFile } from "antd";
 import { EPostStatus } from "./constant";
-
+export interface IAttribute {
+  name: string;
+  value: string | number | boolean;
+  isShow?: boolean;
+}
 export interface IPost {
   _id: number;
   name: string;
@@ -48,10 +52,7 @@ export interface IPost {
     };
     specificAddress: string;
   };
-  attributes: {
-    name: string;
-    value?: string | number | boolean;
-  }[];
+  attributes: IAttribute[];
 }
 export interface IPostItem {
   _id: number;
@@ -115,10 +116,7 @@ export interface IPostPayload {
     ward: string;
     specificAddress: string;
   };
-  attributes: {
-    name: string;
-    value: string;
-  }[];
+  attributes: IAttribute[];
   saveImages?: string[];
   pricePayment?: number;
 }
@@ -126,10 +124,11 @@ export interface ISearchPost extends ISearchParams {
   category?: number;
   status?: string;
   categoryParent?: number;
+  attribute?: IAttribute[];
   isIndividual?: boolean;
-  province?: string;
-  district?: string;
-  ward?: string;
+  province?: number;
+  district?: number;
+  ward?: number;
   minPrice?: number;
   maxPrice?: number;
   name?: string;

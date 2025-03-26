@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function PostUpdatePage() {
   const navigate = useNavigate();
   const account = useAppSelector((state) => state.auth.account);
-  const { onSuccess, onError } = usePostState();
+  const { onSuccess } = usePostState();
   const { slugPost } = useParams<{ slugPost: string }>();
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [API_KEY.POST_DETAIL],
@@ -34,7 +34,6 @@ function PostUpdatePage() {
         navigate("/post-management/waiting");
       });
     },
-    onError,
   });
   const onSubmit = (data: IPostPayload) => {
     mutate(data);

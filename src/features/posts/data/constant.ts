@@ -4,6 +4,8 @@ export enum API_KEY {
   POST_STATUS = "POST_STATUS",
   POST_COUNT_SOLD = "POST_COUNT_SOLD",
   POST_SUGGESTION = "POST_SUGGESTION",
+  POST_RELATED = "POST_RELATED",
+  POST_USER = "POST_USER",
 }
 export enum EPostStatus {
   SELLING = "SELLING",
@@ -12,4 +14,11 @@ export enum EPostStatus {
   WAITING = "WAITING",
   HIDDEN = "HIDDEN",
   "WAITING|AI_CHECKING_FAILED" = "WAITING|AI_CHECKING_FAILED",
+}
+
+export enum ESort {
+  RELEVANCE = "relevance",
+  NEWEST = "newest",
+  LOWEST_PRICE = "lowest",
+  HIGHEST_PRICE = "highest",
 }

@@ -3,8 +3,6 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { API_KEY } from "../data/constant";
 import { API_KEY as POST_API_KEY } from "@/features/posts/data/constant";
-import { AxiosError } from "axios";
-import { ICommonResponse } from "@/interfaces";
 
 const useFavoritePostState = () => {
   const client = useQueryClient();
@@ -25,14 +23,8 @@ const useFavoritePostState = () => {
       onSuccessCallback();
     }
   };
-  const onError = (error: AxiosError<ICommonResponse<null>>) => {
-    postMessageHandler({
-      type: "error",
-      text: error.message,
-    });
-  };
 
-  return { onSuccess, onError };
+  return { onSuccess };
 };
 
 export default useFavoritePostState;

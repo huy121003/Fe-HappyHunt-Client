@@ -31,6 +31,7 @@ import ReasonRejectedModal, {
   RejectedImage,
 } from "@/features/posts/components/ui/ReasonRejectedModal";
 import { postMessageHandler } from "../mesage/ToastMessage";
+import ViewAnalyticModal from "@/features/posts/components/ui/ViewAnalyticModal";
 
 interface IProps {
   record: IPostItem;
@@ -50,7 +51,7 @@ const PostCardManagement: React.FC<IProps> = ({
   setRecord,
 }) => {
   const [showReason, setShowReason] = useState(false);
-
+  const [isOpenViewAnalyticModal, setIsOpenViewAnalyticModal] = useState(false);
   const client = useQueryClient();
   const navigate = useNavigate();
   const [status, setStatus] = useState<EPostStatus>(EPostStatus.SELLING);
@@ -144,7 +145,7 @@ const PostCardManagement: React.FC<IProps> = ({
         key="stats"
         icon={<BarChartOutlined />}
         hidden={record.status !== EPostStatus.SELLING}
-        onClick={() => navigate(`/post-analytics/${record.slug}`)}
+        onClick={() => setIsOpenViewAnalyticModal(true)}
       >
         View Analytics
       </Menu.Item>
@@ -384,6 +385,12 @@ const PostCardManagement: React.FC<IProps> = ({
             (img) => img.reasonReject && img.reasonReject.length > 0
           ) as RejectedImage[]
         }
+      />
+      <ViewAnalyticModal
+        postId={record._id}
+        isOpen={isOpenViewAnalyticModal}
+        setIsOpen={setIsOpenViewAnalyticModal}
+        totalClick={record?.clickCount}
       />
     </Card>
   );

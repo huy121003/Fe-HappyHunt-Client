@@ -15,6 +15,7 @@ export interface ILoginResponse {
   description: string;
   username: string;
   isBanned: boolean;
+  balance: number;
   avatar: string;
   isVip: boolean;
   address: {

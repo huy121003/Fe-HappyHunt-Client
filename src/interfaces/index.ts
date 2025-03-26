@@ -19,7 +19,7 @@ export interface IPagedResponse<L = unknown>
 export interface ISearchParams {
   page?: number;
   size?: number;
-  sort?: string[];
+  sort?: string;
 }
 export interface ITableProps<T> extends Pick<TableProps<T>, "onChange"> {
   data?: T[];

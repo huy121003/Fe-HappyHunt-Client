@@ -5,6 +5,9 @@ export interface IAttribute {
   name: string;
   type: Type;
   values?: string[];
+  isRequired?: boolean;
+  isFilter?: boolean;
+  isShow?: boolean;
 }
 export interface ICategory {
   _id: number;
@@ -12,7 +15,9 @@ export interface ICategory {
   parent: {
     _id: number;
     name: string;
+    slug: string;
   };
+  slug: string;
   url: string;
   description: string;
   image: string;
@@ -31,6 +36,7 @@ export interface ICategoryItem {
   parent?: {
     _id: number;
     name: string;
+    slug: string;
   };
 }
 

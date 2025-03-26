@@ -26,7 +26,7 @@ export const initialState = {
     username: "",
     address: null,
     _id: null,
-    coin: 0,
+    balance: 0,
   },
 };
 
@@ -76,7 +76,7 @@ export const SAuthSlice = createSlice({
         username: "",
         address: null,
         _id: null,
-        coin: 0,
+        balance: 0,
       };
     },
   },

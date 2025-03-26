@@ -16,6 +16,11 @@ class CategoryService {
       false
     );
   };
+  static getChildren = (
+    parentId: number
+  ): Promise<ICommonResponse<ICategoryItem[]>> => {
+    return apiRequest(EMethod.GET, `${this.baseUrl}/child/${parentId}`, false);
+  };
 
   static getAll = (): Promise<ICommonResponse<ICategoryItem[]>> => {
     return apiRequest(EMethod.GET, `${this.baseUrl}`, false);
@@ -23,6 +28,9 @@ class CategoryService {
 
   static getbyId = (id: number): Promise<ICommonResponse<ICategory>> => {
     return apiRequest(EMethod.GET, `${this.baseUrl}/${id}`, false);
+  };
+  static getBySlug = (slug: string): Promise<ICommonResponse<ICategory>> => {
+    return apiRequest(EMethod.GET, `${this.baseUrl}/slug/${slug}`, false);
   };
 }
 

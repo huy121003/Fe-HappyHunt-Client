@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import CButtonActionIcon from "./CButtonActionIcon";
-import { Tooltip } from "antd";
+
 function ButtonStore() {
   const navigate = useNavigate();
   return (

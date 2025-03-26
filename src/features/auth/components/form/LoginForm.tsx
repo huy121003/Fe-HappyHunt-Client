@@ -15,7 +15,7 @@ function LoginForm() {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { onSuccess, onError } = useAuthState();
+  const { onSuccess } = useAuthState();
   const loginMutation = useMutation({
     mutationFn: async (data: ILoginRequest) => {
       const response = await AuthService.login(data);
@@ -29,8 +29,6 @@ function LoginForm() {
         navigate("/");
       });
     },
-
-    onError,
   });
   const onSubmit = async () => {
     const values = await form.validateFields();

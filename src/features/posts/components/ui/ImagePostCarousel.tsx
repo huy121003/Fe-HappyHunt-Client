@@ -3,7 +3,6 @@ import { Carousel, Image, Tooltip } from "antd";
 
 import { postMessageHandler } from "@/components/mesage/ToastMessage";
 import ButtonFavorite1 from "@/features/favorite-posts/components/ui/ButtonFavorite1";
-import { data } from "react-router-dom";
 import { IPost } from "../../data/interface";
 import { ShareAltOutlined } from "@ant-design/icons";
 
