@@ -1,21 +1,21 @@
-import { SelectProps } from 'antd';
-import { IProvinceItem } from '../../data/interface';
-import useLoadMore, { IFilters } from '@/hooks/useLoadMore';
-import { API_KEY } from '../../data/constant';
-import { useMemo } from 'react';
-import CInfiniteSelect from '@/components/CInfiniteSelect';
-import ProvincesService from '../../service';
+import { SelectProps } from "antd";
+import { IProvinceItem } from "../../data/interface";
+import useLoadMore, { IFilters } from "@/hooks/useLoadMore";
+import { API_KEY } from "../../data/constant";
+import { useMemo } from "react";
+import CInfiniteSelect from "@/components/form/CInfiniteSelect";
+import ProvincesService from "../../service";
 
 interface IProps extends SelectProps {
   defaultSelected?: Partial<IProvinceItem>[];
 }
-type ILabelRender = SelectProps['labelRender'];
+type ILabelRender = SelectProps["labelRender"];
 
 const SelectProvince: React.FC<IProps> = ({ defaultSelected, ...props }) => {
   const fetchFn = ({ search, ...filter }: IFilters) => {
     return ProvincesService.getAll({
       ...filter,
-      name: search || '',
+      name: search || "",
     });
   };
 
@@ -34,7 +34,7 @@ const SelectProvince: React.FC<IProps> = ({ defaultSelected, ...props }) => {
   const labelRender: ILabelRender = (props) => {
     const { label, value } = props;
     return (
-      label || defaultSelected?.find((item) => item._id === value)?.name || ''
+      label || defaultSelected?.find((item) => item._id === value)?.name || ""
     );
   };
 

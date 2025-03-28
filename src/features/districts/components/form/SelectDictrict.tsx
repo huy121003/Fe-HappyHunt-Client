@@ -1,27 +1,27 @@
-import { SelectProps } from 'antd';
-import { IDistrictItem } from '../../data/interface';
-import useLoadMore, { IFilters } from '@/hooks/useLoadMore';
-import { API_KEY } from '../../data/constant';
-import { useMemo } from 'react';
-import CInfiniteSelect from '@/components/CInfiniteSelect';
-import DistrictsService from '../../service';
+import { SelectProps } from "antd";
+import { IDistrictItem } from "../../data/interface";
+import useLoadMore, { IFilters } from "@/hooks/useLoadMore";
+import { API_KEY } from "../../data/constant";
+import { useMemo } from "react";
+import CInfiniteSelect from "@/components/form/CInfiniteSelect";
+import DistrictsService from "../../service";
 
 interface IProps extends SelectProps {
   defaultSelected?: Partial<IDistrictItem>[];
-  provinceId?: number;
+  province?: number;
 }
-type ILabelRender = SelectProps['labelRender'];
+type ILabelRender = SelectProps["labelRender"];
 
 const SelectDictrict: React.FC<IProps> = ({
   defaultSelected,
-  provinceId,
+  province,
   ...props
 }) => {
   const fetchFn = ({ search, ...filter }: IFilters) => {
     return DistrictsService.getAll({
       ...filter,
-      name: search || '',
-      ...(provinceId && { provinceId }),
+      name: search || "",
+      ...(province && { province }),
     });
   };
 
@@ -40,13 +40,12 @@ const SelectDictrict: React.FC<IProps> = ({
   const labelRender: ILabelRender = (props) => {
     const { label, value } = props;
     return (
-      label || defaultSelected?.find((item) => item._id === value)?.name || ''
+      label || defaultSelected?.find((item) => item._id === value)?.name || ""
     );
   };
 
   return (
     <CInfiniteSelect
-    
       {...props}
       options={options}
       labelRender={labelRender}

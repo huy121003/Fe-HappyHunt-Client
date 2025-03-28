@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from "axios";
 import { EMethod } from "@/constants";
-import { postMessageHandler } from "@/components/ToastMessage";
 import AuthService from "@/features/auth/service";
 import { ICommonResponse } from "@/interfaces";
+import { postMessageHandler } from "@/components/mesage/ToastMessage";
 const baseURL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const NO_RETRY_HEADER = "x-no-retry";
 const apiConfig = axios.create({
@@ -23,9 +23,6 @@ apiConfig.interceptors.request.use((config) => {
 // Interceptor Response
 
 // Xử lý thông báo lỗi
-const showError = (message: string) => {
-  postMessageHandler({ type: "error", text: message });
-};
 
 // Interceptor xử lý response
 apiConfig.interceptors.response.use(
@@ -34,59 +31,78 @@ apiConfig.interceptors.response.use(
   async (error: AxiosError<ICommonResponse>) => {
     const { config, response } = error;
 
-    console.log("error", error);
+    console.log("error", error.code);
 
-    if (!config || !response) {
-      return Promise.reject(error);
-    }
+    let errorMessage = "Something went wrong, please try again!";
 
-    const { status } = response;
-
-    // Xử lý lỗi 401 - Unauthorized (Không retry nếu đã thử refresh trước đó)
-    if (status === 401 && !config.headers[NO_RETRY_HEADER]) {
-      try {
-        if (
-          ["/login", "/register", "/forgot-password"].includes(
-            window.location.pathname
-          )
-        ) {
-          return Promise.reject(error); // Không xử lý refresh token trên trang không cần auth
-        }
-
-        // Lấy token mới
-        const res = await AuthService.getNewAccessToken();
-        const accessToken = res?.data?.access_token;
-
-        if (!accessToken) {
-          throw new Error("Failed to get new access token");
-        }
-
-        // Lưu token mới vào localStorage
-        localStorage.setItem("access_token", accessToken);
-
-        // Gán token mới vào request header
-        config.headers.Authorization = `Bearer ${accessToken}`;
-        config.headers[NO_RETRY_HEADER] = "true"; // Đánh dấu để tránh lặp vô hạn
-
-        // Gửi lại request
-        return apiConfig.request(config);
-      } catch (refreshError) {
-        showError("Your session has expired, please login again!");
-        localStorage.removeItem("access_token");
-
-        if (
-          !["/login", "/register", "/forgot-password"].includes(
-            window.location.pathname
-          )
-        ) {
-          window.location.href = "/login";
-        }
-        return Promise.reject(refreshError);
+    if (error.code === "ECONNABORTED") {
+      postMessageHandler({
+        text: "Request timeout. Please try again!",
+        type: "error",
+      });
+    } else if (error.code === "ERR_NETWORK") {
+      errorMessage = "Network error. Please check your connection!";
+      postMessageHandler({
+        text: errorMessage,
+        type: "error",
+      });
+    } else if (response && config) {
+      const { status, data } = response;
+      if (status === 500) {
+        postMessageHandler({
+          text: "Something went wrong, please try again!",
+          type: "error",
+        });
+        return Promise.reject(error);
       }
+
+      if (status === 401 && !config.headers[NO_RETRY_HEADER]) {
+        try {
+          if (
+            ["/login", "/register", "/forgot-password"].includes(
+              window.location.pathname
+            )
+          ) {
+            return Promise.reject(error);
+          }
+
+          const res = await AuthService.getNewAccessToken();
+          const accessToken = res?.data?.access_token;
+
+          if (!accessToken) {
+            throw new Error("Failed to get new access token");
+          }
+
+          localStorage.setItem("access_token", accessToken);
+          config.headers.Authorization = `Bearer ${accessToken}`;
+          config.headers[NO_RETRY_HEADER] = "true";
+
+          return apiConfig.request(config);
+        } catch (refreshError) {
+          errorMessage = "Your session has expired, please login again!";
+          localStorage.removeItem("access_token");
+
+          if (
+            !["/login", "/register", "/forgot-password"].includes(
+              window.location.pathname
+            )
+          ) {
+            window.location.href = "/login";
+          }
+          return Promise.reject({ ...refreshError, message: errorMessage });
+        }
+      }
+      if (status) {
+        postMessageHandler({
+          text: data?.message || errorMessage,
+          type: "error",
+        });
+      }
+
+      errorMessage = data?.message || errorMessage; // Nếu API có trả về message, dùng nó
     }
 
-    // Trả về lỗi để các hàm gọi API có thể xử lý tiếp
-    return Promise.reject(response?.data ?? error);
+    return Promise.reject({ ...error, message: errorMessage });
   }
 );
 

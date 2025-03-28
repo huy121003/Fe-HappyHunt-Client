@@ -1,7 +1,10 @@
-import CButtonActionIcon from "@/components/CButtonActionIcon";
+import CButtonActionIcon from "@/components/buttons/CButtonActionIcon";
+
 function ButtionLinkedIn() {
   return (
     <CButtonActionIcon
+    
+      title="LinkedIn"
       icon="fa-brands fa-linkedin"
       href="https://www.linkedin.com/in/quanghuy2003/"
     />

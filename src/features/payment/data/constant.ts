@@ -1,0 +1,11 @@
+export const API_KEY = {
+  PAYMENT: "PAYMENT",
+  PAYMENT_DETAIL: "PAYMENT_DETAIL",
+};
+export enum EStatus {
+  PENDING = "PENDING",
+  SUCCESS = "SUCCESS",
+  CANCELLED = "CANCELLED",
+  FAILED = "FAILED",
+}
+export const Amount = [10000, 20000, 50000, 100000, 200000, 500000, 1000000];

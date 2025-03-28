@@ -14,7 +14,7 @@ function RigntHeader() {
   return (
     <Flex vertical justify="center" align="center">
       {isAuthen ? (
-        <Flex gap={10} justify="center" align="center">
+        <Flex gap={5} justify="center" align="center">
           <ButtonNoti />
           <ButtonMess />
           <ButtonStore />

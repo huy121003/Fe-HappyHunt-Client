@@ -1,5 +1,5 @@
 import { Carousel, Flex, Image } from 'antd';
-import CLogo from '../CLogo';
+import CLogo from '../ui/CLogo';
 interface AuthLayoutProps {
   children: React.ReactNode;
 }

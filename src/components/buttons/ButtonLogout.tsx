@@ -1,4 +1,4 @@
-import CDeleteModal from "@/components/CDeleteModal";
+import CDeleteModal from "@/components/modal/CDeleteModal";
 import useAuthState from "@/features/auth/hooks/useAuthState";
 
 import AuthService from "@/features/auth/service";
@@ -6,13 +6,13 @@ import { useAppDispatch } from "@/redux/reduxHook";
 import { logoutAction } from "@/redux/slice/SAuthSlice";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
-import { Button, Typography } from "antd";
+import { Typography } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function ButtonLogout() {
   const [open, setOpen] = React.useState(false);
-  const { onSuccess, onError } = useAuthState();
+  const { onSuccess } = useAuthState();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { mutate, isPending } = useMutation({
@@ -28,7 +28,7 @@ function ButtonLogout() {
         navigate("/login");
       });
     },
-    onError,
+
   });
   const handleLogout = () => {
     mutate();

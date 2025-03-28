@@ -1,7 +1,6 @@
 import React from "react";
 import { Layout } from "antd";
 import Header from "./Header/Header";
-import Bottom from "./Bottom/Bottom";
 
 const { Content } = Layout;
 
@@ -11,11 +10,13 @@ interface AppLayoutProps {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   return (
-    <Layout className="w-full h-full ">
+    <Layout className="w-full h-full bg-gray-100">
       <Header />
-      <Content className="mt-[100px] ">
+      <Content
+        className="mt-[100px] h-[calc(100vh-100px)]
+       overflow-y-auto overflow-x-hidden"
+      >
         {children}
-       
       </Content>
     </Layout>
   );

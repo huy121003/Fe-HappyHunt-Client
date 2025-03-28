@@ -4,7 +4,7 @@ import {
   IForgotPasswordRequest,
 } from "../../data/interface";
 import { Flex, Form, Typography } from "antd";
-import CInput from "@/components/CInput";
+import CInput from "@/components/form/CInput";
 import CButton from "@/components/buttons/CButton";
 import OtpInput from "react18-input-otp";
 import { useNavigate } from "react-router-dom";

@@ -2,6 +2,11 @@ import { createBrowserRouter, Outlet } from "react-router-dom";
 import { ReactNode, Suspense, lazy } from "react";
 import { CLoadingPage, CNotFoundPage } from "@/components";
 import AppLayout from "@/components/layouts/AppLayout/AppLayout";
+import { PostFilterProvider } from "@/features/posts/components/ui/PostFilterProvider ";
+import { PostFilterProvider as PostCategoryParentFilterProvider } from "@/features/post-category-parent/components/PostFilterProvider";
+import PostManagementLayout from "@/features/posts/layout/PostManagementLayout";
+import RedirectPage from "@/pages/private/redirect/RedirectPage";
+import AppCategoryLayout from "@/features/post-category-parent/layout/AppCategoryLayout";
 //import RoleProtectedRoute from "@/components/layouts/RoleProtectedRoute";
 const withSuspense = (
   node: ReactNode,
@@ -15,9 +20,20 @@ const ForgotPasswordPage = lazy(
   () => import("@/pages/public/forgot-password/ForgotPasswordPage")
 );
 const HomePage = lazy(() => import("@/pages/private/home/HomePage"));
-const CreatPostPage = lazy(
-  () => import("@/pages/private/create-post/CreateNewPost")
+const PostCreatePage = lazy(
+  () => import("@/pages/private/posts/create/PostCreatePage")
 );
+const PostPage = lazy(() => import("@/pages/private/posts/PostPage"));
+const PostUpdatePage = lazy(
+  () => import("@/pages/private/posts/update/PostUpdatePage")
+);
+const PostDetailPage = lazy(
+  () => import("@/pages/private/posts/detail/PostDetailPage")
+);
+const PostCategoryParentPage = lazy(
+  () => import("@/pages/private/post-category-parent/PostCategoryParentPage")
+);
+const PaymentPage = lazy(() => import("@/pages/private/payment/PaymentPage"));
 const router = createBrowserRouter([
   {
     path: "*",
@@ -27,6 +43,7 @@ const router = createBrowserRouter([
     path: "/login",
     element: withSuspense(<LoginPage />, <CLoadingPage />),
   },
+
   {
     path: "/register",
     element: withSuspense(<RegisterPage />, <CLoadingPage />),
@@ -37,19 +54,46 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: (
-      <AppLayout>
-        <Outlet />
-      </AppLayout>
-    ),
+    element: <Outlet />,
     children: [
       {
         index: true,
-        element: withSuspense(<HomePage />, <CLoadingPage />),
+        element: withSuspense(
+          <AppLayout>
+            <HomePage />
+          </AppLayout>,
+          <CLoadingPage />
+        ),
+      },
+      {
+        path: "payment",
+        element: (
+          <AppLayout>
+            <Outlet />
+          </AppLayout>
+        ),
+        children: [
+          {
+            index: true,
+            element: withSuspense(<PaymentPage />, <CLoadingPage />),
+          },
+          {
+            path: "success",
+            element: withSuspense(<div>Payment Success</div>, <CLoadingPage />),
+          },
+          {
+            path: "cancel",
+            element: withSuspense(<div>Payment Cancel</div>, <CLoadingPage />),
+          },
+        ],
       },
       {
         path: "profile/:slugProfile",
-        element: <Outlet />,
+        element: (
+          <AppLayout>
+            <Outlet />
+          </AppLayout>
+        ),
         children: [
           {
             index: true,
@@ -67,52 +111,87 @@ const router = createBrowserRouter([
       },
       {
         path: "change-password",
-        element: withSuspense(<div>Change Password</div>, <CLoadingPage />),
+        element: withSuspense(
+          <AppLayout>
+            <div>Change Password</div>
+          </AppLayout>,
+          <CLoadingPage />
+        ),
       },
       {
         path: "change-profile",
-        element: withSuspense(<div>Change Profile</div>, <CLoadingPage />),
+        element: withSuspense(
+          <AppLayout>
+            <div>Change Profile</div>
+          </AppLayout>,
+          <CLoadingPage />
+        ),
       },
       {
         path: "create-post",
-        element: withSuspense(<CreatPostPage />, <CLoadingPage />),
+        element: withSuspense(
+          <AppLayout>
+            <PostCreatePage />
+          </AppLayout>,
+          <CLoadingPage />
+        ),
+      },
+      {
+        path: "update-post/:slugPost",
+        element: withSuspense(
+          <AppLayout>
+            <PostUpdatePage />
+          </AppLayout>,
+          <CLoadingPage />
+        ),
+      },
+      {
+        path: "detail-post/:slugPost",
+        element: withSuspense(
+          <AppLayout>
+            <PostDetailPage key={window.location.pathname} />
+          </AppLayout>,
+          <CLoadingPage />
+        ),
+      },
+      {
+        path: "redirect",
+        element: withSuspense(
+          <AppLayout>
+            <RedirectPage />
+          </AppLayout>,
+          <CLoadingPage />
+        ),
       },
       {
         path: "post-management",
-        element: <Outlet />,
+        element: (
+          <AppLayout>
+            <PostFilterProvider>
+              <PostManagementLayout>
+                <Outlet />
+              </PostManagementLayout>
+            </PostFilterProvider>
+          </AppLayout>
+        ),
         children: [
           {
             index: true,
-            element: withSuspense(
-              <div>Post ActiveActive</div>,
-              <CLoadingPage />
-            ),
+            element: withSuspense(<PostPage />, <CLoadingPage />),
           },
           {
-            path: "active",
-            element: withSuspense(<div>Post Active</div>, <CLoadingPage />),
-          },
-          {
-            path: "expired",
-            element: withSuspense(<div>Post Expired</div>, <CLoadingPage />),
-          },
-          {
-            path: "pending",
-            element: withSuspense(<div>Post Pending</div>, <CLoadingPage />),
-          },
-          {
-            path: "reject",
-            element: withSuspense(<div>Post Reject</div>, <CLoadingPage />),
-          },
-          {
-            path: "hidden",
-            element: withSuspense(<div>Post Hidden</div>, <CLoadingPage />),
+            path: ":status",
+            element: withSuspense(<PostPage />, <CLoadingPage />),
           },
         ],
       },
       {
         path: "post/:slugPost",
-        element: <Outlet />,
+        element: (
+          <AppLayout>
+            <Outlet />
+          </AppLayout>
+        ),
         children: [
           {
             index: true,
@@ -126,7 +205,11 @@ const router = createBrowserRouter([
       },
       {
         path: "messages",
-        element: <Outlet />,
+        element: (
+          <AppLayout>
+            <Outlet />
+          </AppLayout>
+        ),
         children: [
           {
             index: true,
@@ -144,12 +227,16 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: withSuspense(<div>Category</div>, <CLoadingPage />),
+            element: withSuspense(
+              <PostCategoryParentFilterProvider>
+                <AppCategoryLayout>
+                  <PostCategoryParentPage />
+                </AppCategoryLayout>
+              </PostCategoryParentFilterProvider>,
+              <CLoadingPage />
+            ),
           },
-          {
-            path: "post/:slugPost",
-            element: withSuspense(<div>Post Detail</div>, <CLoadingPage />),
-          },
+
           {
             path: "child-category/:slugChildCategory",
             element: <Outlet />,
@@ -160,10 +247,6 @@ const router = createBrowserRouter([
                   <div>Child Category</div>,
                   <CLoadingPage />
                 ),
-              },
-              {
-                path: "post/:slugPost",
-                element: withSuspense(<div>Post Detail</div>, <CLoadingPage />),
               },
             ],
           },

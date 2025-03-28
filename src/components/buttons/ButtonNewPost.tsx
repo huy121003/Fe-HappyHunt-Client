@@ -6,8 +6,10 @@ function ButtonNewPost() {
   return (
     <Button
       type="default"
-      size="large"
-      onClick={() => navigate("/create-post")}
+      size="small"
+      onClick={() => {
+        navigate("/create-post");
+      }}
       icon={<i className="fas fa-plus"></i>}
     >
       New Post

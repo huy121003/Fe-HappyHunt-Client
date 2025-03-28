@@ -1,29 +1,29 @@
-import { SelectProps } from 'antd';
-import { IWardItem } from '../../data/interface';
-import useLoadMore, { IFilters } from '@/hooks/useLoadMore';
-import { API_KEY } from '../../data/constant';
-import { useMemo } from 'react';
-import CInfiniteSelect from '@/components/CInfiniteSelect';
-import WardService from '../../service';
+import { SelectProps } from "antd";
+import { IWardItem } from "../../data/interface";
+import useLoadMore, { IFilters } from "@/hooks/useLoadMore";
+import { API_KEY } from "../../data/constant";
+import { useMemo } from "react";
+import CInfiniteSelect from "@/components/form/CInfiniteSelect";
+import WardService from "../../service";
 
 interface IProps extends SelectProps {
   defaultSelected?: Partial<IWardItem>[];
-  districtId?: number;
-  provinceId?: number;
+  district?: number;
+  province?: number;
 }
-type ILabelRender = SelectProps['labelRender'];
+type ILabelRender = SelectProps["labelRender"];
 const SelectWard: React.FC<IProps> = ({
   defaultSelected,
-  districtId,
-  provinceId,
+  district,
+  province,
   ...props
 }) => {
   const fetchFn = ({ search, ...filter }: IFilters) => {
     return WardService.getAll({
       ...filter,
-      name: search || '',
-      ...(districtId && { districtId }),
-      ...(provinceId && { provinceId }),
+      name: search || "",
+      ...(district && { district }),
+      ...(province && { province }),
     });
   };
 
@@ -42,7 +42,7 @@ const SelectWard: React.FC<IProps> = ({
   const labelRender: ILabelRender = (props) => {
     const { label, value } = props;
     return (
-      label || defaultSelected?.find((item) => item._id === value)?.name || ''
+      label || defaultSelected?.find((item) => item._id === value)?.name || ""
     );
   };
 

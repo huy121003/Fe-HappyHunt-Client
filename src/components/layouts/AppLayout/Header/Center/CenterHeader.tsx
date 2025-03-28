@@ -1,4 +1,4 @@
-import CSearch from "@/components/CSearch";
+import CSearch from "@/components/form/CSearch";
 import { Flex } from "antd";
 import ButtonCate from "../../../../buttons/ButtonCate";
 

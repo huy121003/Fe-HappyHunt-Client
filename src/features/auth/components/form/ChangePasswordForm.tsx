@@ -3,7 +3,7 @@ import React from "react";
 import { IChangePassword } from "../../data/interface";
 // import CHeaderForm from '@/components/CHeaderForm';
 
-import CPassword from "@/components/CPassword";
+import CPassword from "@/components/form/CPassword";
 
 interface IChangePasswordFormProps {
   onSubmit: (values: IChangePassword) => void;
