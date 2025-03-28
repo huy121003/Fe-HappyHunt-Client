@@ -10,6 +10,7 @@ import usePaymentState from "../../hooks/usePaymentState";
 
 import { useAppDispatch, useAppSelector } from "@/redux/reduxHook";
 import { updateAccountAction } from "@/redux/slice/SAuthSlice";
+import PayOsService from "@/features/payos/service";
 
 interface PaymentModalProps {
   id: number;
@@ -150,9 +151,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ id, open, setOpen }) => {
   });
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const response = await PaymentService.updateStatus(
-        Number(id),
-        EStatus.CANCEL
+      const response = await PayOsService.cancelPaymentLink(
+        String(dataPayment?.paymentLinkId)
       );
       return response.data;
     },
@@ -168,11 +168,15 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ id, open, setOpen }) => {
       return response.data;
     },
     onSuccess: (data) => {
-      if (data?.status === EStatus.PAID) {
-        onSuccess("Payment has been paid", () => {
-          dispatch(
-            updateAccountAction({ balance: balance + (dataPayment?.amount ?? 0) })
-          );
+      if (data?.status === EStatus.SUCCESS || data?.status === EStatus.FAILED) {
+        onSuccess(`Payment ${data?.status}`, () => {
+          if (data?.status === EStatus.SUCCESS) {
+            dispatch(
+              updateAccountAction({
+                balance: balance + (dataPayment?.amount ?? 0),
+              })
+            );
+          }
           setOpen(false);
         });
       }

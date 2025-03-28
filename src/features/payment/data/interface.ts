@@ -1,4 +1,3 @@
-
 import { EStatus } from "./constant";
 import { ISearchParams } from "@/interfaces";
 
@@ -29,6 +28,7 @@ export interface IPaymentItem {
   status: EStatus;
   checkoutUrl: string;
   qrCode: string;
+  transactionDateTime: string;
 }
 
 export interface ISearchPayment extends ISearchParams {

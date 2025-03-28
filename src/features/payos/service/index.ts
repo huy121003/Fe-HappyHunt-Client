@@ -17,6 +17,9 @@ class PayOsService {
       data
     );
   };
+  static cancelPaymentLink = (id: string): Promise<ICommonResponse<null>> => {
+    return apiRequest(EMethod.DELETE, `${this.baseUrl}/cancel/${id}`);
+  };
 }
 
 export default PayOsService;

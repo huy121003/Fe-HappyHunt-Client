@@ -1,18 +1,10 @@
-import  { useState } from "react";
+import { useState } from "react";
 import usePaymentFilter from "../../hooks/usePaymentFilter";
 import { useQuery } from "@tanstack/react-query";
 import { API_KEY, EStatus } from "../../data/constant";
 import PaymentService from "../../service";
 import { CTable } from "@/components";
-import {
-  Button,
-  
-  Flex,
-  TableColumnsType,
-  Tag,
-  Tooltip,
-  Typography,
-} from "antd";
+import { Button, Flex, TableColumnsType, Tag, Tooltip, Typography } from "antd";
 import dayjs from "dayjs";
 import { IPaymentItem } from "../../data/interface";
 import FilterLayout from "@/components/layouts/FilterLayout";
@@ -35,7 +27,7 @@ function PaymentTable() {
       return response.data;
     },
   });
-  const columns: TableColumnsType = [
+  const columns: TableColumnsType<IPaymentItem> = [
     {
       title: "No",
       dataIndex: "index",
@@ -60,9 +52,9 @@ function PaymentTable() {
             color={
               value === EStatus.PENDING
                 ? "orange"
-                : value === EStatus.PAID
+                : value === EStatus.SUCCESS
                   ? "green"
-                  : value === EStatus.CANCEL
+                  : value === EStatus.CANCELLED
                     ? "red"
                     : "blue"
             }
@@ -78,9 +70,14 @@ function PaymentTable() {
       render: (value: string) => dayjs(value).format("DD/MM/YYYY HH:mm:ss"),
     },
     {
-      title: "Updated At",
-      dataIndex: "updatedAt",
-      render: (value: string) => dayjs(value).format("DD/MM/YYYY HH:mm:ss"),
+      title: "Transaction Date",
+      dataIndex: "transactionDateTime",
+      render: (value: string, record) => {
+        if (record?.status === EStatus.SUCCESS) {
+          return dayjs(value).format("DD/MM/YYYY HH:mm:ss");
+        }
+        return null;
+      },
     },
     {
       title: "Action",
@@ -123,11 +120,11 @@ function PaymentTable() {
                 },
                 {
                   label: "Paid",
-                  value: EStatus.PAID,
+                  value: EStatus.SUCCESS,
                 },
                 {
                   label: "Cancel",
-                  value: EStatus.CANCEL,
+                  value: EStatus.CANCELLED,
                 },
               ]}
             />

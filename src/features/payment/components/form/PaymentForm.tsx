@@ -1,12 +1,13 @@
 import { IPaymentLinkPayload } from "@/features/payos/data/interface";
 import PayOsService from "@/features/payos/service";
 import { useMutation } from "@tanstack/react-query";
-import  { useState } from "react";
+import { useState } from "react";
 import usePaymentState from "../../hooks/usePaymentState";
-import {  Typography, Button, Flex } from "antd";
+import { Typography, Button, Flex } from "antd";
 import { postMessageHandler } from "@/components/mesage/ToastMessage";
 import PaymentModal from "../ui/PaymentModal";
 import { useAppSelector } from "@/redux/reduxHook";
+import { Amount } from "../../data/constant";
 
 function PaymentForm() {
   const balance = useAppSelector((state) => state.auth.account?.balance);
@@ -50,27 +51,25 @@ function PaymentForm() {
           Top-up
         </Typography.Title>
         <Typography.Text className=" text-black">
-          Balance: {balance.toLocaleString()} VND
+          Balance: {balance?.toLocaleString()} VND
         </Typography.Text>
       </Flex>
       <Flex className="w-full">
         <Flex className="w-full justify-between grid grid-cols-4 gap-4">
-          {[10000, 20000, 50000, 100000, 200000, 500000, 1000000].map(
-            (price) => (
-              <Button
-                key={price}
-                type="default"
-                onClick={() => setSelectedPrice(price)}
-                className={`p-10 text-center border rounded-md transition-all ${
-                  selectedPrice === price
-                    ? "bg-orange-500 text-white border-orange-500"
-                    : "bg-white text-black border-gray-300 hover:bg-orange-100"
-                }`}
-              >
-                {price.toLocaleString()} VND
-              </Button>
-            )
-          )}
+          {Amount.map((price) => (
+            <Button
+              key={price}
+              type="default"
+              onClick={() => setSelectedPrice(Number(price))}
+              className={`p-10 text-center border rounded-md transition-all ${
+                selectedPrice === price
+                  ? "bg-orange-500 text-white border-orange-500"
+                  : "bg-white text-black border-gray-300 hover:bg-orange-100"
+              }`}
+            >
+              {price.toLocaleString()} VND
+            </Button>
+          ))}
         </Flex>
       </Flex>
 
