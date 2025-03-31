@@ -13,7 +13,7 @@ function ButtonActionProfile() {
       label: (
         <Typography.Text
           onClick={() => {
-            navigate("/profile");
+            navigate(`/profile/${profile?.slug}`);
           }}
         >
           <UserOutlined /> Profile

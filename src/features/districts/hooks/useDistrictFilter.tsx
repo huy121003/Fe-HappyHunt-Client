@@ -1,12 +1,12 @@
-import useTablePagination from '@/hooks/useTablePagination';
-import { useMemo, useState } from 'react';
-import { ISearchDistrict } from '../data/interface';
-import { SearchProps } from 'antd/es/input';
-import { debounce } from 'lodash';
+import useTablePagination from "@/hooks/useTablePagination";
+import { useMemo, useState } from "react";
+import { ISearchDistrict } from "../data/interface";
+import { SearchProps } from "antd/es/input";
+import { debounce } from "lodash";
 
 const useDistrictFilter = () => {
-  const [search, setSearch] = useState<string>('');
-  const [provinceId, setProvinceId] = useState<number>();
+  const [search, setSearch] = useState<string>("");
+  const [province, setprovince] = useState<number>();
   const {
     parsedPagination,
     handleChangePagination,
@@ -16,17 +16,17 @@ const useDistrictFilter = () => {
   const computtedFilter = useMemo(() => {
     const filters: ISearchDistrict = {
       ...parsedPagination,
-      name: search || '',
-      ...(provinceId && { provinceId }),
+      name: search || "",
+      ...(province && { province }),
     };
     return filters;
   }, [search, parsedPagination]);
-  const handleInputSearch: SearchProps['onInput'] = debounce((event) => {
+  const handleInputSearch: SearchProps["onInput"] = debounce((event) => {
     handleResetPagination();
     setSearch((event.target as HTMLInputElement).value);
   }, 500);
-  const handleSelectProvince = (provinceId: number | undefined) => {
-    setProvinceId(provinceId);
+  const handleSelectProvince = (province: number | undefined) => {
+    setprovince(province);
     handleResetPagination();
   };
   return {

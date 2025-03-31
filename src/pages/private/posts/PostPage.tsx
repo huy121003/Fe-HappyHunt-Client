@@ -47,9 +47,8 @@ function PostPage() {
         return response.data;
       },
       onSuccess: () => {
-        onSuccess("Post status updated successfully");
+        onSuccess("Confirm sold and hide this post successfully");
       },
-     
     });
 
   const handleDelete = (record: IPostItem) => {

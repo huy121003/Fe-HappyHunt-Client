@@ -3,6 +3,7 @@ import { TreeSelect, FormInstance } from "antd";
 import { API_KEY } from "../data/constants";
 import CategoryService from "../service";
 import { ICategoryItem } from "../data/interface";
+import { useState } from "react";
 
 interface INode {
   title: string;
@@ -53,6 +54,7 @@ const BuildMenuTree = (categories: ICategoryItem[]): INode[] => {
   return tree;
 };
 const CategorySelectorPost = ({ form, defaultValue }: IProps) => {
+  const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
   const { data, isFetched } = useQuery({
     queryKey: [API_KEY.GET_CATEGORIES],
     queryFn: async () => {
@@ -72,6 +74,8 @@ const CategorySelectorPost = ({ form, defaultValue }: IProps) => {
       placeholder="Select category"
       treeDefaultExpandAll
       loading={!isFetched}
+      treeExpandedKeys={expandedKeys}
+      onTreeExpand={(keys) => setExpandedKeys(keys.map(String).slice(-1))}
       onChange={(value: string | string[]) => {
         form.setFieldsValue({
           category: value,

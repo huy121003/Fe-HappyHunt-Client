@@ -100,7 +100,10 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
 
   const userActions = (
     <Menu>
-      <Menu.Item key="profile" onClick={() => navigate("/profile")}>
+      <Menu.Item
+        key="profile"
+        onClick={() => navigate(`/profile/${account?.slug}`)}
+      >
         <i className="fas fa-user mr-2"></i> View Profile
       </Menu.Item>
 

@@ -32,7 +32,7 @@ export interface ICategoryItem {
   icon?: string;
   isPayment?: boolean;
   pricePayment?: number;
-  slug?: string;
+  slug: string;
   parent?: {
     _id: number;
     name: string;

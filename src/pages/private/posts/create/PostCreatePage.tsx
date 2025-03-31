@@ -19,7 +19,6 @@ function PostCreatePage() {
         navigate("/post-management/waiting");
       });
     },
-
   });
   const onSubmit = (data: IPostPayload) => {
     mutate(data);

@@ -10,7 +10,7 @@ import PostService from "@/features/posts/service";
 import { useAppSelector } from "@/redux/reduxHook";
 import {
   MessageOutlined,
-  EyeOutlined,
+
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { truncateWithDots } from "@/configs/truncateWithDots";
@@ -32,6 +32,9 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
       const response = await PostService.updateClickCount(id);
       return response.data;
     },
+    onSuccess: () => {
+      invalidateQueries();
+    },
   });
 
   const invalidateQueries = () => {
@@ -41,13 +44,25 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
     client.invalidateQueries({
       queryKey: [API_KEY.POST_DETAIL],
     });
+    client.invalidateQueries({
+      queryKey: [API_KEY.POST_RELATED, record.createdBy._id],
+    });
+    client.invalidateQueries({
+      queryKey: [API_KEY.POST_DETAIL, record._id],
+    });
+    client.invalidateQueries({
+      queryKey: [API_KEY.POST_CATEGORY],
+    });
+    client.invalidateQueries({
+      queryKey: [API_KEY.POST_CATEGORY_CHILDREN],
+    });
   };
 
   const handleCardClick = () => {
     if (record.createdBy._id !== account?._id) {
       mutate(record._id);
     }
-    invalidateQueries();
+
     navigate(`/detail-post/${record.slug}`);
   };
 
@@ -94,18 +109,6 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
             showZero={false}
             className="bg-black/50 border-2 border-white"
           />
-
-          <Tooltip title="View details">
-            <Button
-              type="primary"
-              size="small"
-              icon={<EyeOutlined />}
-              className="bg-white text-black border-none hover:bg-orange-500 hover:text-white transition-colors duration-300"
-              onClick={handleCardClick}
-            >
-              View
-            </Button>
-          </Tooltip>
         </div>
       </div>
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Slider, Flex, Typography, Card } from "antd";
-import { DollarOutlined } from "@ant-design/icons";
+import { Slider, Flex, Card } from "antd";
 
 interface PriceRangeProps {
   minValue?: number;
@@ -52,14 +51,10 @@ const CPriceRange: React.FC<PriceRangeProps> = ({
 
   return (
     <Card
-      className="price-range-container "
+      className="price-range-container border-0 bg-gray-100"
       size="small"
       bodyStyle={{ padding: 12 }}
     >
-      <Typography.Text strong style={{ display: "block", marginBottom: 12 }}>
-        <DollarOutlined style={{ marginRight: 8 }} />
-        Price Range
-      </Typography.Text>
       <Flex vertical gap={16}>
         <Slider
           range

@@ -85,7 +85,13 @@ class PostService {
   static getAllPagination = (
     params: ISearchPost
   ): Promise<IPagedResponse<IPostItem[]>> => {
-    const newParams = new URLSearchParams(params as any).toString();
+    const { attribute, ...filter } = params;
+    let newParams = new URLSearchParams(filter as any).toString();
+    if (attribute && attribute.length > 0) {
+      attribute.forEach(({ name, value }) => {
+        newParams += `&attribute[]=${name}:${value}`;
+      });
+    }
     return apiRequest(
       EMethod.GET,
       `${PostService.baseUrl}/pagination?${newParams}`,

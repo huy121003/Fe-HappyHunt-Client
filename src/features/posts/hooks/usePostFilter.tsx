@@ -33,7 +33,6 @@ const usePostFilter = () => {
 
   const [status, setStatus] = useState<EPostStatus>(getStatusFromPath());
 
-
   const {
     parsedPagination,
     handleChangePagination,

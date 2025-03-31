@@ -16,6 +16,9 @@ const StatusModal: React.FC<IProps> = ({
   open,
   isLoading,
 }) => {
+
+
+  
   return (
     <Modal
       title="Confirm"
@@ -24,8 +27,7 @@ const StatusModal: React.FC<IProps> = ({
       onCancel={onClose}
       okText="OK"
       cancelText="Cancel"
-      style={{ top: "40%" }}
-      
+      centered
       okButtonProps={{ loading: isLoading }}
       // Compare this snippet from src/features/posts/components/ui/StatusModal.tsx:
       // footer={[

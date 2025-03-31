@@ -26,7 +26,7 @@ const PostRelatedList: React.FC<IProps> = ({ record }) => {
     queryFn: async () => {
       const response = await PostService.getAllPagination({
         ...computtedFilter,
-        name: record.name,
+        q: record.name,
         status: EPostStatus.SELLING,
         ...(record.category && { category: record.category._id }),
         ...(record.categoryParent && {
@@ -40,6 +40,7 @@ const PostRelatedList: React.FC<IProps> = ({ record }) => {
         }),
         ...(record.address.ward && { ward: record.address.ward._id }),
         sort: "relevance",
+        filterType: "suggest",
         ...(record.slug ? { currentSlug: record.slug } : {}),
       });
       return response.data.documentList;
@@ -51,10 +52,7 @@ const PostRelatedList: React.FC<IProps> = ({ record }) => {
   };
 
   return (
-    <Card
-      className="shadow-sm border-0 overflow-hidden bg-white rounded-xl border-t-2 border-t-orange-500"
-      bodyStyle={{ padding: 0 }}
-    >
+    <Card className="shadow-sm border-0 overflow-hidden bg-white rounded-xl border-t-2 border-t-orange-500">
       <Spin spinning={isLoading}>
         <div className="p-6">
           {/* Header */}

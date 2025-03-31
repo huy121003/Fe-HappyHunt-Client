@@ -10,6 +10,7 @@ interface IProps {
 }
 function ButtonFavorite1({ postId, isFavorite }: IProps) {
   const [favorite, setFavorite] = useState(isFavorite);
+
   const { onSuccess } = useFavoritePostState();
   const { mutate } = useMutation({
     mutationFn: async () => {
@@ -37,7 +38,7 @@ function ButtonFavorite1({ postId, isFavorite }: IProps) {
     <Tooltip title={isFavorite ? "Remove from favorites" : "Add to favorites"}>
       <Button
         icon={
-          isFavorite ? (
+          favorite ? (
             <HeartFilled className="text-orange-500" />
           ) : (
             <HeartOutlined className="hover:text-orange-500" />

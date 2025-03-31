@@ -54,7 +54,6 @@ const PostCardManagement: React.FC<IProps> = ({
   const [isOpenViewAnalyticModal, setIsOpenViewAnalyticModal] = useState(false);
   const client = useQueryClient();
   const navigate = useNavigate();
-  const [status, setStatus] = useState<EPostStatus>(EPostStatus.SELLING);
 
   const isSelling = record?.status === EPostStatus.SELLING;
   const canEdit = isSelling || record?.status === EPostStatus.REJECTED;
@@ -69,9 +68,8 @@ const PostCardManagement: React.FC<IProps> = ({
     setRecord(null);
   };
 
-  const onOpen = (status: EPostStatus) => {
+  const onOpen = () => {
     setOpenActiveModal(true);
-    setStatus(status);
   };
 
   const getStatusColor = (status: EPostStatus): string => {
@@ -135,7 +133,7 @@ const PostCardManagement: React.FC<IProps> = ({
         <Menu.Item
           key="hide"
           icon={<EyeInvisibleOutlined />}
-          onClick={() => onOpen(EPostStatus.HIDDEN)}
+          onClick={() => onOpen()}
           danger
         >
           Hide Post
@@ -368,12 +366,10 @@ const PostCardManagement: React.FC<IProps> = ({
         open={openActiveModal}
         onClose={onClose}
         onOK={() => {
-          onActive(record, status);
+          onActive(record, EPostStatus.HIDDEN);
           onClose();
         }}
-        message={`Are you sure you want to ${
-          status === EPostStatus.HIDDEN ? "hide" : "edit"
-        } this post?`}
+        message={`Are you sure you want to confirm sold and hidden this post`}
         isLoading={isShowLoading}
       />
       <ReasonRejectedModal

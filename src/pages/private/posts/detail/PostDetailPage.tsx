@@ -1,4 +1,3 @@
-import { Spin } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useAppSelector } from "@/redux/reduxHook";
@@ -8,6 +7,7 @@ import PostDetail from "@/features/posts/components/ui/PostDetail";
 import CPostIsNotAvailable from "@/components/ui/CPostIsNotAvailable";
 import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 import ContentLayout from "@/components/layouts/ContentLayout";
+import { CLoadingPage } from "@/components";
 
 function PostDetailPage() {
   const account = useAppSelector((state) => state.auth?.account);
@@ -67,7 +67,7 @@ function PostDetailPage() {
         }
       >
         {/* Hiển thị spinner khi đang tải dữ liệu */}
-        {isLoading && <Spin size="large" />}
+        {isLoading && <CLoadingPage />}
 
         {/* Kiểm tra dữ liệu trước khi hiển thị */}
         {isFetched &&

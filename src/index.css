@@ -25,3 +25,31 @@
 .ant-table-wrapper .ant-table {
   scrollbar-color: unset;
 }
+
+/* Custom styles for dropdown hover */
+.custom-dropdown .ant-dropdown-menu-item:hover,
+.custom-dropdown .ant-dropdown-menu-submenu-title:hover {
+  background-color: white !important;
+
+}
+
+/* For highlighted/selected items */
+.custom-dropdown .ant-dropdown-menu-item-active,
+.custom-dropdown .ant-dropdown-menu-submenu-title-active,
+.custom-dropdown .ant-dropdown-menu-item-selected {
+  background-color: white !important;
+
+}
+
+/* For menu items in Menu component */
+.custom-dropdown .ant-menu-item:hover,
+.custom-dropdown .ant-menu-submenu-title:hover {
+  background-color: white !important;
+
+}
+
+.custom-dropdown .ant-dropdown-menu-item {
+  padding: 0px !important;
+  margin: 0px !important;
+  border-radius: 0px !important;
+}

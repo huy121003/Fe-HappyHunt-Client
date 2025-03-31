@@ -30,6 +30,7 @@ const theme: ThemeConfig = {
     Menu: {
       itemHeight: 48,
       colorItemBg: "#FFFFFF",
+
       colorItemText: "#000000",
       colorItemTextHover: "#FF5722",
       colorItemBgHover: "rgba(255, 87, 34, 0.1)",
