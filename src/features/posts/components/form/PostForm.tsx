@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import checkProfanity from "@/configs/checkProfanity";
 import AddressForm from "./AddressForm";
 import { checkText } from "@/configs/checkText";
+import { useAppSelector } from "@/redux/reduxHook";
+import { postMessageHandler } from "@/components/mesage/ToastMessage";
 
 interface IPostFormProps {
   onSubmit: (values: IPostPayload, id?: number) => void;
@@ -44,7 +46,7 @@ const PostForm: React.FC<IPostFormProps> = ({
   } = useUpload(form);
   const navigate = useNavigate();
   const category: string | undefined = Form.useWatch(["category"], form);
-
+  const account = useAppSelector((state) => state.auth.account);
   const isPayment = Form.useWatch(["isPayment"], form);
   const pricePayment = Form.useWatch(["pricePayment"], form);
   useEffect(() => {
@@ -94,6 +96,14 @@ const PostForm: React.FC<IPostFormProps> = ({
       return;
     }
 
+    if (account?.balance < Number(pricePayment) && isPayment) {
+      postMessageHandler({
+        type: "error",
+        text: "Your balance is not enough to make this payment",
+      });
+      return;
+    }
+
     const payload: IPostPayload = {
       ...values,
       ...(values._id ? { _id: values._id } : {}),
@@ -103,9 +113,9 @@ const PostForm: React.FC<IPostFormProps> = ({
       category: values.category?.split("-")
         ? values.category.split("-")[1]
         : undefined,
-      images: fileList
-        .filter((file) => file.status !== "done")
-        .map((file) => file.originFileObj),
+      images: fileList.filter(
+        (file) => !data?.images?.some((image) => image.url === file.url)
+      ),
       saveImages: data?.images?.filter((image) =>
         fileList.find((file) => file.url === image.url)
       ),

@@ -1,14 +1,17 @@
 import ContentLayout from "@/components/layouts/ContentLayout";
+import { API_KEY } from "@/features/auth/data/constant";
 import PostForm from "@/features/posts/components/form/PostForm";
 import { IPostPayload } from "@/features/posts/data/interface";
 import usePostState from "@/features/posts/hooks/usePostState";
 import PostService from "@/features/posts/service";
-import { useMutation } from "@tanstack/react-query";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Breadcrumb } from "antd";
 import { useNavigate } from "react-router-dom";
 
 function PostCreatePage() {
   const navigate = useNavigate();
+  const client = useQueryClient();
   const { onSuccess } = usePostState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: IPostPayload) => {
@@ -17,6 +20,7 @@ function PostCreatePage() {
     },
     onSuccess: () => {
       onSuccess("Post created successfully", () => {
+        client.invalidateQueries({ queryKey: [API_KEY.GET_ACCOUNT_INFO] });
         navigate("/post-management/waiting");
       });
     },
