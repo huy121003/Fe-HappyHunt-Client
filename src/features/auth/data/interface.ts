@@ -1,3 +1,4 @@
+import { ESex } from "@/features/profile/data/constant";
 import { IType } from "./constant";
 import { UploadFile } from "antd";
 
@@ -32,8 +33,11 @@ export interface ILoginResponse {
       name: string;
     };
     specificAddress: string;
-    slug: string;
   };
+  slug: string;
+  background: string;
+  sex: ESex;
+  dateOfBirth: string;
 }
 export interface IRegisterRequest {
   phoneNumber: string;
@@ -67,11 +71,14 @@ export interface IChangePassword {
 export interface IUpdateProfile {
   name: string;
   description: string;
+  sex: ESex;
+  dateOfBirth: string;
   address: {
     province: number;
     district: number;
     ward: number;
     specificAddress: string;
   };
+  background: string | UploadFile;
   avatar: string | UploadFile;
 }

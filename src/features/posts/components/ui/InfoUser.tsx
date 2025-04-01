@@ -213,9 +213,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                 <Button
                   type="text"
                   className="flex items-center gap-2 hover:scale-105 transition-transform"
-                  onClick={() =>
-                    navigate(`/user/${record.createdBy._id}/posts`)
-                  }
+                  onClick={() => navigate(`/profile/${record.createdBy.slug}`)}
                 >
                   <i className="fas fa-box-open text-gray-600 text-lg"></i>
                   <Typography.Text className="text-gray-900 text-lg">
@@ -225,9 +223,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                 <Button
                   type="text"
                   className="flex items-center gap-2 hover:scale-105 transition-transform"
-                  onClick={() =>
-                    navigate(`/user/${record.createdBy._id}/posts`)
-                  }
+                  onClick={() => navigate(`/profile/${record.createdBy.slug}`)}
                 >
                   <i className="fas fa-check-circle text-gray-600 text-lg"></i>
                   <Typography.Text className="text-gray-900 text-lg">

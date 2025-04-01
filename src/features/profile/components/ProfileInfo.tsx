@@ -29,12 +29,14 @@ import { useAppSelector } from "@/redux/reduxHook";
 import { ESex } from "../data/constant";
 import useFollowerState from "@/features/follow/hooks/useFollowerState";
 import TimeAgo from "@/components/ui/TimeAgo";
+import { useNavigate } from "react-router-dom";
 
 interface IProfileInfoProps {
   data: IProfile;
 }
 
 const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
+  const naviagte = useNavigate();
   const { onSuccess } = useFollowerState();
   const account = useAppSelector((state) => state.auth?.account);
 
@@ -115,7 +117,7 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
         <Flex vertical className="w-full h-full" gap={6}>
           {/* Profile Header with Cover Background */}
           <div
-            className="w-full h-32 mb-16 relative"
+            className="w-full lg:h-32 h-64 mb-16 relative"
             style={{
               backgroundImage: data.background && `url(${data.background})`,
               background: data.background
@@ -149,7 +151,7 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
                 style={{
                   left: "24px",
                   bottom: "-60px",
-                  objectFit: "cover",
+                  objectFit: "contain",
                   boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                 }}
               />
@@ -172,9 +174,8 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
             </Flex>
 
             <Typography.Paragraph
-              className="text-gray-500"
-              style={{ margin: "8px 0 16px" }}
-              ellipsis={{ rows: 3, expandable: true }}
+              style={{ whiteSpace: "pre-wrap" }}
+              className="text-gray-600 leading-relaxed"
             >
               {data.description || "No description"}
             </Typography.Paragraph>
@@ -228,6 +229,7 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
                   icon={<EditOutlined />}
                   className="w-full h-10"
                   loading={isPending || unfollowIsPending}
+                  onClick={() => naviagte("/profile/me/change-profile")}
                 >
                   Edit Profile
                 </CButton>

@@ -51,20 +51,20 @@ const isDuplicateImage = (
   });
 };
 
-const useUpload = (form: FormInstance) => {
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+const useUploadAvatar = (form: FormInstance) => {
+  const [avatar, setAvatar] = useState<UploadFile[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
 
   const onChange = ({ fileList }) => {
     const updatedFileList = fileList.map((file) => ({
       ...file,
-      status: "done", // Đặt trạng thái là done để hiển thị ảnh đã cắt
-      originFileObj: file.originFileObj || file, // Lấy file đã cắt
-      url: file.url || URL.createObjectURL(file.originFileObj || file), // Hiển thị ảnh đã cắt
+      status: "done",
+      originFileObj: file.originFileObj || file,
+      url: file.url || URL.createObjectURL(file.originFileObj || file),
     }));
 
-    setFileList(updatedFileList);
+    setAvatar(updatedFileList);
     form.setFieldsValue({ image: updatedFileList });
   };
 
@@ -75,7 +75,7 @@ const useUpload = (form: FormInstance) => {
     return (file: RcFile) => {
       const isAcceptedType = isFileAllowed(file, accept);
       const isAcceptedSize = isFileSizeValid(file, size);
-      const isDuplicate = isDuplicateImage(file, fileList);
+      const isDuplicate = isDuplicateImage(file, avatar);
 
       if (!isAcceptedType) {
         postMessageHandler({
@@ -101,7 +101,7 @@ const useUpload = (form: FormInstance) => {
         return Upload.LIST_IGNORE;
       }
 
-      return true; //  Allow the file to be uploaded
+      return true;
     };
   };
   const handlePreview: UploadProps["onPreview"] = async (file) => {
@@ -116,6 +116,7 @@ const useUpload = (form: FormInstance) => {
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
   };
+
   const PreviewPlaceholder = useMemo(() => {
     return (
       previewImage && (
@@ -130,16 +131,16 @@ const useUpload = (form: FormInstance) => {
         />
       )
     );
-  }, [previewImage, previewOpen]);
+  }, [previewImage, previewOpen, handlePreview]);
 
   return {
-    handleBeforeUpload,
-    PreviewPlaceholder,
-    fileList,
-    onChange,
-    setFileList,
-    handlePreview,
+    handleBeforeUploadAvatar: handleBeforeUpload,
+    PreviewPlaceholderAvatar: PreviewPlaceholder,
+    avatar,
+    onChangeAvatar: onChange,
+    setAvatar,
+    handlePreviewAvatar: handlePreview,
   };
 };
 
-export default useUpload;
+export default useUploadAvatar;

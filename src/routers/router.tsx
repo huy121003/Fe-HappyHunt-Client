@@ -6,6 +6,8 @@ import { PostFilterProvider } from "@/features/posts/components/ui/PostFilterPro
 import PostManagementLayout from "@/features/posts/layout/PostManagementLayout";
 import RedirectPage from "@/pages/private/redirect/RedirectPage";
 import ProfilePage from "@/pages/private/profile/ProfilePage";
+import ProfileUpdateLayout from "@/features/profile/layout/ProfileUpdateLayout";
+
 //import RoleProtectedRoute from "@/components/layouts/RoleProtectedRoute";
 const withSuspense = (
   node: ReactNode,
@@ -39,6 +41,13 @@ const SearchPostPage = lazy(
   () => import("@/pages/private/search-post/SearchPostPage")
 );
 const PaymentPage = lazy(() => import("@/pages/private/payment/PaymentPage"));
+const ChangePasswordPage = lazy(
+  () => import("@/pages/private/change-password/ChangePasswordPage")
+);
+const ChangeProfile = lazy(
+  () => import("@/pages/private/change-profile/ChangeProfile")
+);
+
 const router = createBrowserRouter([
   {
     path: "*",
@@ -101,21 +110,19 @@ const router = createBrowserRouter([
           },
           {
             path: "me",
-            element: <Outlet />,
+            element: (
+              <ProfileUpdateLayout>
+                <Outlet />
+              </ProfileUpdateLayout>
+            ),
             children: [
               {
                 path: "change-password",
-                element: withSuspense(
-                  <div>Change Password</div>,
-                  <CLoadingPage />
-                ),
+                element: withSuspense(<ChangePasswordPage />, <CLoadingPage />),
               },
               {
                 path: "change-profile",
-                element: withSuspense(
-                  <div>Change Profile</div>,
-                  <CLoadingPage />
-                ),
+                element: withSuspense(<ChangeProfile />, <CLoadingPage />),
               },
             ],
           },

@@ -14,6 +14,7 @@ import SortBy from "@/features/post-category/components/SortBy";
 import usePostCategoryFilter from "@/features/post-category/hooks/usePostCategoryFilter";
 import PostListing from "@/features/post-category/components/PostListing";
 import { CNotFoundPage } from "@/components";
+import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 function SearchPostPage() {
   const {
     pagination,
@@ -67,76 +68,81 @@ function SearchPostPage() {
     );
   }
   return (
-    <ContentLayout
-      mb={100}
-      title={
-        <Breadcrumb>
-          <Breadcrumb.Item
-            className="text-lg font-semibold text-flame-orange cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            Home
-          </Breadcrumb.Item>
-          <Breadcrumb.Item className="text-lg font-semibold text-gray-400">
-            Search
-          </Breadcrumb.Item>
-        </Breadcrumb>
-      }
-    >
-      <Flex gap={10} className="w-full">
-        <Flex gap={10} className="w-full flex-col">
-          <Card
-            className={`${postData?.documentList.length === 0 && "bg-gray-100"}`}
-            headStyle={{ backgroundColor: "white" }}
-            title={
-              <TabsIndividual
-                handleSelectIsIndividual={handleSelectIsIndividual}
-              />
-            }
-            extra={
-              <Flex gap={10} justify="end" align="center">
-                <SortBy handleSelectSort={handleSelectSort} />
-                <Button
-                  size="large"
-                  type="text"
-                  onClick={() => {
-                    setShowListType(showListType === "grid" ? "list" : "grid");
-                  }}
-                  icon={
-                    showListType === "grid" ? (
-                      <AppstoreOutlined />
-                    ) : (
-                      <BarsOutlined />
-                    )
-                  }
+    <>
+      <ContentLayout
+        mb={100}
+        title={
+          <Breadcrumb>
+            <Breadcrumb.Item
+              className="text-lg font-semibold text-flame-orange cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              Home
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="text-lg font-semibold text-gray-400">
+              Search
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        }
+      >
+        <Flex gap={10} className="w-full">
+          <Flex gap={10} className="w-full flex-col">
+            <Card
+              className={`${postData?.documentList.length === 0 && "bg-gray-100"}`}
+              headStyle={{ backgroundColor: "white" }}
+              title={
+                <TabsIndividual
+                  handleSelectIsIndividual={handleSelectIsIndividual}
                 />
-              </Flex>
-            }
-          >
-            <PostListing
-              data={postData?.documentList || []}
-              pagiantion={{
-                ...pagination,
-                total: postData?.totalDocuments || 0,
-              }}
-              onChange={handleChangePagination}
-              showListType={showListType}
-              loading={postLoading || !postFetched}
-            />
-          </Card>
+              }
+              extra={
+                <Flex gap={10} justify="end" align="center">
+                  <SortBy handleSelectSort={handleSelectSort} />
+                  <Button
+                    size="large"
+                    type="text"
+                    onClick={() => {
+                      setShowListType(
+                        showListType === "grid" ? "list" : "grid"
+                      );
+                    }}
+                    icon={
+                      showListType === "grid" ? (
+                        <AppstoreOutlined />
+                      ) : (
+                        <BarsOutlined />
+                      )
+                    }
+                  />
+                </Flex>
+              }
+            >
+              <PostListing
+                data={postData?.documentList || []}
+                pagiantion={{
+                  ...pagination,
+                  total: postData?.totalDocuments || 0,
+                }}
+                onChange={handleChangePagination}
+                showListType={showListType}
+                loading={postLoading || !postFetched}
+              />
+            </Card>
+          </Flex>
+          <PostFilter
+            attributes={[]}
+            childrenLength={0}
+            handleSelectAttribute={handleSelectAttribute}
+            handleMinPriceChange={handleMinPriceChange}
+            handleMaxPriceChange={handleMaxPriceChange}
+            handleSelectProvince={handleSelectProvince}
+            handleSelectDistrict={handleSelectDistrict}
+            computtedFilter={computtedFilter}
+          />
         </Flex>
-        <PostFilter
-          attributes={[]}
-          childrenLength={0}
-          handleSelectAttribute={handleSelectAttribute}
-          handleMinPriceChange={handleMinPriceChange}
-          handleMaxPriceChange={handleMaxPriceChange}
-          handleSelectProvince={handleSelectProvince}
-          handleSelectDistrict={handleSelectDistrict}
-          computtedFilter={computtedFilter}
-        />
-      </Flex>
-    </ContentLayout>
+      </ContentLayout>
+      <Bottom />
+    </>
   );
 }
 

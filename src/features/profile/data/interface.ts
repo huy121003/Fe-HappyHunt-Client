@@ -26,7 +26,7 @@ export interface IProfile {
   };
   slug: string;
   createdAt: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   sex: ESex;
   background: string;
 }

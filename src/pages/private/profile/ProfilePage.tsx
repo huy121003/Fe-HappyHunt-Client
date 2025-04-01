@@ -7,7 +7,7 @@ import ProfileService from "@/features/profile/service";
 import { useQuery } from "@tanstack/react-query";
 import { Breadcrumb, Flex } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-
+import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 const ProfilePage = () => {
   const { slugProfile } = useParams<{ slugProfile: string }>();
   const navigate = useNavigate();
@@ -20,29 +20,33 @@ const ProfilePage = () => {
   });
   if (isLoading || !isFetched) return <CLoadingPage />;
   return (
-    <ContentLayout
-      title={
-        <Breadcrumb>
-          <Breadcrumb.Item
-            className="text-lg font-semibold text-flame-orange cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            Home
-          </Breadcrumb.Item>
-          {data?.name && (
-            <Breadcrumb.Item className="text-lg font-semibold text-gray-400 cursor-pointer">
-              {data?.name}
-              {"'s Profile"}
+    <>
+      {" "}
+      <ContentLayout
+        title={
+          <Breadcrumb>
+            <Breadcrumb.Item
+              className="text-lg font-semibold text-flame-orange cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              Home
             </Breadcrumb.Item>
-          )}
-        </Breadcrumb>
-      }
-    >
-      <Flex className="w-full lg:flex-row flex-col" gap={10}>
-        {data && <ProfileInfo data={data} />}
-        {data?._id && <PostListStatus id={data?._id} />}
-      </Flex>
-    </ContentLayout>
+            {data?.name && (
+              <Breadcrumb.Item className="text-lg font-semibold text-gray-400 cursor-pointer">
+                {data?.name}
+                {"'s Profile"}
+              </Breadcrumb.Item>
+            )}
+          </Breadcrumb>
+        }
+      >
+        <Flex className="w-full lg:flex-row flex-col" gap={10}>
+          {data && <ProfileInfo data={data} />}
+          {data?._id && <PostListStatus id={data?._id} />}
+        </Flex>
+      </ContentLayout>
+      <Bottom />
+    </>
   );
 };
 

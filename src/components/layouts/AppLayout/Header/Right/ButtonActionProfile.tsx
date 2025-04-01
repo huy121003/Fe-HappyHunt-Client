@@ -25,7 +25,7 @@ function ButtonActionProfile() {
       label: (
         <Typography.Text
           className="text-black"
-          onClick={() => navigate("/change-password")}
+          onClick={() => navigate("profile/me/change-password")}
         >
           <LockOutlined /> Change Password
         </Typography.Text>

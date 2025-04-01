@@ -83,8 +83,8 @@ function PostListStatus({ id }: IPostListStatusProps) {
         ))}
       <Flex
         gap={10}
-        className={`w-full my-4
-          ${status === EPostStatus.SELLING && " grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1"}
+        className={`w-full my-4 
+          ${status === EPostStatus.SELLING ? "flex-row grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1" : "flex-col"}
           `}
       >
         {data?.documentList &&

@@ -36,7 +36,8 @@ const PostForm: React.FC<IPostFormProps> = ({
   const [form] = Form.useForm();
   const {
     handleBeforeUpload,
-
+    handlePreview,
+    PreviewPlaceholder,
     fileList,
     setFileList,
     onChange,
@@ -160,7 +161,7 @@ const PostForm: React.FC<IPostFormProps> = ({
                       maxCount={10}
                       onChange={onChange}
                       beforeUpload={handleBeforeUpload(".png,.jpg,.jpeg")}
-                      onPreview={() => {}}
+                      onPreview={handlePreview}
                     >
                       <Button icon={<UploadOutlined />} type="dashed" />
                     </Upload>
@@ -343,6 +344,7 @@ const PostForm: React.FC<IPostFormProps> = ({
             : `Payment ${Number(pricePayment).toLocaleString("vi-VN") || 0} VND`}
         </CButton>
       </Flex>
+      {PreviewPlaceholder}
     </>
   );
 };
