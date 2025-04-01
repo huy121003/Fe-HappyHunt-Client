@@ -132,6 +132,15 @@ class PostService {
       false
     );
   };
+  static countStatusProfile = (
+    id: number
+  ): Promise<ICommonResponse<ICountSold>> => {
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/count-status-profile/${id}`,
+      false
+    );
+  };
 }
 
 export default PostService;

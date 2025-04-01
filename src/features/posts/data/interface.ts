@@ -36,6 +36,7 @@ export interface IPost {
     name: string;
     phoneNumber: string;
     avatar: string;
+    slug: string;
   };
   address: {
     province: {
@@ -65,6 +66,7 @@ export interface IPostItem {
   }[];
   isFavorite?: boolean;
   createdAt: string;
+  updatedAt: string;
   category: {
     name: string;
     _id: number;
@@ -82,6 +84,7 @@ export interface IPostItem {
     _id: number;
     name: string;
     avatar: string;
+    slug: string;
   };
   address: {
     province: {

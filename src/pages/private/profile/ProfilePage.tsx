@@ -1,15 +1,16 @@
 import { CLoadingPage } from "@/components";
 import ContentLayout from "@/components/layouts/ContentLayout";
+import PostListStatus from "@/features/profile/components/PostListStatus";
 import ProfileInfo from "@/features/profile/components/ProfileInfo";
 import { API_KEY } from "@/features/profile/data/constant";
 import ProfileService from "@/features/profile/service";
 import { useQuery } from "@tanstack/react-query";
-import { Flex } from "antd";
-import { useParams } from "react-router-dom";
+import { Breadcrumb, Flex } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProfilePage = () => {
   const { slugProfile } = useParams<{ slugProfile: string }>();
-
+  const navigate = useNavigate();
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [API_KEY.PROFILE, slugProfile],
     queryFn: async () => {
@@ -21,22 +22,25 @@ const ProfilePage = () => {
   return (
     <ContentLayout
       title={
-        <div className="flex items-center gap-1">
-          <h1 className="text-sm font-semibold text-flame-orange cursor-pointer">
+        <Breadcrumb>
+          <Breadcrumb.Item
+            className="text-lg font-semibold text-flame-orange cursor-pointer"
+            onClick={() => navigate("/")}
+          >
             Home
-          </h1>
-          <h1 className="text-sm font-semibold text-gray-400">/</h1>
+          </Breadcrumb.Item>
           {data?.name && (
-            <h1 className="text-sm font-semibold text-gray-400 cursor-pointer">
+            <Breadcrumb.Item className="text-lg font-semibold text-gray-400 cursor-pointer">
               {data?.name}
               {"'s Profile"}
-            </h1>
+            </Breadcrumb.Item>
           )}
-        </div>
+        </Breadcrumb>
       }
     >
-      <Flex className="w-full" gap={10}>
+      <Flex className="w-full lg:flex-row flex-col" gap={10}>
         {data && <ProfileInfo data={data} />}
+        {data?._id && <PostListStatus id={data?._id} />}
       </Flex>
     </ContentLayout>
   );

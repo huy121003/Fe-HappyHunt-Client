@@ -185,6 +185,7 @@ const PostCard2: React.FC<IProps> = ({ record }) => {
             />
             <Tooltip title="Message seller">
               <Button
+                hidden={record.createdBy._id === account?._id}
                 icon={<MessageOutlined className="hover:text-orange-500" />}
                 type="text"
                 className="hover:bg-orange-50 p-1 rounded-full transition-colors duration-300"

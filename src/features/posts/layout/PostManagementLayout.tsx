@@ -15,6 +15,7 @@ import {
   Tooltip,
   Dropdown,
   Menu,
+  Breadcrumb,
 } from "antd";
 import { API_KEY, EPostStatus } from "../data/constant";
 import PostService from "../service";
@@ -119,20 +120,17 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
       <>
         <ContentLayout
           title={
-            <div className="flex items-center gap-2">
-              <h1
-                className="text-sm font-semibold text-flame-orange cursor-pointer hover:underline transition-all"
-                onClick={() => {
-                  navigate("/");
-                }}
+            <Breadcrumb>
+              <Breadcrumb.Item
+                className="text-lg font-semibold text-flame-orange cursor-pointer"
+                onClick={() => navigate("/")}
               >
                 Home
-              </h1>
-              <span className="text-sm text-gray-400">/</span>
-              <h1 className="text-sm font-semibold text-gray-600">
+              </Breadcrumb.Item>
+              <Breadcrumb.Item className="text-lg font-semibold text-gray-400">
                 Post Management
-              </h1>
-            </div>
+              </Breadcrumb.Item>
+            </Breadcrumb>
           }
         >
           {/* User Account Info */}

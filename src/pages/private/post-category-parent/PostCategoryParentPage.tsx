@@ -7,7 +7,7 @@ import PostFilter from "@/features/post-category/components/PostFilter";
 import { ESort } from "@/features/posts/data/constant";
 import { AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Card, Flex } from "antd";
+import { Breadcrumb, Button, Card, Flex } from "antd";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PostService from "@/features/posts/service";
@@ -87,18 +87,17 @@ function PostCategoryParentPage() {
     <ContentLayout
       mb={100}
       title={
-        <div className="flex items-center gap-1">
-          <h1
-            className="text-sm font-semibold text-flame-orange cursor-pointer"
-            onClick={() => {
-              navigate("/");
-            }}
+        <Breadcrumb>
+          <Breadcrumb.Item
+            className="text-lg font-semibold text-flame-orange cursor-pointer"
+            onClick={() => navigate("/")}
           >
             Home
-          </h1>
-          <h1 className="text-sm font-semibold text-gray-400">{"/"}</h1>
-          <h1 className="text-sm font-semibold text-gray-400 ">{data?.name}</h1>
-        </div>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item className="text-lg font-semibold text-gray-400 cursor-pointer">
+            {data?.name}
+          </Breadcrumb.Item>
+        </Breadcrumb>
       }
     >
       <Flex gap={10} className="w-full">

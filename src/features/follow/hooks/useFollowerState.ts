@@ -13,6 +13,8 @@ const useFollowerState = () => {
       text: successMessage,
     });
     client.invalidateQueries({ queryKey: [API_KEY.FOLLOW] });
+    client.invalidateQueries({ queryKey: [API_KEY.FOLLOW_COUNT] });
+    client.invalidateQueries({ queryKey: [API_KEY.FOLLOW_DETAIL] });
     if (onSuccessCallback) {
       onSuccessCallback();
     }

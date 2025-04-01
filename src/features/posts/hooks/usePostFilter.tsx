@@ -17,6 +17,7 @@ const usePostFilter = () => {
   const [ward, setWard] = useState<number>();
   const [minPrice, setMinPrice] = useState<number>();
   const [maxPrice, setMaxPrice] = useState<number>();
+  const [isSold, setIsSold] = useState<boolean | null>(null);
   const location = useLocation();
 
   // Lấy phần cuối cùng của pathname và chuyển thành chữ hoa
@@ -31,7 +32,7 @@ const usePostFilter = () => {
       : EPostStatus.SELLING;
   };
 
-  const [status, setStatus] = useState<EPostStatus>(getStatusFromPath());
+  const [status, setStatus] = useState<EPostStatus | null>(getStatusFromPath());
 
   const {
     parsedPagination,
@@ -53,6 +54,7 @@ const usePostFilter = () => {
       ...(minPrice && { minPrice }),
       ...(maxPrice && { maxPrice }),
       ...(status && { status }),
+      ...(isSold && { isSold }),
     };
     return filters;
   }, [
@@ -108,6 +110,14 @@ const usePostFilter = () => {
     setMaxPrice(maxPrice);
     handleResetPagination();
   };
+  const handleSetSold = (isSold: boolean) => {
+    setIsSold(isSold);
+    setStatus(null);
+  };
+  const handleSetStatus = (status: EPostStatus) => {
+    setStatus(status);
+    setIsSold(null);
+  };
   return {
     handleInputSearch,
     pagination,
@@ -122,6 +132,9 @@ const usePostFilter = () => {
     handleSelectMinPrice,
     handleSelectMaxPrice,
     handleStatusChange,
+    handleSetSold,
+    handleSetStatus,
+    status,
   };
 };
 export default usePostFilter;

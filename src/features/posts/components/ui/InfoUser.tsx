@@ -262,6 +262,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
               </>
             )}
             <CButton
+              onClick={() => navigate(`/profile/${record.createdBy.slug}`)}
               type="default"
               icon={<i className="fas fa-user"></i>}
               className="flex-1 px-6 py-2 rounded-lg border-2 border-gray-200 text-gray-700 hover:border-orange-500 hover:text-orange-500 transition-all duration-300"
