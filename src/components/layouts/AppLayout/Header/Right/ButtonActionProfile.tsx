@@ -1,6 +1,15 @@
 import { useAppSelector } from "@/redux/reduxHook";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Flex, Image, MenuProps, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Flex,
+  Image,
+  MenuProps,
+  Space,
+  Typography,
+} from "antd";
 import { useNavigate } from "react-router-dom";
 import ButtonLogout from "../../../../buttons/ButtonLogout";
 
@@ -21,6 +30,17 @@ function ButtonActionProfile() {
       ),
     },
     {
+      key: "favorite-post",
+      label: (
+        <Typography.Text
+          onClick={() => navigate(`profile/me/favorite-post`)}
+          className="text-black"
+        >
+          <i className="fas fa-heart" /> Favorite Posts
+        </Typography.Text>
+      ),
+    },
+    {
       key: "change-password",
       label: (
         <Typography.Text
@@ -37,32 +57,22 @@ function ButtonActionProfile() {
     },
   ];
   return (
-    <>
-      <Dropdown menu={{ items }} trigger={["hover"]}>
-        <Button type="link">
-          <Flex align="center" gap={8}>
-            {profile?.avatar ? (
-              <>
-                <Image
-                  width={40}
-                  height={40}
-                  src={profile?.avatar}
-                  alt={profile?.name}
-                  style={{ borderRadius: "50%" }}
-                  preview={false}
-                />
-                <i
-                  className="fa-solid fa-chevron-down
-                text-[20px] text-white"
-                />
-              </>
-            ) : (
-              <i className="fa-solid fa-user-circle text-[40px] text-black" />
-            )}
-          </Flex>
-        </Button>
-      </Dropdown>
-    </>
+    <Dropdown menu={{ items }} trigger={["click"]}>
+      <Button type="text" style={{ padding: 0 }}>
+        <Space align="center">
+          {profile?.avatar ? (
+            <Avatar size={40} src={profile?.avatar} alt={profile?.name} />
+          ) : (
+            <Avatar
+              size={40}
+              icon={<i className="fa-solid fa-user-circle" />}
+            />
+          )}
+
+          <i className="fa-solid fa-chevron-down text-[16px] text-white" />
+        </Space>
+      </Button>
+    </Dropdown>
   );
 }
 

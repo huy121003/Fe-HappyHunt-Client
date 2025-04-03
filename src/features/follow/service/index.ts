@@ -1,6 +1,6 @@
 import apiRequest from "@/libs/axios";
 import { EMethod } from "@/constants";
-import { ICommonResponse } from "@/interfaces";
+import { ICommonResponse, IPagedResponse } from "@/interfaces";
 import {
   IFollowItem,
   IFollowPayload,
@@ -13,9 +13,13 @@ class FollowService {
   static getAllFollow(
     id: number,
     params: ISearchFollow
-  ): Promise<ICommonResponse<IFollowItem[]>> {
+  ): Promise<IPagedResponse<IFollowItem[]>> {
     const newParams = new URLSearchParams(params as any).toString();
-    return apiRequest(EMethod.GET, `${this.baseUrl}/${id}?${newParams}`, false);
+    return apiRequest(
+      EMethod.GET,
+      `${this.baseUrl}/pagination/${id}?${newParams}`,
+      false
+    );
   }
 
   static create(

@@ -53,6 +53,8 @@ const PostListing = ({
             <Pagination
               defaultCurrent={1}
               total={pagiantion.total}
+              showSizeChanger
+              showTotal={(total) => `Total ${total} items`}
               onChange={onChange}
               pageSize={pagiantion.pageSize}
               className="custom-pagination"

@@ -1,5 +1,5 @@
 import { IPostItem } from "@/features/posts/data/interface";
-import { Badge, Flex, Image, Tag } from "antd";
+import { Badge, Flex, Image, Tag, Tooltip } from "antd";
 import React, { useState } from "react";
 import TimeAgo from "../ui/TimeAgo";
 import { useNavigate } from "react-router-dom";
@@ -70,120 +70,125 @@ const PostCard2: React.FC<IProps> = ({ record }) => {
   // };
 
   return (
-    <div
-      className="relative bg-white rounded-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-orange-500 hover:shadow-lg group flex"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={handleCardClick}
-    >
-      {/* Image container */}
-      <div className="relative w-48 h-48 flex-shrink-0 overflow-hidden">
-        {record.images.length > 0 ? (
-          <Image
-            src={record.images[0].url}
-            height={192}
-            width={192}
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-            preview={false}
-            alt={record.name}
-          />
-        ) : (
-          <div className="h-full w-full bg-gray-50 flex items-center justify-center">
-            <ShoppingCartOutlined className="text-3xl text-gray-200" />
-          </div>
-        )}
-
-        {/* Image overlay with additional actions */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent transition-opacity duration-300 ${
-            isHovered ? "opacity-100" : "opacity-0"
-          } flex items-end justify-between p-4`}
-        >
-          <Badge
-            count={record.images.length}
-            color="orange"
-            showZero={false}
-            className="bg-black/50 border-2 border-white"
-          />
-        </div>
-
-        {/* Seller badge */}
-        {record.createdBy && (
-          <div className="absolute top-0 right-0">
-            <Tag
-              color={record.isIndividual ? "default" : "orange"}
-              className="rounded-bl-md rounded-tr-md rounded-br-none rounded-tl-none border-none font-medium shadow-sm"
-            >
-              {record.isIndividual ? "Individual" : "Pro"}
-            </Tag>
-          </div>
-        )}
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 p-4 flex flex-col justify-between">
-        <div className="space-y-2">
-          <Flex className="text-xs text-gray-400 mb-0.5" align="center" gap={1}>
-            <i className="fas fa-tag text-orange-500"></i>
-            <span>{record.categoryParent?.name}</span>
-            {record.category && (
-              <>
-                <span className="mx-1">•</span>
-                <span>{record.category?.name}</span>
-              </>
-            )}
-          </Flex>
-
-          <h1 className="text-gray-900 font-bold text-xl leading-tight group-hover:text-orange-500 transition-colors duration-300">
-            {truncateWithDots(record.name, 50)}
-          </h1>
-
-          {/* Price */}
-          <div className="flex items-center">
-            <h1 className="text-orange-500 font-bold text-2xl">
-              {record.price.toLocaleString()} đ
-            </h1>
-          </div>
-        </div>
-
-        {/* Location and time */}
-        <Flex
-          justify="space-between"
-          align="center"
-          className="mt-4 pt-4 border-t border-gray-100"
-        >
-          <Flex vertical>
-            <Flex gap={10} justify="center" align="center">
-              <span className="text-gray-700 text-sm flex items-center gap-1">
-                <i className="fas fa-map-marker-alt text-orange-500"></i>
-                {record.address.district.name}, {record.address.province.name}
-              </span>
-            </Flex>
-            <Flex gap={10} justify="start" className="mt-4">
-              <Image
-                src={record.createdBy.avatar}
-                width={24}
-                height={24}
-                className="rounded-full"
-                preview={false}
-                alt={record.createdBy.name}
-              />
-              <span className="text-gray-700 text-sm">
-                {record.createdBy.name}
-              </span>
-              <span className="text-gray-400 text-sm flex items-center gap-1">
-                <TimeAgo date={record.createdAt} />
-              </span>
-            </Flex>
-          </Flex>
-
-          {/* Action buttons */}
-          <Flex gap={2}>
-            <ButtonFavorite1
-              postId={record._id}
-              isFavorite={record.isFavorite ?? false}
+    <Tooltip title={record.name}>
+      <div
+        className="relative bg-white rounded-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-orange-500 hover:shadow-lg group flex"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={handleCardClick}
+      >
+        {/* Image container */}
+        <div className="relative w-48 h-48 flex-shrink-0 overflow-hidden">
+          {record.images.length > 0 ? (
+            <Image
+              src={record.images[0].url}
+              height={192}
+              width={192}
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              preview={false}
+              alt={record.name}
             />
-            {/* <Tooltip title="Message seller">
+          ) : (
+            <div className="h-full w-full bg-gray-50 flex items-center justify-center">
+              <ShoppingCartOutlined className="text-3xl text-gray-200" />
+            </div>
+          )}
+
+          {/* Image overlay with additional actions */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent transition-opacity duration-300 ${
+              isHovered ? "opacity-100" : "opacity-0"
+            } flex items-end justify-between p-4`}
+          >
+            <Badge
+              count={record.images.length}
+              color="orange"
+              showZero={false}
+              className="bg-black/50 border-2 border-white"
+            />
+          </div>
+
+          {/* Seller badge */}
+          {record.createdBy && (
+            <div className="absolute top-0 right-0">
+              <Tag
+                color={record.isIndividual ? "default" : "orange"}
+                className="rounded-bl-md rounded-tr-md rounded-br-none rounded-tl-none border-none font-medium shadow-sm"
+              >
+                {record.isIndividual ? "Individual" : "Pro"}
+              </Tag>
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 p-4 flex flex-col justify-between">
+          <div className="space-y-2">
+            <Flex
+              className="text-xs text-gray-400 mb-0.5"
+              align="center"
+              gap={1}
+            >
+              <i className="fas fa-tag text-orange-500"></i>
+              <span>{record.categoryParent?.name}</span>
+              {record.category && (
+                <>
+                  <span className="mx-1">•</span>
+                  <span>{record.category?.name}</span>
+                </>
+              )}
+            </Flex>
+
+            <h1 className="text-gray-900 font-bold text-xl leading-tight group-hover:text-orange-500 transition-colors duration-300">
+              {truncateWithDots(record.name, 50)}
+            </h1>
+
+            {/* Price */}
+            <div className="flex items-center">
+              <h1 className="text-orange-500 font-bold text-2xl">
+                {record.price.toLocaleString()} đ
+              </h1>
+            </div>
+          </div>
+
+          {/* Location and time */}
+          <Flex
+            justify="space-between"
+            align="center"
+            className="mt-4 pt-4 border-t border-gray-100"
+          >
+            <Flex vertical>
+              <Flex gap={10} justify="center" align="center">
+                <span className="text-gray-700 text-sm flex items-center gap-1">
+                  <i className="fas fa-map-marker-alt text-orange-500"></i>
+                  {record.address.district.name}, {record.address.province.name}
+                </span>
+              </Flex>
+              <Flex gap={10} justify="start" className="mt-4">
+                <Image
+                  src={record.createdBy.avatar}
+                  width={24}
+                  height={24}
+                  className="rounded-full"
+                  preview={false}
+                  alt={record.createdBy.name}
+                />
+                <span className="text-gray-700 text-sm">
+                  {record.createdBy.name}
+                </span>
+                <span className="text-gray-400 text-sm flex items-center gap-1">
+                  <TimeAgo date={record.createdAt} />
+                </span>
+              </Flex>
+            </Flex>
+
+            {/* Action buttons */}
+            <Flex gap={2}>
+              <ButtonFavorite1
+                postId={record._id}
+                isFavorite={record.isFavorite ?? false}
+              />
+              {/* <Tooltip title="Message seller">
               <Button
                 hidden={record.createdBy._id === account?._id}
                 icon={<MessageOutlined className="hover:text-orange-500" />}
@@ -192,10 +197,11 @@ const PostCard2: React.FC<IProps> = ({ record }) => {
                 onClick={handleMessageClick}
               />
             </Tooltip> */}
+            </Flex>
           </Flex>
-        </Flex>
+        </div>
       </div>
-    </div>
+    </Tooltip>
   );
 };
 

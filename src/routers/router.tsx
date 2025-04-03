@@ -47,7 +47,10 @@ const ChangePasswordPage = lazy(
 const ChangeProfile = lazy(
   () => import("@/pages/private/change-profile/ChangeProfile")
 );
-
+const FollowPage = lazy(() => import("@/pages/private/follows/FollowPage"));
+const FavoritePostPage = lazy(
+  () => import("@/pages/private/favorite-post/FavoritePostPage")
+);
 const router = createBrowserRouter([
   {
     path: "*",
@@ -106,7 +109,25 @@ const router = createBrowserRouter([
         children: [
           {
             path: ":slugProfile",
-            element: withSuspense(<ProfilePage />, <CLoadingPage />),
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: withSuspense(<ProfilePage />, <CLoadingPage />),
+              },
+              {
+                path: "followers",
+                element: withSuspense(<FollowPage />, <CLoadingPage />),
+              },
+              {
+                path: "following",
+                element: withSuspense(<FollowPage />, <CLoadingPage />),
+              },
+            ],
+          },
+          {
+            path: "me/favorite-post",
+            element: withSuspense(<FavoritePostPage />, <CLoadingPage />),
           },
           {
             path: "me",

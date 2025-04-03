@@ -21,7 +21,6 @@ const ProfilePage = () => {
   if (isLoading || !isFetched) return <CLoadingPage />;
   return (
     <>
-      {" "}
       <ContentLayout
         title={
           <Breadcrumb>

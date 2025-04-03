@@ -192,7 +192,12 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               </Tooltip>
 
               <Tooltip title="Followers">
-                <Flex vertical align="center" className="py-2 px-4 rounded-lg">
+                <Flex
+                  vertical
+                  align="center"
+                  className="py-2 px-4 rounded-lg cursor-pointer"
+                  onClick={() => naviagte(`/profile/${data.slug}/followers`)}
+                >
                   <span className="text-lg font-semibold text-gray-800">
                     {followData?.follower || 0}
                   </span>
@@ -201,7 +206,12 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               </Tooltip>
 
               <Tooltip title="Following">
-                <Flex vertical align="center" className="py-2 px-4  rounded-lg">
+                <Flex
+                  vertical
+                  align="center"
+                  className="py-2 px-4  rounded-lg *:cursor-pointer"
+                  onClick={() => naviagte(`/profile/${data.slug}/following`)}
+                >
                   <span className="text-lg font-semibold text-gray-800">
                     {followData?.following || 0}
                   </span>

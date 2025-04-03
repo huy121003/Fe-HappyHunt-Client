@@ -8,7 +8,7 @@ export interface IFollowItem {
     slug: string;
     avatar: string;
   };
-  craetedBy: {
+  createdBy: {
     _id: number;
     name: string;
     slug: string;
@@ -21,7 +21,9 @@ export interface IFollowPayload {
   following: number;
 }
 
-export interface ISearchFollow extends ISearchParams {}
+export interface ISearchFollow extends ISearchParams {
+  type?: "followers" | "following";
+}
 
 export interface IFollowCount {
   following: number;

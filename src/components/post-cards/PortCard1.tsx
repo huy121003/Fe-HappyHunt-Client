@@ -1,5 +1,5 @@
 import { IPostItem } from "@/features/posts/data/interface";
-import { Badge, Flex, Image, Tag, Typography } from "antd";
+import { Badge, Flex, Image, Tag, Tooltip, Typography } from "antd";
 import React, { useState } from "react";
 import TimeAgo from "../ui/TimeAgo";
 import { useNavigate } from "react-router-dom";
@@ -70,91 +70,92 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
   // };
 
   return (
-    <div
-      className="relative bg-white rounded-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-orange-500 hover:shadow-lg group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={handleCardClick}
-    >
-      {/* Image container */}
-      <div className="relative overflow-hidden">
-        {record.images.length > 0 ? (
-          <Image
-            src={record.images[0].url}
-            height={180}
-            width="100%"
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-            preview={false}
-            alt={record.name}
-          />
-        ) : (
-          <div className="h-[180px] w-full bg-gray-50 flex items-center justify-center">
-            <ShoppingCartOutlined className="text-3xl text-gray-200" />
-          </div>
-        )}
-
-        {/* Image overlay with additional actions */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent transition-opacity duration-300 ${
-            isHovered ? "opacity-100" : "opacity-0"
-          } flex items-end justify-between p-4`}
-        >
-          <Badge
-            count={record.images.length}
-            color="orange"
-            showZero={false}
-            className="bg-black/50 border-2 border-white"
-          />
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-3 space-y-2">
-        <Flex className="text-xs text-gray-400 mb-0.5" align="center" gap={1}>
-          <i className="fas fa-tag text-orange-500"></i>
-          <span>{record.categoryParent?.name}</span>
-          {record.category && (
-            <>
-              <span className="mx-1">•</span>
-              <span>{record.category?.name}</span>
-            </>
+    <Tooltip title={record.name}>
+      <div
+        className="relative bg-white rounded-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-orange-500 hover:shadow-lg group"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={handleCardClick}
+      >
+        {/* Image container */}
+        <div className="relative overflow-hidden">
+          {record.images.length > 0 ? (
+            <Image
+              src={record.images[0].url}
+              height={180}
+              width="100%"
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              preview={false}
+              alt={record.name}
+            />
+          ) : (
+            <div className="h-[180px] w-full bg-gray-50 flex items-center justify-center">
+              <ShoppingCartOutlined className="text-3xl text-gray-200" />
+            </div>
           )}
-        </Flex>
 
-        <h1 className="text-gray-900 font-bold text-base leading-tight group-hover:text-orange-500 transition-colors duration-300">
-          {truncateWithDots(record.name, 20)}
-        </h1>
-
-        {/* Price */}
-        <div className="flex items-center">
-          <h1 className="text-orange-500 font-bold text-lg">
-            {record.price.toLocaleString()} đ
-          </h1>
+          {/* Image overlay with additional actions */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent transition-opacity duration-300 ${
+              isHovered ? "opacity-100" : "opacity-0"
+            } flex items-end justify-between p-4`}
+          >
+            <Badge
+              count={record.images.length}
+              color="orange"
+              showZero={false}
+              className="bg-black/50 border-2 border-white"
+            />
+          </div>
         </div>
 
-        {/* Location and time */}
-        <Flex
-          justify="space-between"
-          align="center"
-          className="mt-2 pt-2 border-t border-gray-100"
-        >
-          <Flex vertical gap={1}>
-            <Typography.Text className="text-gray-700 text-xs flex items-center gap-1">
-              <i className="fas fa-map-marker-alt text-orange-500"></i>
-              {record.address.province.name}
-            </Typography.Text>
-            <Typography.Text className="text-gray-400 text-xs flex items-center gap-1">
-              <TimeAgo date={record.createdAt} />
-            </Typography.Text>
+        {/* Content */}
+        <div className="p-3 space-y-2">
+          <Flex className="text-xs text-gray-400 mb-0.5" align="center" gap={1}>
+            <i className="fas fa-tag text-orange-500"></i>
+            <span>{record.categoryParent?.name}</span>
+            {record.category && (
+              <>
+                <span className="mx-1">•</span>
+                <span>{record.category?.name}</span>
+              </>
+            )}
           </Flex>
 
-          {/* Action buttons */}
-          <Flex gap={2}>
-            <ButtonFavorite1
-              postId={record._id}
-              isFavorite={record.isFavorite ?? false}
-            />
-            {/* <Tooltip title="Message seller">
+          <h1 className="text-gray-900 font-bold text-base leading-tight group-hover:text-orange-500 transition-colors duration-300">
+            {truncateWithDots(record.name, 20)}
+          </h1>
+
+          {/* Price */}
+          <div className="flex items-center">
+            <h1 className="text-orange-500 font-bold text-lg">
+              {record.price.toLocaleString()} đ
+            </h1>
+          </div>
+
+          {/* Location and time */}
+          <Flex
+            justify="space-between"
+            align="center"
+            className="mt-2 pt-2 border-t border-gray-100"
+          >
+            <Flex vertical gap={1}>
+              <Typography.Text className="text-gray-700 text-xs flex items-center gap-1">
+                <i className="fas fa-map-marker-alt text-orange-500"></i>
+                {record.address.province.name}
+              </Typography.Text>
+              <Typography.Text className="text-gray-400 text-xs flex items-center gap-1">
+                <TimeAgo date={record.createdAt} />
+              </Typography.Text>
+            </Flex>
+
+            {/* Action buttons */}
+            <Flex gap={2}>
+              <ButtonFavorite1
+                postId={record._id}
+                isFavorite={record.isFavorite ?? false}
+              />
+              {/* <Tooltip title="Message seller">
               <Button
               hidden={record.createdBy._id === account?._id}
                 icon={<MessageOutlined className="hover:text-orange-500" />}
@@ -163,22 +164,23 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
                 onClick={handleMessageClick}
               />
             </Tooltip> */}
+            </Flex>
           </Flex>
-        </Flex>
-      </div>
-
-      {/* Seller badge */}
-      {record.createdBy && (
-        <div className="absolute top-0 right-0">
-          <Tag
-            color={record.isIndividual ? "default" : "orange"}
-            className="rounded-bl-md rounded-tr-md rounded-br-none rounded-tl-none border-none font-medium shadow-sm"
-          >
-            {record.isIndividual ? "Individual" : "Pro"}
-          </Tag>
         </div>
-      )}
-    </div>
+
+        {/* Seller badge */}
+        {record.createdBy && (
+          <div className="absolute top-0 right-0">
+            <Tag
+              color={record.isIndividual ? "default" : "orange"}
+              className="rounded-bl-md rounded-tr-md rounded-br-none rounded-tl-none border-none font-medium shadow-sm"
+            >
+              {record.isIndividual ? "Individual" : "Pro"}
+            </Tag>
+          </div>
+        )}
+      </div>
+    </Tooltip>
   );
 };
 
