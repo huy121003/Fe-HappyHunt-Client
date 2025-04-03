@@ -107,7 +107,7 @@ const PostFilter: React.FC<IProps> = ({
   return (
     <Card
       size="small"
-      className="w-full max-w-[300px] mx-auto !border-0 shadow-sm rounded-lg bg-white"
+      className="w-full max-w-[300px] mx-auto !border-0 shadow-md rounded-lg bg-white"
     >
       <Collapse
         defaultActiveKey={[
@@ -123,11 +123,8 @@ const PostFilter: React.FC<IProps> = ({
         {/* Price Range Filter */}
         <Panel
           header={
-            <Text
-              strong
-              className="text-gray-600 font-medium flex items-center"
-            >
-              <DollarOutlined className="mr-2 text-[#ff6b00]" />
+            <Text strong className="text-black font-medium flex items-center">
+              <DollarOutlined className="mr-2 text-orange-500" />
               Price Range
             </Text>
           }
@@ -144,11 +141,8 @@ const PostFilter: React.FC<IProps> = ({
         {/* Location Filter */}
         <Panel
           header={
-            <Text
-              strong
-              className="text-gray-600 font-medium flex items-center"
-            >
-              <GlobalOutlined className="mr-2 text-[#ff6b00]" />
+            <Text strong className="text-black font-medium flex items-center">
+              <GlobalOutlined className="mr-2 text-orange-500" />
               Location
             </Text>
           }
@@ -182,9 +176,9 @@ const PostFilter: React.FC<IProps> = ({
                 header={
                   <Text
                     strong
-                    className="text-gray-600 font-medium flex items-center"
+                    className="text-black font-medium flex items-center"
                   >
-                    <FilterOutlined className="mr-2 text-[#ff6b00]" />
+                    <FilterOutlined className="mr-2 text-orange-500" />
                     {attribute.name}
                   </Text>
                 }

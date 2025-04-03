@@ -1,6 +1,6 @@
 import ContentLayout from "@/components/layouts/ContentLayout";
 import { API_KEY as API_KEY_POSTS } from "@/features/posts/data/constant";
-
+import { Divider } from "antd";
 import PostFilter from "@/features/post-category/components/PostFilter";
 import { ESort } from "@/features/posts/data/constant";
 import { AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
@@ -15,6 +15,7 @@ import usePostCategoryFilter from "@/features/post-category/hooks/usePostCategor
 import PostListing from "@/features/post-category/components/PostListing";
 import { CNotFoundPage } from "@/components";
 import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
+
 function SearchPostPage() {
   const {
     pagination,
@@ -35,13 +36,6 @@ function SearchPostPage() {
   const navigate = useNavigate();
   const [showListType, setShowListType] = useState<"grid" | "list">("grid");
 
-  // const { data, isLoading } = useQuery({
-  //   queryKey: [API_KEY.GET_CATEGORY_BY_SLUG, slugCategory],
-  //   queryFn: async () => {
-  //     const res = await CategoryService.getBySlug(String(slugCategory));
-  //     return res.data;
-  //   },
-  // });
   useEffect(() => {
     handleSetSearch(searchValue || "");
     handleSelectSort(ESort.RELEVANCE);
@@ -74,21 +68,33 @@ function SearchPostPage() {
         title={
           <Breadcrumb>
             <Breadcrumb.Item
-              className="text-lg font-semibold text-flame-orange cursor-pointer"
+              className="text-lg font-semibold text-black cursor-pointer"
               onClick={() => navigate("/")}
             >
               Home
             </Breadcrumb.Item>
-            <Breadcrumb.Item className="text-lg font-semibold text-gray-400">
+            <Breadcrumb.Item className="text-lg font-semibold text-gray-500">
               Search
             </Breadcrumb.Item>
           </Breadcrumb>
         }
       >
-        <Flex gap={10} className="w-full">
-          <Flex gap={10} className="w-full flex-col">
+        <Flex gap={20} className="w-full">
+          <PostFilter
+            attributes={[]}
+            childrenLength={0}
+            handleSelectAttribute={handleSelectAttribute}
+            handleMinPriceChange={handleMinPriceChange}
+            handleMaxPriceChange={handleMaxPriceChange}
+            handleSelectProvince={handleSelectProvince}
+            handleSelectDistrict={handleSelectDistrict}
+            computtedFilter={computtedFilter}
+          />
+          <Flex gap={20} className="w-full flex-col">
             <Card
-              className={`${postData?.documentList.length === 0 && "bg-gray-100"}`}
+              className={`${
+                postData?.documentList.length === 0 && "bg-gray-100"
+              } shadow-md border border-gray-200`}
               headStyle={{ backgroundColor: "white" }}
               title={
                 <TabsIndividual
@@ -129,18 +135,9 @@ function SearchPostPage() {
               />
             </Card>
           </Flex>
-          <PostFilter
-            attributes={[]}
-            childrenLength={0}
-            handleSelectAttribute={handleSelectAttribute}
-            handleMinPriceChange={handleMinPriceChange}
-            handleMaxPriceChange={handleMaxPriceChange}
-            handleSelectProvince={handleSelectProvince}
-            handleSelectDistrict={handleSelectDistrict}
-            computtedFilter={computtedFilter}
-          />
         </Flex>
       </ContentLayout>
+      <Divider />
       <Bottom />
     </>
   );

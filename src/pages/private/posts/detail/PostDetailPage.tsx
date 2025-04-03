@@ -8,7 +8,7 @@ import CPostIsNotAvailable from "@/components/ui/CPostIsNotAvailable";
 import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 import ContentLayout from "@/components/layouts/ContentLayout";
 import { CLoadingPage } from "@/components";
-import { Breadcrumb } from "antd";
+import { Breadcrumb, Divider } from "antd";
 
 function PostDetailPage() {
   const account = useAppSelector((state) => state.auth?.account);
@@ -32,14 +32,14 @@ function PostDetailPage() {
         title={
           <Breadcrumb>
             <Breadcrumb.Item
-              className="text-lg font-semibold text-flame-orange cursor-pointer"
+              className="text-lg font-semibold text-gray-400 cursor-pointer"
               onClick={() => navigate("/")}
             >
               Home
             </Breadcrumb.Item>
             {data?.categoryParent?.name && (
               <Breadcrumb.Item
-                className="text-lg font-semibold text-flame-orange cursor-pointer"
+                className="text-lg font-semibold text-gray-400 cursor-pointer"
                 onClick={() => {
                   navigate(`/category/${data?.categoryParent?.slug}`);
                 }}
@@ -49,7 +49,7 @@ function PostDetailPage() {
             )}
             {data?.category?.name && (
               <Breadcrumb.Item
-                className="text-lg font-semibold text-flame-orange cursor-pointer"
+                className="text-lg font-semibold text-gray-400 cursor-pointer"
                 onClick={() => {
                   navigate(
                     `/category/${data?.categoryParent?.slug}/child-category/${data?.category?.slug}`
@@ -59,7 +59,7 @@ function PostDetailPage() {
                 {data?.category?.name}
               </Breadcrumb.Item>
             )}
-            <Breadcrumb.Item className="text-lg font-semibold text-gray-400">
+            <Breadcrumb.Item className="text-lg font-semibold text-flame-orange ">
               {data?.name}
             </Breadcrumb.Item>
           </Breadcrumb>
@@ -81,6 +81,7 @@ function PostDetailPage() {
             <CPostIsNotAvailable />
           ))}
       </ContentLayout>
+      <Divider />
       <Bottom />
     </>
   );

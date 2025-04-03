@@ -16,6 +16,7 @@ import {
   Dropdown,
   Menu,
   Breadcrumb,
+  Divider,
 } from "antd";
 import { API_KEY, EPostStatus } from "../data/constant";
 import PostService from "../service";
@@ -244,6 +245,7 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
             <div className="p-4">{children}</div>
           </Card>
         </ContentLayout>
+        <Divider />
         <Bottom />
       </>
     </Spin>

@@ -1,5 +1,5 @@
 import { IPostItem } from "@/features/posts/data/interface";
-import { Badge, Button, Flex, Image, Tag, Tooltip, Typography } from "antd";
+import { Badge, Flex, Image, Tag, Typography } from "antd";
 import React, { useState } from "react";
 import TimeAgo from "../ui/TimeAgo";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +8,7 @@ import { API_KEY } from "@/features/posts/data/constant";
 import { API_KEY as API_KEY_CATEGORY } from "@/features/categories/data/constants";
 import PostService from "@/features/posts/service";
 import { useAppSelector } from "@/redux/reduxHook";
-import {
-  MessageOutlined,
-
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 import { truncateWithDots } from "@/configs/truncateWithDots";
 import ButtonFavorite1 from "@/features/favorite-posts/components/ui/ButtonFavorite1";
 
@@ -66,12 +62,12 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
     navigate(`/detail-post/${record.slug}`);
   };
 
-  const handleMessageClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    navigate(
-      `/messages/new?recipientId=${record.createdBy._id}&postId=${record._id}`
-    );
-  };
+  // const handleMessageClick = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   navigate(
+  //     `/messages/new?recipientId=${record.createdBy._id}&postId=${record._id}`
+  //   );
+  // };
 
   return (
     <div
@@ -158,7 +154,7 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
               postId={record._id}
               isFavorite={record.isFavorite ?? false}
             />
-            <Tooltip title="Message seller">
+            {/* <Tooltip title="Message seller">
               <Button
               hidden={record.createdBy._id === account?._id}
                 icon={<MessageOutlined className="hover:text-orange-500" />}
@@ -166,7 +162,7 @@ const PortCard1: React.FC<IProps> = ({ record }) => {
                 className="hover:bg-orange-50 p-1 rounded-full transition-colors duration-300"
                 onClick={handleMessageClick}
               />
-            </Tooltip>
+            </Tooltip> */}
           </Flex>
         </Flex>
       </div>

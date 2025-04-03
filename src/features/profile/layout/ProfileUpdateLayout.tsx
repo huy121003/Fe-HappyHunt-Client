@@ -1,5 +1,5 @@
 import ContentLayout from "@/components/layouts/ContentLayout";
-import { Breadcrumb, Card, Flex, Menu } from "antd";
+import { Breadcrumb, Card, Divider, Flex, Menu } from "antd";
 import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -53,6 +53,7 @@ function ProfileUpdateLayout({ children }: IProps) {
           <Card className="w-full">{children}</Card>
         </Flex>
       </ContentLayout>
+      <Divider />
       <Bottom />
     </>
   );

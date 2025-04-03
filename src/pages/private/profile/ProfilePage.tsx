@@ -5,7 +5,7 @@ import ProfileInfo from "@/features/profile/components/ProfileInfo";
 import { API_KEY } from "@/features/profile/data/constant";
 import ProfileService from "@/features/profile/service";
 import { useQuery } from "@tanstack/react-query";
-import { Breadcrumb, Flex } from "antd";
+import { Breadcrumb, Divider, Flex } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 const ProfilePage = () => {
@@ -45,6 +45,7 @@ const ProfilePage = () => {
           {data?._id && <PostListStatus id={data?._id} />}
         </Flex>
       </ContentLayout>
+      <Divider />
       <Bottom />
     </>
   );

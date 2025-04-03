@@ -14,9 +14,9 @@ import AuthService from "./features/auth/service";
 function App() {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  // Kiểm tra nếu đang ở trang login, register, forgot-password thì không gọi API
+ 
   const authPages = ["/login", "/register", "/forgot-password"];
-  // Dùng useQuery để fetch dữ liệu
+
   const { isLoading } = useQuery({
     queryKey: [API_KEY.GET_ACCOUNT_INFO],
     queryFn: async () => {
@@ -28,7 +28,7 @@ function App() {
     enabled: !authPages.includes(window.location.pathname) && !isAuthenticated,
   });
 
-  // Nếu đang tải thì hiển thị loading
+
   if (isLoading) {
     return <CLoadingPage />;
   }

@@ -10,9 +10,9 @@ const CategoryChildSelect: React.FC<CategoryChildSelectProps> = ({ data }) => {
   const navigate = useNavigate();
   return (
     <Card
-      className="w-full bg-white shadow-sm rounded-lg border-0 p-0"
+      className="w-full bg-white shadow-md rounded-lg border-0 p-0"
       size="small"
-      title="Category childrens"
+      title="Subcategories"
     >
       <ScrollableContainer2>
         <Flex gap={4} className="">
@@ -25,10 +25,10 @@ const CategoryChildSelect: React.FC<CategoryChildSelectProps> = ({ data }) => {
               }}
               vertical
               key={item._id}
-              className="group cursor-pointer transition-all duration-300 hover:-translate-y-1 flex-shrink-0 min-w-[80px] px-2 py-1 rounded-lg hover:bg-gray-50"
+              className="group cursor-pointer transition-all duration-300 hover:-translate-y-1 flex-shrink-0 min-w-[80px] px-2 py-1 rounded-lg hover:bg-gray-100"
             >
               <Flex
-                className="relative  rounded-full overflow-hidden bg-gray-50 w-[60px] h-[60px] items-center justify-center mx-auto shadow-sm group-hover:shadow-md transition-shadow duration-300"
+                className="relative rounded-full overflow-hidden bg-white w-[60px] h-[60px] items-center justify-center mx-auto shadow-sm group-hover:shadow-md transition-shadow duration-300"
                 justify="center"
                 align="center"
               >
@@ -42,7 +42,7 @@ const CategoryChildSelect: React.FC<CategoryChildSelectProps> = ({ data }) => {
                 />
               </Flex>
 
-              <span className="block text-center text-sm text-gray-600 transition-colors duration-300 group-hover:text-[#ff6b00] font-medium truncate w-full">
+              <span className="block text-center text-sm text-black transition-colors duration-300 group-hover:text-flame-orange font-medium truncate w-full">
                 {item.name}
               </span>
             </Flex>

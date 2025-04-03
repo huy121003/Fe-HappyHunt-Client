@@ -6,7 +6,7 @@ import PostFilter from "@/features/post-category/components/PostFilter";
 import { ESort } from "@/features/posts/data/constant";
 import { AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
-import { Breadcrumb, Button, Card, Flex } from "antd";
+import { Breadcrumb, Button, Card, Flex, Divider } from "antd";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PostService from "@/features/posts/service";
@@ -79,20 +79,19 @@ function PostCategoryPage() {
 
   return (
     <>
-      {" "}
       <ContentLayout
         mb={100}
         title={
           <Breadcrumb>
             <Breadcrumb.Item
-              className="text-lg font-semibold text-flame-orange cursor-pointer"
+              className="text-lg font-semibold text-black cursor-pointer"
               onClick={() => navigate("/")}
             >
               Home
             </Breadcrumb.Item>
             {data?.parent?.name && (
               <Breadcrumb.Item
-                className="text-lg font-semibold text-flame-orange cursor-pointer"
+                className="text-lg font-semibold text-black cursor-pointer"
                 onClick={() => {
                   navigate(`/category/${data?.parent?.slug}`);
                 }}
@@ -101,16 +100,30 @@ function PostCategoryPage() {
               </Breadcrumb.Item>
             )}
             {data?.name && (
-              <Breadcrumb.Item className="text-lg font-semibold text-gray-400">
+              <Breadcrumb.Item className="text-lg font-semibold text-gray-500">
                 {data?.name}
               </Breadcrumb.Item>
             )}
           </Breadcrumb>
         }
       >
-        <Flex gap={10} className="w-full">
-          <Flex gap={10} className="w-full flex-col">
+        <Flex gap={20} className="w-full">
+          <PostFilter
+            attributes={data?.attributes || []}
+            childrenLength={0}
+            handleSelectAttribute={handleSelectAttribute}
+            handleMinPriceChange={handleMinPriceChange}
+            handleMaxPriceChange={handleMaxPriceChange}
+            handleSelectProvince={handleSelectProvince}
+            handleSelectDistrict={handleSelectDistrict}
+            computtedFilter={computtedFilter}
+          />
+          <Flex gap={20} className="w-full flex-col">
             <Card
+              className={`${
+                postData?.documentList.length === 0 && "bg-gray-100"
+              } shadow-md border border-gray-200`}
+              headStyle={{ backgroundColor: "white" }}
               title={
                 <TabsIndividual
                   handleSelectIsIndividual={handleSelectIsIndividual}
@@ -150,18 +163,9 @@ function PostCategoryPage() {
               />
             </Card>
           </Flex>
-          <PostFilter
-            attributes={data?.attributes || []}
-            childrenLength={0}
-            handleSelectAttribute={handleSelectAttribute}
-            handleMinPriceChange={handleMinPriceChange}
-            handleMaxPriceChange={handleMaxPriceChange}
-            handleSelectProvince={handleSelectProvince}
-            handleSelectDistrict={handleSelectDistrict}
-            computtedFilter={computtedFilter}
-          />
         </Flex>
       </ContentLayout>
+      <Divider />
       <Bottom />
     </>
   );
