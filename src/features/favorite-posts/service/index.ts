@@ -25,6 +25,9 @@ class FavoritePostService {
   static remove = (id: number): Promise<ICommonResponse<null>> => {
     return apiRequest(EMethod.DELETE, `${this.baseUrl}/${id}`, false);
   };
+  static removeById=(id:number):Promise<ICommonResponse<null>>=>{
+    return apiRequest(EMethod.DELETE, `${this.baseUrl}/post/${id}`, false);
+  }
 }
 
 export default FavoritePostService;

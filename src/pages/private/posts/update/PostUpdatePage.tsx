@@ -8,6 +8,7 @@ import PostService from "@/features/posts/service";
 import { useAppSelector } from "@/redux/reduxHook";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
+import { Breadcrumb } from "antd";
 function PostUpdatePage() {
   const navigate = useNavigate();
   const account = useAppSelector((state) => state.auth.account);
@@ -52,26 +53,25 @@ function PostUpdatePage() {
     <ContentLayout
       mb={100}
       title={
-        <div className="flex items-center gap-1">
-          <h1
-            className="text-sm font-semibold text-flame-orange cursor-pointer"
-            onClick={() => {
-              navigate("/");
-            }}
+        <Breadcrumb>
+          <Breadcrumb.Item
+            className="text-lg font-semibold text-flame-orange cursor-pointer"
+            onClick={() => navigate("/")}
           >
             Home
-          </h1>
-          <h1 className="text-sm font-semibold text-gray-400">{"/"}</h1>
-          <h1
-            className="text-sm font-semibold text-flame-orange "
+          </Breadcrumb.Item>
+          <Breadcrumb.Item
+            className="text-lg font-semibold text-flame-orange cursor-pointer"
             onClick={() => {
               navigate(`/detail-post/${data?.slug}`, { replace: true });
             }}
           >
             {data?.name}
-          </h1>
-          <h1 className="text-sm font-semibold text-gray-400">{"/ "}Update</h1>
-        </div>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item className="text-lg font-semibold text-gray-400">
+            Update
+          </Breadcrumb.Item>
+        </Breadcrumb>
       }
     >
       <PostForm

@@ -35,7 +35,7 @@ const PostListUser: React.FC<IProps> = ({ record }) => {
   });
 
   const handleViewAll = () => {
-    navigate(`/user-posts/${record.createdBy._id}`);
+    navigate(`/profile/${record.createdBy.slug}`);
   };
 
   return (

@@ -36,6 +36,7 @@ export interface IPost {
     name: string;
     phoneNumber: string;
     avatar: string;
+    slug: string;
   };
   address: {
     province: {
@@ -65,6 +66,7 @@ export interface IPostItem {
   }[];
   isFavorite?: boolean;
   createdAt: string;
+  updatedAt: string;
   category: {
     name: string;
     _id: number;
@@ -81,6 +83,8 @@ export interface IPostItem {
   createdBy: {
     _id: number;
     name: string;
+    avatar: string;
+    slug: string;
   };
   address: {
     province: {
@@ -128,11 +132,12 @@ export interface ISearchPost extends ISearchParams {
   isIndividual?: boolean;
   province?: number;
   district?: number;
-  ward?: number;
   minPrice?: number;
   maxPrice?: number;
   name?: string;
   createdBy?: number;
+  q?: string;
+  filterType?: string;
 }
 export interface ICountStatus {
   SELLING: number;

@@ -1,4 +1,3 @@
-import { Spin } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useAppSelector } from "@/redux/reduxHook";
@@ -8,6 +7,8 @@ import PostDetail from "@/features/posts/components/ui/PostDetail";
 import CPostIsNotAvailable from "@/components/ui/CPostIsNotAvailable";
 import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 import ContentLayout from "@/components/layouts/ContentLayout";
+import { CLoadingPage } from "@/components";
+import { Breadcrumb, Divider } from "antd";
 
 function PostDetailPage() {
   const account = useAppSelector((state) => state.auth?.account);
@@ -29,45 +30,43 @@ function PostDetailPage() {
       <ContentLayout
         mb={100}
         title={
-          <div className="flex items-center gap-1">
-            <h1
-              className="text-sm font-semibold text-flame-orange cursor-pointer"
-              onClick={() => {
-                navigate("/");
-              }}
+          <Breadcrumb>
+            <Breadcrumb.Item
+              className="text-lg font-semibold text-gray-400 cursor-pointer"
+              onClick={() => navigate("/")}
             >
               Home
-            </h1>
+            </Breadcrumb.Item>
             {data?.categoryParent?.name && (
-              <h1
-                className="text-sm font-semibold text-flame-orange cursor-pointer"
+              <Breadcrumb.Item
+                className="text-lg font-semibold text-gray-400 cursor-pointer"
                 onClick={() => {
                   navigate(`/category/${data?.categoryParent?.slug}`);
                 }}
               >
-                / {data?.categoryParent?.name}
-              </h1>
+                {data?.categoryParent?.name}
+              </Breadcrumb.Item>
             )}
             {data?.category?.name && (
-              <h1
-                className="text-sm font-semibold text-flame-orange cursor-pointer"
+              <Breadcrumb.Item
+                className="text-lg font-semibold text-gray-400 cursor-pointer"
                 onClick={() => {
                   navigate(
                     `/category/${data?.categoryParent?.slug}/child-category/${data?.category?.slug}`
                   );
                 }}
               >
-                / {data?.category?.name}
-              </h1>
+                {data?.category?.name}
+              </Breadcrumb.Item>
             )}
-            <h1 className="text-sm font-semibold text-gray-400">
-              / {data?.name}
-            </h1>
-          </div>
+            <Breadcrumb.Item className="text-lg font-semibold text-flame-orange ">
+              {data?.name}
+            </Breadcrumb.Item>
+          </Breadcrumb>
         }
       >
         {/* Hiển thị spinner khi đang tải dữ liệu */}
-        {isLoading && <Spin size="large" />}
+        {isLoading && <CLoadingPage />}
 
         {/* Kiểm tra dữ liệu trước khi hiển thị */}
         {isFetched &&
@@ -82,6 +81,7 @@ function PostDetailPage() {
             <CPostIsNotAvailable />
           ))}
       </ContentLayout>
+      <Divider />
       <Bottom />
     </>
   );

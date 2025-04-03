@@ -1,15 +1,13 @@
 import { EPostStatus, ESort } from "@/features/posts/data/constant";
 import { ISearchPost } from "@/features/posts/data/interface";
 import usePagination from "@/hooks/usePagination";
-import { SearchProps } from "antd/es/input";
-import { debounce } from "lodash";
 import { useMemo, useState } from "react";
 
 const usePostCategoryFilter = () => {
   const [category, setCategory] = useState<number>();
   const [categoryParent, setCategoryParent] = useState<number>();
   const [status, setStatus] = useState<EPostStatus>(EPostStatus.SELLING);
-  const [sort, setSort] = useState<ESort>(ESort.RELEVANCE);
+  const [sort, setSort] = useState<ESort>(ESort.NEWEST);
   const [attribute, setAttribute] = useState<
     {
       name: string;
@@ -17,7 +15,7 @@ const usePostCategoryFilter = () => {
     }[]
   >([]);
   const [search, setSearch] = useState<string>("");
-  const [isIndividual, setIsIndividual] = useState<boolean>(false);
+  const [isIndividual, setIsIndividual] = useState<boolean | null>(null);
   const [province, setProvince] = useState<number>();
   const [district, setDistrict] = useState<number>();
   const [minPrice, setMinPrice] = useState<number>();
@@ -38,11 +36,12 @@ const usePostCategoryFilter = () => {
       ...(status && { status }),
       ...(sort && { sort }),
       ...(attribute && { attribute }),
-      ...(isIndividual && { isIndividual }),
+      ...(isIndividual !== null && { isIndividual }),
       ...(province && { province }),
       ...(district && { district }),
       ...(minPrice && { minPrice }),
       ...(maxPrice && { maxPrice }),
+      ...(search && { q: search }),
     };
     return filters;
   }, [
@@ -59,10 +58,10 @@ const usePostCategoryFilter = () => {
     maxPrice,
     search,
   ]);
-  const handleInputSearch: SearchProps["onInput"] = debounce((event) => {
+  const handleSetSearch = (value: string) => {
+    setSearch(value);
     handleResetPagination();
-    setSearch((event.target as HTMLInputElement).value);
-  }, 500);
+  };
   const handleStatusChange = (status: EPostStatus) => {
     setStatus(status);
     handleResetPagination();
@@ -76,14 +75,17 @@ const usePostCategoryFilter = () => {
     handleResetPagination();
   };
   const handleSelectIsIndividual = (value: string | null | undefined) => {
-    const isIndividual =
-      value === "true" ? true : value === "false" ? false : undefined;
-    setIsIndividual(isIndividual ?? false);
+    if (value) {
+      const isIndividual =
+        value === "true" ? true : value === "false" ? false : null;
+      setIsIndividual(isIndividual);
+    }
     handleResetPagination();
   };
 
   const handleSelectProvince = (province: number) => {
     setProvince(province);
+    setDistrict(undefined);
     handleResetPagination();
   };
   const handleSelectDistrict = (district: number) => {
@@ -109,16 +111,40 @@ const usePostCategoryFilter = () => {
     name: string;
     value: string;
   }) => {
-    if (attribute.find((attr) => attr.name === newAttribute.name)) {
-      setAttribute(attribute.filter((attr) => attr.name !== newAttribute.name));
-    } else {
-      setAttribute([...attribute, newAttribute]);
+    if (!newAttribute.value) {
+      setAttribute((prevAttributes) =>
+        prevAttributes.filter((attr) => attr.name !== newAttribute.name)
+      );
+      return;
     }
+    setAttribute((prevAttributes) => {
+      if (newAttribute.value === "all") {
+        return prevAttributes.filter((attr) => attr.name !== newAttribute.name);
+      }
+
+      const existingAttr = prevAttributes.find(
+        (attr) => attr.name === newAttribute.name
+      );
+
+      if (existingAttr) {
+        // Cập nhật giá trị thay vì xóa
+        return prevAttributes.map((attr) =>
+          attr.name === newAttribute.name
+            ? { ...attr, value: newAttribute.value }
+            : attr
+        );
+      }
+
+      // Thêm giá trị mới nếu chưa có
+      return [...prevAttributes, newAttribute];
+    });
+
     handleResetPagination();
   };
+
   return {
     computtedFilter,
-    handleInputSearch,
+    handleSetSearch,
     handleStatusChange,
     handleSelectCategory,
     handleSelectCategoryParent,

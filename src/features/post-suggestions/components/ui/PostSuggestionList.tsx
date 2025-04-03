@@ -4,8 +4,7 @@ import { API_KEY } from "@/features/posts/data/constant";
 import PostService from "@/features/posts/service";
 
 import { useQuery } from "@tanstack/react-query";
-import {  Card, Flex, Spin, Typography } from "antd";
-
+import { Card, Flex, Spin, Typography } from "antd";
 
 function PostSuggestionList() {
   const { data, isLoading } = useQuery({
@@ -45,7 +44,10 @@ function PostSuggestionList() {
             </Typography.Title>
           </Flex>
         </Flex>
-        <Flex gap={10} wrap>
+        <Flex
+          gap={10}
+          className=" grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6"
+        >
           {data?.documentList?.map((item) => (
             <PortCard1 key={item._id} record={item} />
           ))}

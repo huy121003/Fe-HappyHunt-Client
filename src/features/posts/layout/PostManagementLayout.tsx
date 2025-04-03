@@ -15,6 +15,8 @@ import {
   Tooltip,
   Dropdown,
   Menu,
+  Breadcrumb,
+  Divider,
 } from "antd";
 import { API_KEY, EPostStatus } from "../data/constant";
 import PostService from "../service";
@@ -100,7 +102,10 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
 
   const userActions = (
     <Menu>
-      <Menu.Item key="profile" onClick={() => navigate("/profile")}>
+      <Menu.Item
+        key="profile"
+        onClick={() => navigate(`/profile/${account?.slug}`)}
+      >
         <i className="fas fa-user mr-2"></i> View Profile
       </Menu.Item>
 
@@ -116,20 +121,17 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
       <>
         <ContentLayout
           title={
-            <div className="flex items-center gap-2">
-              <h1
-                className="text-sm font-semibold text-flame-orange cursor-pointer hover:underline transition-all"
-                onClick={() => {
-                  navigate("/");
-                }}
+            <Breadcrumb>
+              <Breadcrumb.Item
+                className="text-lg font-semibold text-gray-400 cursor-pointer"
+                onClick={() => navigate("/")}
               >
                 Home
-              </h1>
-              <span className="text-sm text-gray-400">/</span>
-              <h1 className="text-sm font-semibold text-gray-600">
+              </Breadcrumb.Item>
+              <Breadcrumb.Item className="text-lg font-semibold text-flame-orange">
                 Post Management
-              </h1>
-            </div>
+              </Breadcrumb.Item>
+            </Breadcrumb>
           }
         >
           {/* User Account Info */}
@@ -243,6 +245,7 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
             <div className="p-4">{children}</div>
           </Card>
         </ContentLayout>
+        <Divider />
         <Bottom />
       </>
     </Spin>

@@ -59,6 +59,7 @@ const useUpload = (form: FormInstance) => {
   const onChange = ({ fileList }) => {
     const updatedFileList = fileList.map((file) => ({
       ...file,
+      status: "wait",
       originFileObj: file.originFileObj || file, // Lấy file đã cắt
       url: file.url || URL.createObjectURL(file.originFileObj || file), // Hiển thị ảnh đã cắt
     }));
@@ -100,10 +101,21 @@ const useUpload = (form: FormInstance) => {
         return Upload.LIST_IGNORE;
       }
 
-      return true;
+      return true; //  Allow the file to be uploaded
     };
   };
+  const handlePreview: UploadProps["onPreview"] = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj as RcFile);
+        reader.onload = () => resolve(reader.result as string | undefined);
+      });
+    }
 
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+  };
   const PreviewPlaceholder = useMemo(() => {
     return (
       previewImage && (
@@ -126,6 +138,7 @@ const useUpload = (form: FormInstance) => {
     fileList,
     onChange,
     setFileList,
+    handlePreview,
   };
 };
 

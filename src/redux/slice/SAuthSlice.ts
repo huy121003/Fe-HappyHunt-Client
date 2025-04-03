@@ -27,6 +27,7 @@ export const initialState = {
     address: null,
     _id: null,
     balance: 0,
+    slug: null,
   },
 };
 
@@ -54,6 +55,7 @@ export const SAuthSlice = createSlice({
       localStorage.removeItem("access_token");
       state.isAuthenticated = false;
       state.account = {
+        slug: null,
         name: "",
         phoneNumber: "",
         avatar: "",

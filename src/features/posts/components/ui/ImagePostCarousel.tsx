@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Carousel, Image, Tooltip } from "antd";
 
 import { postMessageHandler } from "@/components/mesage/ToastMessage";
-import ButtonFavorite1 from "@/features/favorite-posts/components/ui/ButtonFavorite1";
+import ButtonFavorite1 from "@/features/favorite-posts/components/ButtonFavorite1";
 import { IPost } from "../../data/interface";
 import { ShareAltOutlined } from "@ant-design/icons";
 

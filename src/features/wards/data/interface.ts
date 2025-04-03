@@ -1,13 +1,13 @@
-import { ISearchParams } from '@/interfaces';
+import { ISearchParams } from "@/interfaces";
 
 export interface IWard {
   name: string;
 
-  districtId: {
+  district: {
     _id: number;
     name: string;
   };
-  provinceId: {
+  province: {
     _id: number;
     name: string;
   };
@@ -17,11 +17,11 @@ export interface IWard {
 export interface IWardItem {
   _id: number;
   name: string;
-  districtId: {
+  district: {
     _id: number;
     name: string;
   };
-  provinceId: {
+  province: {
     _id: number;
     name: string;
   };
@@ -37,13 +37,13 @@ export interface IWardItem {
 
 export interface IWardPayload {
   name: string;
-  districtId: number;
-  provinceId: number;
+  district: number;
+  province: number;
   codeName: string;
   shortCodeName: string;
 }
 export interface ISearchWard extends ISearchParams {
   name?: string;
-  districtId?: number;
-  provinceId?: number;
+  district?: number;
+  province?: number;
 }

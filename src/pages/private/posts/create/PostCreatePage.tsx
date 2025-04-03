@@ -1,13 +1,17 @@
 import ContentLayout from "@/components/layouts/ContentLayout";
+import { API_KEY } from "@/features/auth/data/constant";
 import PostForm from "@/features/posts/components/form/PostForm";
 import { IPostPayload } from "@/features/posts/data/interface";
 import usePostState from "@/features/posts/hooks/usePostState";
 import PostService from "@/features/posts/service";
-import { useMutation } from "@tanstack/react-query";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Breadcrumb } from "antd";
 import { useNavigate } from "react-router-dom";
 
 function PostCreatePage() {
   const navigate = useNavigate();
+  const client = useQueryClient();
   const { onSuccess } = usePostState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: IPostPayload) => {
@@ -16,10 +20,10 @@ function PostCreatePage() {
     },
     onSuccess: () => {
       onSuccess("Post created successfully", () => {
+        client.invalidateQueries({ queryKey: [API_KEY.GET_ACCOUNT_INFO] });
         navigate("/post-management/waiting");
       });
     },
-
   });
   const onSubmit = (data: IPostPayload) => {
     mutate(data);
@@ -29,20 +33,17 @@ function PostCreatePage() {
     <ContentLayout
       mb={100}
       title={
-        <div className="flex items-center gap-1">
-          <h1
-            className="text-sm font-semibold text-flame-orange cursor-pointer"
-            onClick={() => {
-              navigate("/");
-            }}
+        <Breadcrumb>
+          <Breadcrumb.Item
+            className="text-lg font-semibold text-gray-400 cursor-pointer"
+            onClick={() => navigate("/")}
           >
             Home
-          </h1>
-          <h1 className="text-sm font-semibold text-gray-400">{"/"}</h1>
-          <h1 className="text-sm font-semibold text-gray-400">
+          </Breadcrumb.Item>
+          <Breadcrumb.Item className="text-lg text-flame-orange font-semibold ">
             Create New Post
-          </h1>
-        </div>
+          </Breadcrumb.Item>
+        </Breadcrumb>
       }
     >
       <PostForm onSubmit={onSubmit} loading={isPending} />

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Layout } from "antd";
 import Header from "./Header/Header";
+import { useLocation } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -9,10 +10,33 @@ interface AppLayoutProps {
 }
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+  const location = useLocation();
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Solution 1: Use both window and content element scrolling
+  useEffect(() => {
+    // Try scrolling the window
+    window.scrollTo(0, 0);
+
+    // Also try scrolling the content element
+    if (contentRef.current) {
+      contentRef.current.scrollTop = 0;
+    }
+
+    // Alternative approach with timeout to ensure DOM is ready
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      if (contentRef.current) {
+        contentRef.current.scrollTop = 0;
+      }
+    }, 100);
+  }, [location]); // Using the entire location object as dependency
+
   return (
     <Layout className="w-full h-full bg-gray-100">
       <Header />
       <Content
+        ref={contentRef}
         className="mt-[100px] h-[calc(100vh-100px)]
        overflow-y-auto overflow-x-hidden"
       >

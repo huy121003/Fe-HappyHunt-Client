@@ -1,21 +1,21 @@
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import React, { useState } from "react";
-import useFavoritePostState from "../../hooks/useFavoritePostState";
+import useFavoritePostState from "../hooks/useFavoritePostState";
 import { useMutation } from "@tanstack/react-query";
-import FavoritePostService from "../../service";
+import FavoritePostService from "../service";
 interface IProps {
   postId: number;
   isFavorite: boolean;
 }
-function ButtonFavorite1({ postId, isFavorite }: IProps) {
+function ButtonFavorite2({ postId, isFavorite }: IProps) {
   const [favorite, setFavorite] = useState(isFavorite);
+
   const { onSuccess } = useFavoritePostState();
   const { mutate } = useMutation({
     mutationFn: async () => {
-      const response = favorite
-        ? await FavoritePostService.remove(postId)
-        : await FavoritePostService.create({ post: postId });
+      const response = favorite;
+      await FavoritePostService.removeById(postId);
 
       return response;
     },
@@ -37,7 +37,7 @@ function ButtonFavorite1({ postId, isFavorite }: IProps) {
     <Tooltip title={isFavorite ? "Remove from favorites" : "Add to favorites"}>
       <Button
         icon={
-          isFavorite ? (
+          favorite ? (
             <HeartFilled className="text-orange-500" />
           ) : (
             <HeartOutlined className="hover:text-orange-500" />
@@ -53,4 +53,4 @@ function ButtonFavorite1({ postId, isFavorite }: IProps) {
   );
 }
 
-export default ButtonFavorite1;
+export default ButtonFavorite2;

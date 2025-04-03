@@ -18,6 +18,11 @@ const convertObjectToFormData = (data: IUpdateProfile) => {
   if (data.avatar) {
     formData.append("avatar", data.avatar as unknown as Blob);
   }
+  if (data.background) {
+    formData.append("background", data.background as unknown as Blob);
+  }
+  formData.append("sex", data.sex);
+  formData.append("dateOfBirth", data.dateOfBirth);
   formData.append("address", JSON.stringify(data.address));
   return formData;
 };

@@ -41,7 +41,7 @@ const PostListStatus: React.FC<IProps> = ({
             <Pagination
               {...pagination}
               onChange={onPaginationChange}
-              showSizeChanger={false}
+              showSizeChanger={true}
               showQuickJumper
               showTotal={(total) => `Total ${total} items`}
             />

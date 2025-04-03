@@ -1,7 +1,174 @@
-
-
+import ContentLayout from "@/components/layouts/ContentLayout";
+import { API_KEY } from "@/features/categories/data/constants";
+import { API_KEY as API_KEY_POSTS } from "@/features/posts/data/constant";
+import CategoryService from "@/features/categories/service";
+import PostFilter from "@/features/post-category/components/PostFilter";
+import { ESort } from "@/features/posts/data/constant";
+import { AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
+import { useQuery } from "@tanstack/react-query";
+import { Breadcrumb, Button, Card, Flex, Divider } from "antd";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import PostService from "@/features/posts/service";
+import TabsIndividual from "@/features/post-category/components/TabsIndividual";
+import SortBy from "@/features/post-category/components/SortBy";
+import usePostCategoryFilter from "@/features/post-category/hooks/usePostCategoryFilter";
+import PostListing from "@/features/post-category/components/PostListing";
+import { CLoadingPage, CNotFoundPage } from "@/components";
+import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 function PostCategoryPage() {
-  return <div></div>;
+  const {
+    pagination,
+    handleChangePagination,
+    handleSetSearch,
+    handleSelectIsIndividual,
+    computtedFilter,
+    handleSelectSort,
+    handleSelectAttribute,
+    handleMinPriceChange,
+    handleMaxPriceChange,
+    handleSelectProvince,
+    handleSelectDistrict,
+    handleSelectCategory,
+    handleSelectCategoryParent,
+  } = usePostCategoryFilter();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchValue = searchParams.get("q");
+  const navigate = useNavigate();
+  const { slugChildCategory } = useParams<string>();
+  const [showListType, setShowListType] = useState<"grid" | "list">("grid");
+
+  const { data, isLoading } = useQuery({
+    queryKey: [API_KEY.GET_CATEGORY_BY_SLUG, slugChildCategory],
+    queryFn: async () => {
+      const res = await CategoryService.getBySlug(String(slugChildCategory));
+      return res.data;
+    },
+  });
+  useEffect(() => {
+    handleSetSearch(searchValue || "");
+    handleSelectSort(ESort.RELEVANCE);
+    handleSelectCategoryParent(data?.parent?._id);
+    handleSelectCategory(data?._id);
+  }, [searchValue, data]);
+  const {
+    data: postData,
+    isLoading: postLoading,
+    isFetched: postFetched,
+  } = useQuery({
+    queryKey: [API_KEY_POSTS.POST_CATEGORY_CHILDREN, computtedFilter],
+    queryFn: async () => {
+      const res = await PostService.getAllPagination(computtedFilter);
+
+      return res.data;
+    },
+  });
+
+  if (isLoading) {
+    return <CLoadingPage />;
+  }
+
+  if (!data) {
+    return (
+      <Flex align="center" justify="center" className="min-h-screen">
+        <CNotFoundPage />
+      </Flex>
+    );
+  }
+
+  return (
+    <>
+      <ContentLayout
+        mb={100}
+        title={
+          <Breadcrumb>
+            <Breadcrumb.Item
+              className="text-lg font-semibold text-gray-500 cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              Home
+            </Breadcrumb.Item>
+            {data?.parent?.name && (
+              <Breadcrumb.Item
+                className="text-lg font-semibold text-gray-500 cursor-pointer"
+                onClick={() => {
+                  navigate(`/category/${data?.parent?.slug}`);
+                }}
+              >
+                {data?.parent?.name}
+              </Breadcrumb.Item>
+            )}
+            {data?.name && (
+              <Breadcrumb.Item className="text-lg font-semibold text-flame-orange ">
+                {data?.name}
+              </Breadcrumb.Item>
+            )}
+          </Breadcrumb>
+        }
+      >
+        <Flex gap={20} className="w-full">
+          <PostFilter
+            attributes={data?.attributes || []}
+            childrenLength={0}
+            handleSelectAttribute={handleSelectAttribute}
+            handleMinPriceChange={handleMinPriceChange}
+            handleMaxPriceChange={handleMaxPriceChange}
+            handleSelectProvince={handleSelectProvince}
+            handleSelectDistrict={handleSelectDistrict}
+            computtedFilter={computtedFilter}
+          />
+          <Flex gap={20} className="w-full flex-col">
+            <Card
+              className={`${
+                postData?.documentList.length === 0 && "bg-gray-100"
+              } shadow-md border border-gray-200`}
+              headStyle={{ backgroundColor: "white" }}
+              title={
+                <TabsIndividual
+                  handleSelectIsIndividual={handleSelectIsIndividual}
+                />
+              }
+              extra={
+                <Flex gap={10} justify="end" align="center">
+                  <SortBy handleSelectSort={handleSelectSort} />
+                  <Button
+                    size="large"
+                    type="text"
+                    onClick={() => {
+                      setShowListType(
+                        showListType === "grid" ? "list" : "grid"
+                      );
+                    }}
+                    icon={
+                      showListType === "grid" ? (
+                        <AppstoreOutlined />
+                      ) : (
+                        <BarsOutlined />
+                      )
+                    }
+                  />
+                </Flex>
+              }
+            >
+              <PostListing
+                data={postData?.documentList || []}
+                pagiantion={{
+                  ...pagination,
+                  total: postData?.totalDocuments || 0,
+                }}
+                onChange={handleChangePagination}
+                showListType={showListType}
+                loading={postLoading || !postFetched}
+              />
+            </Card>
+          </Flex>
+        </Flex>
+      </ContentLayout>
+      <Divider />
+      <Bottom />
+    </>
+  );
 }
 
 export default PostCategoryPage;
