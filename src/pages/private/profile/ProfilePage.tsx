@@ -26,13 +26,13 @@ const ProfilePage = () => {
         title={
           <Breadcrumb>
             <Breadcrumb.Item
-              className="text-lg font-semibold text-flame-orange cursor-pointer"
+              className="text-lg font-semibold text-gray-400 cursor-pointer"
               onClick={() => navigate("/")}
             >
               Home
             </Breadcrumb.Item>
             {data?.name && (
-              <Breadcrumb.Item className="text-lg font-semibold text-gray-400 cursor-pointer">
+              <Breadcrumb.Item className="text-lg font-semibold text-flame-orange  cursor-pointer">
                 {data?.name}
                 {"'s Profile"}
               </Breadcrumb.Item>

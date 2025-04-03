@@ -84,14 +84,14 @@ function PostCategoryPage() {
         title={
           <Breadcrumb>
             <Breadcrumb.Item
-              className="text-lg font-semibold text-black cursor-pointer"
+              className="text-lg font-semibold text-gray-500 cursor-pointer"
               onClick={() => navigate("/")}
             >
               Home
             </Breadcrumb.Item>
             {data?.parent?.name && (
               <Breadcrumb.Item
-                className="text-lg font-semibold text-black cursor-pointer"
+                className="text-lg font-semibold text-gray-500 cursor-pointer"
                 onClick={() => {
                   navigate(`/category/${data?.parent?.slug}`);
                 }}
@@ -100,7 +100,7 @@ function PostCategoryPage() {
               </Breadcrumb.Item>
             )}
             {data?.name && (
-              <Breadcrumb.Item className="text-lg font-semibold text-gray-500">
+              <Breadcrumb.Item className="text-lg font-semibold text-flame-orange ">
                 {data?.name}
               </Breadcrumb.Item>
             )}

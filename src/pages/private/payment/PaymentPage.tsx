@@ -11,12 +11,12 @@ const PaymentPage = () => {
       title={
         <Breadcrumb>
           <Breadcrumb.Item
-            className="text-lg font-semibold text-flame-orange cursor-pointer"
+            className="text-lg font-semibold text-gray-400 cursor-pointer"
             onClick={() => navigate("/")}
           >
             Home
           </Breadcrumb.Item>
-          <Breadcrumb.Item className="text-lg font-semibold text-gray-400">
+          <Breadcrumb.Item className="text-lg font-semibold text-flame-orange ">
             Payment Management
           </Breadcrumb.Item>
         </Breadcrumb>

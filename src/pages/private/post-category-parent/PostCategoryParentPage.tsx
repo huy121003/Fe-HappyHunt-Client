@@ -91,7 +91,7 @@ function PostCategoryParentPage() {
         title={
           <Breadcrumb>
             <Breadcrumb.Item
-              className="text-lg font-semibold text-black cursor-pointer"
+              className="text-lg font-semibold text-gray-400 cursor-pointer"
               onClick={() => navigate("/")}
             >
               Home

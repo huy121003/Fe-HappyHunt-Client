@@ -123,12 +123,12 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
           title={
             <Breadcrumb>
               <Breadcrumb.Item
-                className="text-lg font-semibold text-flame-orange cursor-pointer"
+                className="text-lg font-semibold text-gray-400 cursor-pointer"
                 onClick={() => navigate("/")}
               >
                 Home
               </Breadcrumb.Item>
-              <Breadcrumb.Item className="text-lg font-semibold text-gray-400">
+              <Breadcrumb.Item className="text-lg font-semibold text-flame-orange">
                 Post Management
               </Breadcrumb.Item>
             </Breadcrumb>
