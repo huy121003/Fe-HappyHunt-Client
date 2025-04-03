@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import FollowService from "@/features/follow/service";
 import ContentLayout from "@/components/layouts/ContentLayout";
-import { Breadcrumb, Card, Flex, Pagination } from "antd";
+import { Breadcrumb, Card, Flex, Image, Pagination } from "antd";
 import FollowList from "@/features/follow/components/FollowList";
 
 function FollowPage() {
@@ -75,10 +75,13 @@ function FollowPage() {
         <Card className="w-full min-h-screen">
           {followData &&
             (followData?.documentList.length === 0 ? (
-              <Flex className="w-full h-full items-center justify-center">
-                <h1 className="text-2xl font-semibold text-gray-500">
-                  No data
-                </h1>
+              <Flex className="w-full h-sereen items-center justify-center">
+                <Image
+                  src="./image8.png"
+                  width={200}
+                  height={200}
+                  preview={false}
+                />
               </Flex>
             ) : (
               <>

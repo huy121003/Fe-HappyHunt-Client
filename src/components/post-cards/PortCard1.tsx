@@ -10,7 +10,7 @@ import PostService from "@/features/posts/service";
 import { useAppSelector } from "@/redux/reduxHook";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { truncateWithDots } from "@/configs/truncateWithDots";
-import ButtonFavorite1 from "@/features/favorite-posts/components/ui/ButtonFavorite1";
+import ButtonFavorite1 from "@/features/favorite-posts/components/ButtonFavorite1";
 
 interface IProps {
   record: IPostItem;

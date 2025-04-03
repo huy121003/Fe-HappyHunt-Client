@@ -1,3 +1,4 @@
+import { EPostStatus } from "@/features/posts/data/constant";
 import { ISearchParams } from "@/interfaces";
 
 export interface IFavoritePost {
@@ -7,7 +8,11 @@ export interface IFavoritePost {
     name: string;
     slug: string;
     price: number;
-    images: string[];
+    status: EPostStatus;
+    images: {
+      index: number;
+      url: string;
+    }[];
   };
   createdAt: string;
   updatedAt: string;
