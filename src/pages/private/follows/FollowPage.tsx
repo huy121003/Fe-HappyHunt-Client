@@ -72,7 +72,10 @@ function FollowPage() {
           </Breadcrumb>
         }
       >
-        <Card className="w-full min-h-screen">
+        <Card
+          className="w-full min-h-screen"
+          title={isFollowers ? "Followers" : "Following"}
+        >
           {followData &&
             (followData?.documentList.length === 0 ? (
               <Flex className="w-full h-sereen items-center justify-center">

@@ -68,12 +68,12 @@ function SearchPostPage() {
         title={
           <Breadcrumb>
             <Breadcrumb.Item
-              className="text-lg font-semibold text-black cursor-pointer"
+              className="text-lg font-semibold text-gray-500 cursor-pointer"
               onClick={() => navigate("/")}
             >
               Home
             </Breadcrumb.Item>
-            <Breadcrumb.Item className="text-lg font-semibold text-gray-500">
+            <Breadcrumb.Item className="text-lg font-semibold text-flame-orange">
               Search
             </Breadcrumb.Item>
           </Breadcrumb>
@@ -92,9 +92,6 @@ function SearchPostPage() {
           />
           <Flex gap={20} className="w-full flex-col">
             <Card
-              className={`${
-                postData?.documentList.length === 0 && "bg-gray-100"
-              } shadow-md border border-gray-200`}
               headStyle={{ backgroundColor: "white" }}
               title={
                 <TabsIndividual

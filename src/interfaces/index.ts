@@ -1,4 +1,6 @@
+import { ESocketNamespace } from "@/constants";
 import { TablePaginationConfig, TableProps, UploadProps } from "antd";
+import { Socket } from "socket.io-client";
 
 export interface ICommonResponse<T = unknown> {
   status: number;
@@ -51,4 +53,9 @@ export interface IPagination {
   pageNumber?: number;
   pageSize?: number;
   totalDocuments?: number;
+}
+
+export interface ISocket {
+  namespace: ESocketNamespace;
+  socket: Socket;
 }

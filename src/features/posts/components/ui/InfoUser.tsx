@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IPost } from "../../data/interface";
 import { useQuery } from "@tanstack/react-query";
 import { API_KEY as API_KEY_EVALUATE } from "@/features/evaluates/data/constant";
@@ -23,12 +23,16 @@ import CButton from "@/components/buttons/CButton";
 import { useNavigate } from "react-router-dom";
 import PostService from "../../service";
 import { useAppSelector } from "@/redux/reduxHook";
+import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
+import { IChat, IChatPayload } from "@/features/chat/data/interface";
 
 interface InfoUserProps {
   record: IPost;
 }
 
 const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
+  const socket = useChatSocketProvider();
+
   const navigate = useNavigate();
   const account = useAppSelector((state) => state.auth?.account);
   const { data, isLoading } = useQuery({
@@ -47,7 +51,21 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
     record.status === EPostStatus.SELLING ||
     record.status === EPostStatus.REJECTED;
   const isSelling = record.status === EPostStatus.SELLING;
-
+  useEffect(() => {
+    if (!socket) return;
+    socket.on("chat_created", (data: IChat) => {
+      navigate(`/chat/${data.slug}`);
+    });
+  }, [socket]);
+  const handleCreateChat = () => {
+    if (!socket || !account) return;
+    const payload: IChatPayload = {
+      post: record._id,
+      seller: record.createdBy._id,
+      buyer: Number(account._id),
+    };
+    socket.emit("create_chat", payload);
+  };
   return (
     <Spin spinning={isLoading || isLoadingCountSold}>
       <Flex gap={16} vertical className="w-full">
@@ -249,6 +267,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                   Call
                 </CButton>
                 <CButton
+                  onClick={handleCreateChat}
                   type="primary"
                   icon={<i className="fas fa-message"></i>}
                   className="flex-1 px-6 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 border-none transition-all duration-300"

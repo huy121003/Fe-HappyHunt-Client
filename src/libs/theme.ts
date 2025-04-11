@@ -75,6 +75,10 @@ const theme: ThemeConfig = {
       colorPrimary: "#FF5722",
       colorText: "#000000",
     },
+    Card: {
+      borderRadius: 0,
+      colorBgContainer: "#FFFFFF",
+    },
   },
 };
 

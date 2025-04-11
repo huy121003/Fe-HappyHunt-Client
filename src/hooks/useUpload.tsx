@@ -59,9 +59,9 @@ const useUpload = (form: FormInstance) => {
   const onChange = ({ fileList }) => {
     const updatedFileList = fileList.map((file) => ({
       ...file,
-      status: "wait",
-      originFileObj: file.originFileObj || file, // Lấy file đã cắt
-      url: file.url || URL.createObjectURL(file.originFileObj || file), // Hiển thị ảnh đã cắt
+      status: "done",
+      originFileObj: file.originFileObj || file,
+      url: file.url || URL.createObjectURL(file.originFileObj || file),
     }));
 
     setFileList(updatedFileList);

@@ -14,7 +14,7 @@ import AuthService from "./features/auth/service";
 function App() {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
- 
+
   const authPages = ["/login", "/register", "/forgot-password"];
 
   const { isLoading } = useQuery({
@@ -27,7 +27,6 @@ function App() {
     },
     enabled: !authPages.includes(window.location.pathname) && !isAuthenticated,
   });
-
 
   if (isLoading) {
     return <CLoadingPage />;

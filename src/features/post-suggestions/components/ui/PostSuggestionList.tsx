@@ -2,9 +2,11 @@ import CButton from "@/components/buttons/CButton";
 import PortCard1 from "@/components/post-cards/PortCard1";
 import { API_KEY } from "@/features/posts/data/constant";
 import PostService from "@/features/posts/service";
+import { motion } from "framer-motion";
 
 import { useQuery } from "@tanstack/react-query";
 import { Card, Flex, Spin, Typography } from "antd";
+import { container, itemAnimation } from "@/libs/motion";
 
 function PostSuggestionList() {
   const { data, isLoading } = useQuery({
@@ -29,7 +31,7 @@ function PostSuggestionList() {
 
   return (
     <Card
-      className="m-4 shadow-sm border-0 overflow-hidden bg-white rounded-xl border-t-2 border-t-orange-500"
+      className="m-4 shadow-sm border-0 overflow-hidden bg-white "
       bodyStyle={{ padding: 0 }}
     >
       <div className="p-6">
@@ -39,19 +41,31 @@ function PostSuggestionList() {
               level={4}
               className="m-0 text-gray-800 font-semibold"
             >
-              <i className="fa-solid fa-file-text text-2xl text-orange-500"></i>
-              Post Suggestions for you
+              <i className="fa-solid fa-file-text text-2xl mr-4 text-orange-500"></i>
+              Just for you
             </Typography.Title>
           </Flex>
         </Flex>
-        <Flex
-          gap={10}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
           className=" grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6"
         >
           {data?.documentList?.map((item) => (
-            <PortCard1 key={item._id} record={item} />
+            <motion.div
+              key={item._id}
+              variants={itemAnimation}
+              className="group h-full"
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <PortCard1 key={item._id} record={item} />
+            </motion.div>
           ))}
-        </Flex>
+        </motion.div>
         <Flex justify="center" align="center" className="mt-4">
           <CButton type="default" hidden={hidden}>
             Show More

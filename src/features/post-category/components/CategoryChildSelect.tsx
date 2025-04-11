@@ -10,7 +10,7 @@ const CategoryChildSelect: React.FC<CategoryChildSelectProps> = ({ data }) => {
   const navigate = useNavigate();
   return (
     <Card
-      className="w-full bg-white shadow-md rounded-lg border-0 p-0"
+      className="w-full bg-white  border-0 p-0"
       size="small"
       title="Subcategories"
     >

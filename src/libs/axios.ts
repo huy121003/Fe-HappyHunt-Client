@@ -31,8 +31,6 @@ apiConfig.interceptors.response.use(
   async (error: AxiosError<ICommonResponse>) => {
     const { config, response } = error;
 
-    console.log("error", error.code);
-
     let errorMessage = "Something went wrong, please try again!";
 
     if (error.code === "ECONNABORTED") {

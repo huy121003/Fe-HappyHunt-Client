@@ -6,22 +6,24 @@ export interface IAttribute {
   value: string | number | boolean;
   isShow?: boolean;
 }
+export interface IMessage {
+  messageSeller: string;
+  messageBuyer: string;
+}
+export interface ICategory {
+  _id: number;
+  name: string;
+  slug: string;
+  messages: IMessage[];
+}
 export interface IPost {
   _id: number;
   name: string;
   description: string;
   price: number;
-  category: {
-    name: string;
-    _id: number;
-    slug: string;
-  };
+  category: ICategory;
   isFavorite?: boolean;
-  categoryParent: {
-    name: string;
-    _id: number;
-    slug: string;
-  };
+  categoryParent: ICategory;
   images: {
     url: string;
     index: number;
@@ -67,16 +69,8 @@ export interface IPostItem {
   isFavorite?: boolean;
   createdAt: string;
   updatedAt: string;
-  category: {
-    name: string;
-    _id: number;
-    phoneNumber: string;
-    avatar: string;
-  };
-  categoryParent: {
-    name: string;
-    _id: number;
-  };
+  category: ICategory;
+  categoryParent: ICategory;
   slug: string;
   status: EPostStatus;
   isIndividual: boolean;

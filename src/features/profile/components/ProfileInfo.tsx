@@ -106,7 +106,7 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
 
   return (
     <Card
-      className=" w-full lg:w-1/3 min-h-[calc(100vh/2)] rounded-xl shadow-md "
+      className=" w-full lg:w-1/3 min-h-[calc(100vh/2)] border-0 shadow-lg "
       bordered={false}
     >
       {!isLoaded ? (

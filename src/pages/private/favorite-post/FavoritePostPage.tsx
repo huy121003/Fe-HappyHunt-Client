@@ -23,6 +23,13 @@ function FavoritePostPage() {
     },
   });
   if (isLoading || !isFetched) return <CLoadingPage />;
+  if (data && data.documentList?.length === 0) {
+    return (
+      <Flex className="w-full h-sereen items-center justify-center">
+        <Image src="./image8.png" width={200} height={200} preview={false} />
+      </Flex>
+    );
+  }
   return (
     <>
       <ContentLayout
@@ -51,20 +58,16 @@ function FavoritePostPage() {
           </Breadcrumb>
         }
       >
-        <Card className="w-full min-h-screen">
-          {data && data.documentList?.length === 0 ? (
-            <Flex className="w-full h-sereen items-center justify-center">
-              <Image
-                src="./image8.png"
-                width={200}
-                height={200}
-                preview={false}
-              />
-            </Flex>
-          ) : (
+        <Card
+          className="w-full min-h-screen"
+          title={`
+          Favorite Post (${data?.totalDocuments || 0} / 100)
+          `}
+        >
+          {data && data.documentList?.length > 0 && (
             <>
               <FavoritePostList data={data?.documentList || []} />
-              <Flex className="w-full" justify="end" gap={10}>
+              <Flex className="w-full mt-4" justify="end" gap={10}>
                 <Pagination
                   defaultCurrent={1}
                   total={data?.totalDocuments}

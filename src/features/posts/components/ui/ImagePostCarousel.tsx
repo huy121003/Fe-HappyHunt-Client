@@ -20,9 +20,30 @@ const ImagePostCarousel: React.FC<Props> = ({ record }) => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-row items-center w-full gap-4">
+      <div className="mt-4 overflow-y-hidden overflow-x-auto fle flex-row  max-w-md gap-2 justify-start px-1">
+        {record.images.map((img, index) => (
+          <div key={index} className="flex-shrink-0">
+            <Image
+              onClick={() => handleThumbnailClick(index)}
+              src={img.url}
+              width={70}
+              height={70}
+              preview={false}
+              className={`object-cover rounded-lg hover:opacity-90 transition-all duration-200
+              cursor-pointer shadow-sm
+              ${
+                index === currentSlide
+                  ? "border-2 border-orange-500 scale-105"
+                  : "border border-gray-200 hover:border-orange-300"
+              }`}
+              alt={`product-thumbnail-${index}`}
+            />
+          </div>
+        ))}
+      </div>
       {/* Main Carousel */}
-      <div className="relative overflow-hidden w-full max-w-[600px] bg-white rounded-lg shadow-sm">
+      <div className="relative overflow-hidden w-full max-w-[700px] bg-white rounded-lg shadow-sm">
         <Carousel
           infinite={false}
           ref={carouselRef}
@@ -70,27 +91,6 @@ const ImagePostCarousel: React.FC<Props> = ({ record }) => {
       </div>
 
       {/* Thumbnail selector */}
-      <div className="mt-4 overflow-y-hidden overflow-x-auto flex w-full max-w-md gap-2 justify-start px-1">
-        {record.images.map((img, index) => (
-          <div key={index} className="flex-shrink-0">
-            <Image
-              onClick={() => handleThumbnailClick(index)}
-              src={img.url}
-              width={50}
-              height={50}
-              preview={false}
-              className={`object-cover rounded-lg hover:opacity-90 transition-all duration-200
-              cursor-pointer shadow-sm
-              ${
-                index === currentSlide
-                  ? "border-2 border-orange-500 scale-105"
-                  : "border border-gray-200 hover:border-orange-300"
-              }`}
-              alt={`product-thumbnail-${index}`}
-            />
-          </div>
-        ))}
-      </div>
     </div>
   );
 };

@@ -69,17 +69,17 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
       setFileList([
         {
           uid: `${Date.now()}`,
-          name: data.background.split("/").pop() || "image.png",
+          name: data?.background?.split("/").pop() || "image.png",
           status: "done",
-          url: data.background,
+          url: data?.background || "",
         },
       ]);
       setAvatar([
         {
           uid: `${Date.now()}`,
-          name: data.avatar.split("/").pop() || "image.png",
+          name: data?.avatar?.split("/").pop() || "image.png",
           status: "done",
-          url: data.avatar,
+          url: data?.avatar || "",
         },
       ]);
       form.setFieldsValue({
