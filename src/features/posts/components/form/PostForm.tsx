@@ -113,9 +113,11 @@ const PostForm: React.FC<IPostFormProps> = ({
       category: values.category?.split("-")
         ? values.category.split("-")[1]
         : undefined,
-      images: fileList.filter(
-        (file) => !data?.images?.some((image) => image.url === file.url)
-      ),
+      images: fileList
+        .filter(
+          (file) => !data?.images?.some((image) => image.url === file.url)
+        )
+        .map((file) => file.originFileObj),
       saveImages: data?.images?.filter((image) =>
         fileList.find((file) => file.url === image.url)
       ),
