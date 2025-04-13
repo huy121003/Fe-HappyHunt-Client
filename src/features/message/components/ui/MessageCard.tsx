@@ -2,7 +2,6 @@ import { Avatar, Image, Tooltip, Typography } from "antd";
 import { motion } from "framer-motion";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { IMessageItem } from "../../data/interface";
-import { truncateWithNewLine } from "@/configs/truncateWithNewLine";
 import { timeSendMessage } from "@/configs/date.";
 import { itemAnimation } from "@/libs/motion";
 import { EStatusMessage } from "../../data/constant";
@@ -63,9 +62,12 @@ const MessageCard = ({
                   : "bg-black text-white"
               }`}
             >
-              <Typography.Text className="text-wrap break-words text-white">
-                {truncateWithNewLine(message.message, 50)}
-              </Typography.Text>
+              <Typography.Paragraph
+                className="text-wrap break-words text-white"
+                style={{ whiteSpace: "pre-line" }}
+              >
+                {message.message}
+              </Typography.Paragraph>
             </div>
           )}
           {isOwnMessage && isLastMessage && (

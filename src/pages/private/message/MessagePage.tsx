@@ -1,4 +1,3 @@
-
 import { API_KEY } from "@/features/chat/data/constant";
 import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
 import ChatService from "@/features/chat/service";
@@ -69,7 +68,27 @@ function MessagePage() {
         <MessageList chat={data._id} />
       </Flex>
 
-      <MessageForm onFinish={handleSendMessage} chat={data._id} />
+      <MessageForm
+        onFinish={handleSendMessage}
+        chat={data._id}
+        message={
+          data.post.category
+            ? data.buyer._id === account._id
+              ? data.post.category.messages.map(
+                  (message) => message.messageSeller
+                )
+              : data.post.category.messages.map(
+                  (message) => message.messageBuyer
+                )
+            : data.buyer._id === account._id
+              ? data.post.categoryParent.messages.map(
+                  (message) => message.messageBuyer
+                )
+              : data.post.categoryParent.messages.map(
+                  (message) => message.messageSeller
+                )
+        }
+      />
     </Flex>
   );
 }

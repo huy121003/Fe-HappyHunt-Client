@@ -4,7 +4,6 @@ import { IMessageItem } from "../../data/interface";
 import { useAppSelector } from "@/redux/reduxHook";
 
 import useMessageFilter from "../../hooks/useMessageFilter";
-import { useSocketListener } from "@/hooks/useSocketListener";
 import { IPage } from "@/interfaces";
 import { ESocketNamespace } from "@/constants";
 import { motion } from "framer-motion";
@@ -14,6 +13,7 @@ import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvid
 import TypingIndicator from "@/components/TypingIndicator";
 
 import MessageCard from "./MessageCard";
+import { useSocketListenerWithResponse } from "@/hooks/useSocketListenerWithResponse";
 
 interface MessageListProps {
   chat: number;
@@ -47,11 +47,10 @@ function MessageList({ chat }: MessageListProps) {
   }, [chatSocket, chat, computedFilter]);
 
   // Socket listener for message history
-  useSocketListener(
+  useSocketListenerWithResponse(
     ESocketNamespace.chat,
     "message_history",
     (data: IPage<IMessageItem[]>) => {
-
       if (data && data.documentList) {
         setLoading(false);
 
@@ -72,7 +71,7 @@ function MessageList({ chat }: MessageListProps) {
   );
 
   // Socket listener for new messages
-  useSocketListener(
+  useSocketListenerWithResponse(
     ESocketNamespace.chat,
     "new_message",
     (newMessage: IMessageItem) => {
@@ -81,7 +80,7 @@ function MessageList({ chat }: MessageListProps) {
       setTimeout(scrollToBottom, 100);
     }
   );
-  useSocketListener(
+  useSocketListenerWithResponse(
     ESocketNamespace.chat,
     "message_read",
     (data: IMessageItem[]) => {
@@ -92,15 +91,23 @@ function MessageList({ chat }: MessageListProps) {
       );
     }
   );
-  useSocketListener(ESocketNamespace.chat, "user_typing", (_) => {
-    setTyping(true);
-    setTimeout(() => {
-      scrollToBottom();
-    }, 100);
-  });
-  useSocketListener(ESocketNamespace.chat, "user_stop_typing", (_) => {
-    setTyping(false);
-  });
+  useSocketListenerWithResponse(
+    ESocketNamespace.chat,
+    "user_typing",
+    (_) => {
+      setTyping(true);
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+    }
+  );
+  useSocketListenerWithResponse(
+    ESocketNamespace.chat,
+    "user_stop_typing",
+    (_) => {
+      setTyping(false);
+    }
+  );
 
   const onReadMessage = () => {
     if (!chatSocket) return;

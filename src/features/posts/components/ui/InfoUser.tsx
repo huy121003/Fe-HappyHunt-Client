@@ -25,6 +25,17 @@ import PostService from "../../service";
 import { useAppSelector } from "@/redux/reduxHook";
 import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
 import { IChat, IChatPayload } from "@/features/chat/data/interface";
+import {
+  PhoneOutlined,
+  MessageOutlined,
+  UserOutlined,
+  EditOutlined,
+  WarningOutlined,
+  EnvironmentOutlined,
+  StarOutlined,
+  ShopOutlined,
+  CheckCircleOutlined,
+} from "@ant-design/icons";
 
 interface InfoUserProps {
   record: IPost;
@@ -97,8 +108,8 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
           {/* Location & Time Info */}
           <Flex vertical gap={12} className="mb-6">
             <Flex align="center" className="group">
-              <div className="p-2 rounded-lg bg-orange-50 mr-3">
-                <i className="fas fa-map-marker-alt text-orange-500 text-lg"></i>
+              <div className="p-2 rounded-lg bg-orange-50 mr-3 group-hover:bg-orange-100 transition-colors">
+                <EnvironmentOutlined className="text-orange-500 text-lg" />
               </div>
               <Typography.Text className="text-gray-800 group-hover:text-orange-500 transition-colors">
                 {record.address.ward.name} - {record.address.district.name} -{" "}
@@ -107,7 +118,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
             </Flex>
 
             <Flex align="center" className="group">
-              <div className="p-2 rounded-lg bg-gray-50 mr-3">
+              <div className="p-2 rounded-lg bg-gray-50 mr-3 group-hover:bg-gray-100 transition-colors">
                 <i className="fas fa-clock text-gray-600 text-lg"></i>
               </div>
               <Typography.Text className="text-gray-800 group-hover:text-gray-600 transition-colors">
@@ -121,7 +132,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
             {isOwner && isSellingOrRejected && (
               <CButton
                 type="default"
-                icon={<i className="fas fa-edit"></i>}
+                icon={<EditOutlined />}
                 onClick={() => navigate(`/update-post/${record.slug}`)}
                 className="px-6 py-2 rounded-lg border-2 border-orange-500 text-orange-500 hover:bg-orange-50 transition-all duration-300"
               >
@@ -133,7 +144,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
               <>
                 <CButton
                   danger
-                  icon={<i className="fas fa-exclamation-triangle"></i>}
+                  icon={<WarningOutlined />}
                   onClick={() => navigate(`/report/${record.slug}`)}
                   className="px-6 py-2 rounded-lg border-2 border-red-500 text-red-500 hover:bg-red-50 transition-all duration-300"
                 >
@@ -141,7 +152,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                 </CButton>
                 <CButton
                   type="primary"
-                  icon={<i className="fas fa-map-marker-alt"></i>}
+                  icon={<EnvironmentOutlined />}
                   onClick={() => {
                     window.open(
                       `https://www.google.com/maps/search/?api=1&query=${record.address.specificAddress},${record.address.ward.name},${record.address.district.name},${record.address.province.name}`
@@ -168,7 +179,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                   src={record.createdBy.avatar}
                   width={60}
                   height={60}
-                  className="rounded-xl border-2 border-gray-100 object-cover"
+                  className="rounded-xl border-2 border-gray-100 object-cover hover:border-orange-500 transition-colors"
                   preview={false}
                 />
               </Badge>
@@ -184,9 +195,9 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                   className="text-xs px-3 py-1 rounded-full border-0"
                   icon={
                     record?.isIndividual ? (
-                      <i className="fas fa-user mr-1"></i>
+                      <UserOutlined className="mr-1" />
                     ) : (
-                      <i className="fas fa-store mr-1"></i>
+                      <ShopOutlined className="mr-1" />
                     )
                   }
                 >
@@ -213,7 +224,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                   navigate(`/user/${record.createdBy._id}/evaluates`)
                 }
               >
-                <i className="fas fa-star text-orange-500 text-lg"></i>
+                <StarOutlined className="text-orange-500 text-lg" />
                 <Typography.Text strong className="text-gray-900 text-lg">
                   {data?.averageStar?.toFixed(1) || "0.0"}
                 </Typography.Text>
@@ -233,7 +244,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                   className="flex items-center gap-2 hover:scale-105 transition-transform"
                   onClick={() => navigate(`/profile/${record.createdBy.slug}`)}
                 >
-                  <i className="fas fa-box-open text-gray-600 text-lg"></i>
+                  <ShopOutlined className="text-gray-600 text-lg" />
                   <Typography.Text className="text-gray-900 text-lg">
                     {dataCountSold?.selling || 0}
                   </Typography.Text>
@@ -243,7 +254,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                   className="flex items-center gap-2 hover:scale-105 transition-transform"
                   onClick={() => navigate(`/profile/${record.createdBy.slug}`)}
                 >
-                  <i className="fas fa-check-circle text-gray-600 text-lg"></i>
+                  <CheckCircleOutlined className="text-gray-600 text-lg" />
                   <Typography.Text className="text-gray-900 text-lg">
                     {dataCountSold?.sold || 0}
                   </Typography.Text>
@@ -258,7 +269,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
               <>
                 <CButton
                   type="default"
-                  icon={<i className="fas fa-phone"></i>}
+                  icon={<PhoneOutlined />}
                   onClick={() =>
                     window.open(`tel:${record.createdBy.phoneNumber}`)
                   }
@@ -269,7 +280,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                 <CButton
                   onClick={handleCreateChat}
                   type="primary"
-                  icon={<i className="fas fa-message"></i>}
+                  icon={<MessageOutlined />}
                   className="flex-1 px-6 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 border-none transition-all duration-300"
                 >
                   Chat
@@ -279,7 +290,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
             <CButton
               onClick={() => navigate(`/profile/${record.createdBy.slug}`)}
               type="default"
-              icon={<i className="fas fa-user"></i>}
+              icon={<UserOutlined />}
               className="flex-1 px-6 py-2 rounded-lg border-2 border-gray-200 text-gray-700 hover:border-orange-500 hover:text-orange-500 transition-all duration-300"
             >
               Profile

@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IMessagePayload } from "../../data/interface";
-import { Button, Card, Flex, Form, Upload } from "antd";
-import CInput from "@/components/form/CInput";
+import { Button, Card, Flex, Form, Typography, Upload } from "antd";
 import {
   SendOutlined,
   PictureOutlined,
@@ -11,14 +10,18 @@ import {
 import { UploadFile } from "antd/es/upload/interface";
 import useUpload from "@/hooks/useUpload";
 import { useAppSelector } from "@/redux/reduxHook";
-import checkProfanity from "@/configs/checkProfanity";
-import { checkText } from "@/configs/checkText";
-import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
+import  { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
 import SampleMessageMOdal from "@/features/sample-message/components/ui/SampleMessageModal";
+import { useQuery } from "@tanstack/react-query";
+import { API_KEY } from "@/features/sample-message/data/constant";
+import SampleMessageService from "@/features/sample-message/service";
+import CTextArea from "@/components/form/CTextArea";
+import { truncateWithDots } from "@/configs/truncateWithDots";
 
 interface MessageFormProps {
   onFinish: (values: IMessagePayload) => void;
   chat: number;
+  message: string[];
 }
 interface IForm extends Omit<IMessagePayload, "image"> {
   image?: UploadFile[];
@@ -34,12 +37,26 @@ const getBase64 = (file: File): Promise<string> => {
   });
 };
 
-function MessageForm({ onFinish, chat }: MessageFormProps) {
+function MessageForm({ onFinish, chat, message }: MessageFormProps) {
+  const [messageList, setMessageList] = useState<string[]>(message);
   const [form] = Form.useForm<IForm>();
   const [openSampleMessage, setOpenSampleMessage] = useState<boolean>(false);
   const chatSocket = useChatSocketProvider();
   const account = useAppSelector((state) => state.auth.account);
   const [showUpload, setShowUpload] = useState<boolean>(false);
+  const { data } = useQuery({
+    queryKey: [API_KEY.SAMPLE_MESSAGE],
+    queryFn: async () => {
+      const res = await SampleMessageService.getAll();
+      return res.data;
+    },
+  });
+  useEffect(() => {
+    if (data) {
+      setMessageList([]);
+      setMessageList(() => [...data.map((item) => item.message), ...message]);
+    }
+  }, [data]);
   const {
     onChange,
     fileList,
@@ -89,94 +106,112 @@ function MessageForm({ onFinish, chat }: MessageFormProps) {
   return (
     <Card className="w-full !p-0 !m-0 rounded-none border-t border-gray-200 ">
       <Form<IForm> form={form} onFinish={handleSubmit}>
-        <Flex vertical gap={5}>
-          {showUpload && (
-            <Flex>
-              <Form.Item
-                name="image"
-                className="!m-0 !p-0"
-                valuePropName="fileList"
-                getValueFromEvent={(e) => e.fileList}
+        <Flex vertical gap={10}>
+          <Flex
+            gap={10}
+            className="overflow-x-auto w-full whitespace-nowrap flex-nowrap"
+            style={{ scrollbarWidth: "thin" }}
+          >
+            {messageList.map((item) => (
+              <Flex
+                onClick={() => form.setFieldsValue({ message: item })}
+                key={item}
+                className="!p-2 !m-0 bg-gray-100 rounded-full hover:bg-gray-200 cursor-pointer flex-shrink-0"
               >
-                <Upload
-                  onRemove={() => setShowUpload(false)}
-                  accept=".png,.jpg,.jpeg"
-                  listType="picture-card"
-                  maxCount={1}
-                  fileList={fileList}
-                  onChange={onChange}
-                  beforeUpload={handleBeforeUpload(".png,.jpg,.jpeg")}
-                  onPreview={handlePreview}
+                <Typography.Text>{truncateWithDots(item, 20)}</Typography.Text>
+              </Flex>
+            ))}
+          </Flex>
+          <Flex vertical gap={5}>
+            {showUpload && (
+              <Flex>
+                <Form.Item
+                  name="image"
+                  className="!m-0 !p-0"
+                  valuePropName="fileList"
+                  getValueFromEvent={(e) => e.fileList}
                 >
-                  {fileList.length === 0 && (
-                    <Button
-                      type="text"
-                      size="large"
-                      icon={<PlusOutlined />}
-                      className=" !m-0"
-                    />
-                  )}
-                </Upload>
-              </Form.Item>
-            </Flex>
-          )}
-          <Flex gap={8} align="center">
-            <Button
-              hidden={showUpload}
-              onClick={() => setShowUpload(true)}
-              type="text"
-              size="large"
-              className="!p-0 !m-0 "
-              icon={
-                <PictureOutlined className="text-2xl text-gray-500 hover:text-orange-400" />
-              }
-            />
-            <Button
-              hidden={showUpload}
-              type="text"
-              size="large"
-              className="!p-0 !m-0"
-              onClick={() => setOpenSampleMessage(true)}
-              icon={
-                <MessageOutlined className="text-2xl text-gray-500 hover:text-orange-400" />
-              }
-            />
-
-            <Form.Item
-              name="message"
-              className="!m-0 !p-0 w-full"
-              rules={[
-                {
-                  validator: (_, value) => {
-                    const res = checkProfanity(value);
-                    if (res) {
-                      return Promise.reject(new Error(res));
-                    }
-                    const resText = checkText(value);
-                    if (resText) {
-                      return Promise.reject(new Error(resText));
-                    }
-                    return Promise.resolve();
-                  },
-                },
-              ]}
-            >
-              <CInput
-                onChange={onTyping}
-                onPressEnter={onTyping}
-                onBlur={onStopTyping}
-                placeholder="Type a message..."
-                className="!rounded-full "
-                allowClear
+                  <Upload
+                    onRemove={() => setShowUpload(false)}
+                    accept=".png,.jpg,.jpeg"
+                    listType="picture-card"
+                    maxCount={1}
+                    fileList={fileList}
+                    onChange={onChange}
+                    beforeUpload={handleBeforeUpload(".png,.jpg,.jpeg")}
+                    onPreview={handlePreview}
+                  >
+                    {fileList.length === 0 && (
+                      <Button
+                        type="text"
+                        size="large"
+                        icon={<PlusOutlined />}
+                        className=" !m-0"
+                      />
+                    )}
+                  </Upload>
+                </Form.Item>
+              </Flex>
+            )}
+            <Flex gap={8} align="center">
+              <Button
+                hidden={showUpload}
+                onClick={() => setShowUpload(true)}
+                type="text"
+                size="large"
+                className="!p-0 !m-0 "
+                icon={
+                  <PictureOutlined className="text-2xl text-gray-500 hover:text-orange-400" />
+                }
               />
-            </Form.Item>
+              <Button
+                hidden={showUpload}
+                type="text"
+                size="large"
+                className="!p-0 !m-0"
+                onClick={() => setOpenSampleMessage(true)}
+                icon={
+                  <MessageOutlined className="text-2xl text-gray-500 hover:text-orange-400" />
+                }
+              />
 
-            <Button
-              onClick={form.submit}
-              type="primary"
-              className="!w-10 !h-10 !rounded-full !bg-orange-400 hover:!bg-orange-500"
-              icon={<SendOutlined className="text-lg" />}
-            />
+              <Form.Item
+                name="message"
+                className="!m-0 !p-0 w-full"
+                // rules={[
+                //   {
+                //     validator: (_, value) => {
+                //       const res = checkProfanity(value);
+                //       if (res) {
+                //         return Promise.reject(new Error(res));
+                //       }
+                //       const resText = checkText(value);
+                //       if (resText) {
+                //         return Promise.reject(new Error(resText));
+                //       }
+                //       return Promise.resolve();
+                //     },
+                //   },
+                // ]}
+              >
+                <CTextArea
+                  autoSize={{ minRows: 1, maxRows: 3 }}
+                  onChange={onTyping}
+                  onPressEnter={onTyping}
+                  onBlur={onStopTyping}
+                  placeholder="Type a message..."
+                  className="!rounded-full "
+                  allowClear
+                />
+              </Form.Item>
+
+              <Button
+                onClick={form.submit}
+                type="primary"
+                className="!w-10 !h-10 !rounded-full !bg-orange-400 hover:!bg-orange-500"
+                icon={<SendOutlined className="text-lg" />}
+              />
+            </Flex>
           </Flex>
         </Flex>
       </Form>

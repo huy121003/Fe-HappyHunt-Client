@@ -12,16 +12,16 @@ export const useSocketListenerWithResponse = <T>(
     const socket = getSocket(namespace);
 
     const handleResponse = (data: {
-      status: "success" | "error";
+      success: boolean;
       message?: string;
       data?: T;
     }) => {
-      if (data.status === "error") {
+      if (!data.success) {
         postMessageHandler({
           text: data.message || "Something went wrong",
           type: "error",
         });
-      } else if (data.status === "success" && callback) {
+      } else if (data.success && callback) {
         callback(data.data as T);
       }
     };

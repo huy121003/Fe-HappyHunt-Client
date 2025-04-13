@@ -93,7 +93,8 @@ function ChatCard({ item, onClose }: IProps) {
                 <Flex gap={10} align="center">
                   {item?.lastMessage?.image && <i className="fas fa-image"></i>}
                   <span className=" text-sm ">
-                    {truncateWithDots(item.lastMessage.message, 20)}
+                    {item.lastMessage.message &&
+                      truncateWithDots(item.lastMessage.message, 20)}
                   </span>
                 </Flex>
               </Flex>

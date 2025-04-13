@@ -4,7 +4,7 @@ import { IAccount } from "@/features/chat/data/interface";
 import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
 import { EPostStatus } from "@/features/posts/data/constant";
 import { IPost } from "@/features/posts/data/interface";
-import { useSocketListener } from "@/hooks/useSocketListener";
+import { useSocketListenerWithResponse } from "@/hooks/useSocketListenerWithResponse";
 import { Avatar, Card, Flex, Image, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,11 +29,19 @@ function InfoCard({ post, user }: IProps) {
       targetAccountId: user._id,
     });
   }, [socket, user._id]);
-  useSocketListener(ESocketNamespace.chat, "status_account", (data) => {
-    if (data.accountId === user._id) {
-      setIsOnline(data);
+  useSocketListenerWithResponse(
+    ESocketNamespace.chat,
+    "status_account",
+    (data: {
+      accountId: number;
+      status: "online" | "offline";
+      timestamp: string | null;
+    }) => {
+      if (data.accountId === user._id) {
+        setIsOnline(data);
+      }
     }
-  });
+  );
   const navigate = useNavigate();
   return (
     <>

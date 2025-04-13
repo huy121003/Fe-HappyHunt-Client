@@ -1,10 +1,11 @@
 import React from "react";
-import { Card, Typography, Collapse, Space, Radio, Flex } from "antd";
+import { Card, Typography, Collapse, Space, Radio, Flex, Badge } from "antd";
 import {
   FilterOutlined,
   DollarOutlined,
   GlobalOutlined,
   TagsOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import { IAttribute } from "@/features/categories/data/interface";
 import { Type } from "@/features/categories/data/constants";
@@ -116,18 +117,23 @@ const PostFilter: React.FC<IProps> = ({
     >
       <Card
         size="small"
-        className=" w-[300px] mx-auto !border-0 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
+        className="w-[300px] mx-auto !border-0 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 bg-white"
         bodyStyle={{ padding: 0 }}
         headStyle={{
           backgroundColor: "white",
           borderBottom: "1px solid #f0f0f0",
+          padding: "16px 20px",
         }}
         title={
           <Flex align="center" justify="space-between" className="px-2">
-            <Text strong className="text-black font-medium flex items-center">
-              <FilterOutlined className="mr-2 text-orange-500" />
+            <Text
+              strong
+              className="text-black font-medium flex items-center text-lg"
+            >
+              <FilterOutlined className="mr-3 text-orange-500 text-xl" />
               Filters
             </Text>
+            <Badge count={0} showZero color="#ff6b00" />
           </Flex>
         }
       >
@@ -141,20 +147,29 @@ const PostFilter: React.FC<IProps> = ({
           ]}
           ghost
           expandIconPosition="end"
+          expandIcon={({ isActive }) => (
+            <DownOutlined
+              rotate={isActive ? 180 : 0}
+              className="text-gray-400"
+            />
+          )}
           className="filter-collapse"
         >
           {/* Price Range Filter */}
           <Panel
             header={
-              <Text strong className="text-black font-medium flex items-center">
-                <DollarOutlined className="mr-2 text-orange-500" />
+              <Text
+                strong
+                className="text-black font-medium flex items-center text-base"
+              >
+                <DollarOutlined className="mr-3 text-orange-500 text-lg" />
                 Price Range
               </Text>
             }
             key="price"
             className="filter-panel"
           >
-            <div className="px-4 pb-4">
+            <div className="px-6 pb-6">
               <CPriceRange
                 min={0}
                 max={100000000}
@@ -167,8 +182,11 @@ const PostFilter: React.FC<IProps> = ({
           {/* Location Filter */}
           <Panel
             header={
-              <Text strong className="text-black font-medium flex items-center">
-                <GlobalOutlined className="mr-2 text-orange-500" />
+              <Text
+                strong
+                className="text-black font-medium flex items-center text-base"
+              >
+                <GlobalOutlined className="mr-3 text-orange-500 text-lg" />
                 Location
               </Text>
             }
@@ -177,7 +195,7 @@ const PostFilter: React.FC<IProps> = ({
           >
             <Space
               direction="vertical"
-              className="w-full px-4 pb-4"
+              className="w-full px-6 pb-6"
               size="middle"
             >
               <SelectProvince
@@ -210,16 +228,16 @@ const PostFilter: React.FC<IProps> = ({
                   header={
                     <Text
                       strong
-                      className="text-black font-medium flex items-center"
+                      className="text-black font-medium flex items-center text-base"
                     >
-                      <TagsOutlined className="mr-2 text-orange-500" />
+                      <TagsOutlined className="mr-3 text-orange-500 text-lg" />
                       {attribute.name}
                     </Text>
                   }
                   key={`attribute-${index}`}
                   className="filter-panel"
                 >
-                  <div className="px-4 pb-4">
+                  <div className="px-6 pb-6">
                     {renderAttributeInput(attribute)}
                   </div>
                 </Panel>

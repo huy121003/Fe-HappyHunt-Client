@@ -1,6 +1,5 @@
 // ChatHistoryList.tsx
 import { useEffect, useState } from "react";
-import { useSocketListener } from "@/hooks/useSocketListener";
 import { ESocketNamespace } from "@/constants";
 import useChatFilter from "../hooks/useChatFilter";
 import { IChatItem, ISearchChat } from "../data/interface";
@@ -12,6 +11,7 @@ import { container, itemAnimation } from "@/libs/motion";
 import { useAppSelector } from "@/redux/reduxHook";
 import { ETypeMessage } from "../data/constant";
 import ChatCard from "./ChatCard";
+import { useSocketListenerWithResponse } from "@/hooks/useSocketListenerWithResponse";
 
 interface IChatHistoryListProps {
   onClose: () => void;
@@ -39,7 +39,7 @@ function ChatHistoryList({ onClose }: IChatHistoryListProps) {
     };
   }, [computedFilter, socket]);
 
-  useSocketListener(
+  useSocketListenerWithResponse(
     ESocketNamespace.chat,
     "chat_history",
     (data: IPage<IChatItem[]>) => {
@@ -49,7 +49,7 @@ function ChatHistoryList({ onClose }: IChatHistoryListProps) {
       }
     }
   );
-  useSocketListener(
+  useSocketListenerWithResponse(
     ESocketNamespace.chat,
     "chat_updated",
     (data: IChatItem) => {
@@ -63,14 +63,22 @@ function ChatHistoryList({ onClose }: IChatHistoryListProps) {
       }
     }
   );
-  useSocketListener(ESocketNamespace.chat, "chat_read", (data: IChatItem) => {
-    setChatHistory((prev) =>
-      prev.map((item) => (item._id === data._id ? data : item))
-    );
-  });
-  useSocketListener(ESocketNamespace.chat, "count_not_read", (data: number) => {
-    setCountNotRead(data);
-  });
+  useSocketListenerWithResponse(
+    ESocketNamespace.chat,
+    "chat_read",
+    (data: IChatItem) => {
+      setChatHistory((prev) =>
+        prev.map((item) => (item._id === data._id ? data : item))
+      );
+    }
+  );
+  useSocketListenerWithResponse(
+    ESocketNamespace.chat,
+    "count_not_read",
+    (data: number) => {
+      setCountNotRead(data);
+    }
+  );
   const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (total === chatHistory.length || isLoadingMore) return;
 

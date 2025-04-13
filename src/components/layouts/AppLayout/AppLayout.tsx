@@ -4,6 +4,7 @@ import Header from "./Header/Header";
 import { useLocation } from "react-router-dom";
 import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
 import { useAppSelector } from "@/redux/reduxHook";
+import ChatBot from "@/features/chatbot/component/ui/ChatBot";
 
 const { Content } = Layout;
 
@@ -47,6 +48,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         className="mt-[100px] h-[calc(100vh-100px)]
        overflow-y-auto overflow-x-hidden"
       >
+        <ChatBot />
         {children}
       </Content>
     </Layout>

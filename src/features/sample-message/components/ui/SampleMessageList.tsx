@@ -1,4 +1,3 @@
-
 import { ISampleMessage } from "../../data/interface";
 import { Button, Flex, List, Typography } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -8,12 +7,14 @@ interface SampleMessageListProps {
   data: ISampleMessage[];
   setIsOpen: (isOpen: boolean) => void;
   setRecord: (record: ISampleMessage | null) => void;
+  handleDelete: (record: ISampleMessage) => void;
 }
 
 function SampleMessageList({
   data,
   setIsOpen,
   setRecord,
+  handleDelete,
 }: SampleMessageListProps) {
   return (
     <Flex gap={10} vertical>
@@ -40,7 +41,7 @@ function SampleMessageList({
                 danger
                 icon={<DeleteOutlined />}
                 onClick={() => {
-                  // TODO: Implement delete functionality
+                  handleDelete(item);
                 }}
               />,
             ]}
