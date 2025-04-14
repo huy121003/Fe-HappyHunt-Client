@@ -1,3 +1,4 @@
+import { EPostStatus } from "@/features/posts/data/constant";
 import { ISearchParams } from "@/interfaces";
 
 export interface IEvaluateItem {
@@ -5,17 +6,23 @@ export interface IEvaluateItem {
   target: {
     _id: number;
     name: string;
+    slug: string;
   };
   post: {
     _id: number;
     name: string;
-    imgaes: string[];
+    images: {
+      url: string;
+      index: number;
+    }[];
     slug: string;
     price: number;
+    status: EPostStatus;
   };
   isSeller: boolean;
   createdAt: string;
-  createBy: {
+  description: string;
+  createdBy: {
     _id: number;
     name: string;
     avatar: string;
@@ -28,13 +35,21 @@ export interface IEvaluatePayload {
   target: number;
   post: number;
   isSeller: boolean;
-  content: string[];
+  content?: string[];
+  description?: string;
   star: number;
 }
 export interface ISearchEvaluate extends ISearchParams {
-  isSeller?: boolean;
+  isSeller?: string;
+  target?: number;
+  post?: number;
 }
 export interface ICountEvaluate {
   averageStar: number;
   count: number;
+}
+export interface ICount {
+  evaluateBySeller: number;
+  evaluateByBuyer: number;
+  totalEvaluate: number;
 }

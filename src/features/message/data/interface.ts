@@ -19,7 +19,7 @@ export interface IMessageItem {
   timeSend: string;
   timeRead: string;
   sender: {
-    _id: string;
+    _id: number;
     name: string;
     avatar: string;
   };
@@ -31,5 +31,6 @@ export interface IMessagePayload {
   sender: number;
   image?: string | UploadFile;
   message?: string;
+
   chat: number;
 }

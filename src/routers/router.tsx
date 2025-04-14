@@ -9,6 +9,7 @@ import ProfilePage from "@/pages/private/profile/ProfilePage";
 import ProfileUpdateLayout from "@/features/profile/layout/ProfileUpdateLayout";
 import ChatPage from "@/pages/private/chat/ChatPage";
 import { ChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
+import EvaluateLayout from "@/features/evaluates/components/ui/EvaluateLayout";
 
 //import RoleProtectedRoute from "@/components/layouts/RoleProtectedRoute";
 const withSuspense = (
@@ -55,6 +56,9 @@ const FavoritePostPage = lazy(
 );
 const SelectChat = lazy(() => import("@/features/chat/component/SelectChat"));
 const MessagePage = lazy(() => import("@/pages/private/message/MessagePage"));
+const EvaluatePage = lazy(
+  () => import("@/pages/private/evaluate/EvaluatePage")
+);
 const router = createBrowserRouter([
   {
     path: "*",
@@ -120,6 +124,28 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: withSuspense(<ProfilePage />, <CLoadingPage />),
+              },
+              {
+                path: "reviews",
+                element: (
+                  <EvaluateLayout>
+                    <Outlet />
+                  </EvaluateLayout>
+                ),
+                children: [
+                  {
+                    index: true,
+                    element: withSuspense(<EvaluatePage />, <CLoadingPage />),
+                  },
+                  {
+                    path: "buyer",
+                    element: withSuspense(<EvaluatePage />, <CLoadingPage />),
+                  },
+                  {
+                    path: "seller",
+                    element: withSuspense(<EvaluatePage />, <CLoadingPage />),
+                  },
+                ],
               },
               {
                 path: "followers",

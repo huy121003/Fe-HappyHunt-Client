@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { IPost } from "../../data/interface";
 import { useQuery } from "@tanstack/react-query";
 import { API_KEY as API_KEY_EVALUATE } from "@/features/evaluates/data/constant";
@@ -36,6 +36,8 @@ import {
   ShopOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
+import { useSocketListenerWithResponse } from "@/hooks/useSocketListenerWithResponse";
+import { ESocketNamespace } from "@/constants";
 
 interface InfoUserProps {
   record: IPost;
@@ -62,12 +64,14 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
     record.status === EPostStatus.SELLING ||
     record.status === EPostStatus.REJECTED;
   const isSelling = record.status === EPostStatus.SELLING;
-  useEffect(() => {
-    if (!socket) return;
-    socket.on("chat_created", (data: IChat) => {
+  useSocketListenerWithResponse(
+    ESocketNamespace.chat,
+    "chat_created",
+    (data: IChat) => {
       navigate(`/chat/${data.slug}`);
-    });
-  }, [socket]);
+    }
+  );
+
   const handleCreateChat = () => {
     if (!socket || !account) return;
     const payload: IChatPayload = {

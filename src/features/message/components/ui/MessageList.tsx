@@ -14,12 +14,19 @@ import TypingIndicator from "@/components/TypingIndicator";
 
 import MessageCard from "./MessageCard";
 import { useSocketListenerWithResponse } from "@/hooks/useSocketListenerWithResponse";
+import EvaluateShow from "@/features/evaluates/components/ui/EvaluateShow";
+import { useQuery } from "@tanstack/react-query";
+import { API_KEY } from "@/features/evaluates/data/constant";
+import EvaluateService from "@/features/evaluates/service";
 
 interface MessageListProps {
   chat: number;
+  post: number;
+  isSeller: boolean;
+  target: number;
 }
 
-function MessageList({ chat }: MessageListProps) {
+function MessageList({ chat, post, isSeller, target }: MessageListProps) {
   const { computedFilter } = useMessageFilter();
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,7 +39,24 @@ function MessageList({ chat }: MessageListProps) {
   const [typing, setTyping] = useState<boolean>(false);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
-
+  const [showEvaluate, setShowEvaluate] = useState<boolean>(false);
+  const {
+    data: evaluate,
+    isFetched,
+    isLoading,
+  } = useQuery({
+    queryKey: [API_KEY.EVALUATE_DETAIL, post, target],
+    queryFn: async () => {
+      const response = await EvaluateService.getOne(post, target);
+      return response.data;
+    },
+  });
+  useEffect(() => {
+    setShowEvaluate(false);
+    if (total >= 10 && !evaluate && isFetched && !isLoading) {
+      setShowEvaluate(true);
+    }
+  }, [evaluate, isFetched, isLoading, total, target]);
   // Fetch initial messages
   useEffect(() => {
     if (!chatSocket) return;
@@ -91,16 +115,12 @@ function MessageList({ chat }: MessageListProps) {
       );
     }
   );
-  useSocketListenerWithResponse(
-    ESocketNamespace.chat,
-    "user_typing",
-    (_) => {
-      setTyping(true);
-      setTimeout(() => {
-        scrollToBottom();
-      }, 100);
-    }
-  );
+  useSocketListenerWithResponse(ESocketNamespace.chat, "user_typing", (_) => {
+    setTyping(true);
+    setTimeout(() => {
+      scrollToBottom();
+    }, 100);
+  });
   useSocketListenerWithResponse(
     ESocketNamespace.chat,
     "user_stop_typing",
@@ -114,7 +134,7 @@ function MessageList({ chat }: MessageListProps) {
     chatSocket.emit("read_message", {
       chat: chat,
       sender: messages.filter((msg) => msg.sender._id !== account?._id)[0]
-        .sender._id,
+        ?.sender?._id,
     });
   };
   const scrollToBottom = () => {
@@ -202,6 +222,14 @@ function MessageList({ chat }: MessageListProps) {
         )}
       </motion.div>
       {typing && <TypingIndicator />}
+      {showEvaluate && (
+        <EvaluateShow
+          target={target}
+          post={post}
+          isSeller={isSeller}
+          setShow={setShowEvaluate}
+        />
+      )}
     </Card>
   );
 }

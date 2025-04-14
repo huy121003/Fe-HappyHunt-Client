@@ -3,7 +3,7 @@ import { ISearchEvaluate } from "../data/interface";
 import usePagination from "@/hooks/usePagination";
 
 const useEvaluateFilter = () => {
-  const [isSeller, setIsSeller] = useState<boolean>();
+  const [isSeller, setIsSeller] = useState<string>();
 
   const {
     parsedPagination,
@@ -15,12 +15,16 @@ const useEvaluateFilter = () => {
   const computedFilter = useMemo(() => {
     const filters: ISearchEvaluate = {
       ...parsedPagination,
-      ...(isSeller && { isSeller }),
+      ...(isSeller !== undefined && { isSeller }),
     };
     return filters;
   }, [parsedPagination, isSeller]);
-  const handelChangeIsSeller = (value: boolean) => {
-    setIsSeller(value);
+  const handelChangeIsSeller = (value: string) => {
+    if (value == "all") {
+      setIsSeller(undefined);
+    } else {
+      setIsSeller(value == "seller" ? "seller" : "buyer");
+    }
     handleResetPagination;
   };
   return {

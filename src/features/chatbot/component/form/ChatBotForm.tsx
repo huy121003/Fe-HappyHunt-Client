@@ -11,6 +11,7 @@ function ChatBotForm({ onSend, setMessage }: ChatBotFormProps) {
   const onFinish = () => {
     const values = form.getFieldsValue();
     if (!values.message.trim()) return;
+    onSend(values.message);
     setMessage((prev) => [
       ...prev,
       {
@@ -18,18 +19,14 @@ function ChatBotForm({ onSend, setMessage }: ChatBotFormProps) {
         content: values.message,
       },
     ]);
-    onSend(values.message);
+
     form.resetFields();
   };
   return (
     <Card className="rounded-none !p-0">
       <Form form={form} layout="vertical" onFinish={onFinish} className="!p-0">
         <Flex gap={10}>
-          <Form.Item
-            className="!p-0 !m-0 w-full"
-            name="message"
-            rules={[{ required: true, whitespace: true }]}
-          >
+          <Form.Item className="!p-0 !m-0 w-full" name="message">
             <CInput placeholder="Type a question..." />
           </Form.Item>
           <Button

@@ -65,7 +65,14 @@ function MessagePage() {
         user={account._id !== data.seller._id ? data.seller : data.buyer}
       />
       <Flex className="flex-1 flex overflow-hidden">
-        <MessageList chat={data._id} />
+        <MessageList
+          chat={data._id}
+          post={data.post._id}
+          isSeller={account._id === data.seller._id}
+          target={
+            data.buyer._id === account._id ? data.seller._id : data.buyer._id
+          }
+        />
       </Flex>
 
       <MessageForm

@@ -12,13 +12,12 @@ import {
   Spin,
   Typography,
   Divider,
-  Badge,
   Tooltip,
+  Rate,
 } from "antd";
 import CButton from "@/components/buttons/CButton";
 import {
   ShareAltOutlined,
-  StarFilled,
   CalendarOutlined,
   EnvironmentOutlined,
   EditOutlined,
@@ -126,36 +125,20 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               borderRadius: "8px 8px 0 0",
             }}
           >
-            <Badge
-              count={
-                evaluateData?.averageStar ? (
-                  <Flex align="center" className="bg-white p-1 rounded-md">
-                    <StarFilled
-                      style={{ color: "#ffa41b", fontSize: "16px" }}
-                    />
-                    <span className="ml-1 font-semibold text-gray-800">
-                      {evaluateData.averageStar}
-                    </span>
-                  </Flex>
-                ) : null
-              }
-              offset={[-10, 10]}
-            >
-              <Image
-                src={data.avatar || "https://via.placeholder.com/150"}
-                alt={data.name}
-                width={120}
-                height={120}
-                preview={false}
-                className="rounded-full border-4 border-white absolute"
-                style={{
-                  left: "24px",
-                  bottom: "-60px",
-                  objectFit: "contain",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                }}
-              />
-            </Badge>
+            <Image
+              src={data.avatar || "https://via.placeholder.com/150"}
+              alt={data.name}
+              width={120}
+              height={120}
+              preview={false}
+              className="rounded-full border-4 border-white absolute"
+              style={{
+                left: "24px",
+                bottom: "-60px",
+                objectFit: "contain",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+              }}
+            />
           </div>
 
           {/* User Info */}
@@ -181,41 +164,61 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
             </Typography.Paragraph>
 
             {/* Stats */}
-            <Flex className="w-full justify-between mb-3">
-              <Tooltip title="Evaluations">
-                <Flex vertical align="center" className="py-2 px-4 rounded-lg">
-                  <span className="text-lg font-semibold text-gray-800">
-                    {evaluateData?.count || 0}
-                  </span>
-                  <span className="text-xs text-gray-500">evaluations</span>
-                </Flex>
-              </Tooltip>
-
-              <Tooltip title="Followers">
+            <Tooltip title="View Reviews">
+              <Flex
+                className="w-full"
+                gap={10}
+                onClick={() => naviagte(`/profile/${data.slug}/reviews`)}
+              >
+                {!evaluateData?.averageStar ? (
+                  <span className="text-gray-500">No evaluations</span>
+                ) : (
+                  <Flex gap={10}>
+                    <Flex>
+                      <Rate
+                        disabled
+                        allowHalf
+                        value={evaluateData?.averageStar}
+                      />
+                      <span className="text-gray-500">
+                        {"("} {evaluateData?.count || 0} Reviews{" )"}
+                      </span>
+                    </Flex>
+                  </Flex>
+                )}
+              </Flex>
+            </Tooltip>
+            <Divider />
+            <Flex className="mb-3 gap-10 w-full justify-between">
+              <Tooltip title="View Followers">
                 <Flex
-                  vertical
+                  justify="center"
                   align="center"
-                  className="py-2 px-4 rounded-lg cursor-pointer"
+                  className="py-2 px-4 rounded-lg cursor-pointer w-full hover:bg-gray-50 transition-all duration-200 border border-gray-200"
                   onClick={() => naviagte(`/profile/${data.slug}/followers`)}
                 >
-                  <span className="text-lg font-semibold text-gray-800">
-                    {followData?.follower || 0}
-                  </span>
-                  <span className="text-xs text-gray-500">followers</span>
+                  <Flex vertical align="center" gap={2}>
+                    <span className="text-2xl font-bold text-gray-800">
+                      {followData?.follower || 0}
+                    </span>
+                    <span className="text-sm text-gray-500">Followers</span>
+                  </Flex>
                 </Flex>
               </Tooltip>
 
-              <Tooltip title="Following">
+              <Tooltip title="View Following">
                 <Flex
-                  vertical
+                  justify="center"
                   align="center"
-                  className="py-2 px-4  rounded-lg *:cursor-pointer"
+                  className="py-2 px-4 rounded-lg cursor-pointer w-full hover:bg-gray-50 transition-all duration-200 border border-gray-200"
                   onClick={() => naviagte(`/profile/${data.slug}/following`)}
                 >
-                  <span className="text-lg font-semibold text-gray-800">
-                    {followData?.following || 0}
-                  </span>
-                  <span className="text-xs text-gray-500">following</span>
+                  <Flex vertical align="center" gap={2}>
+                    <span className="text-2xl font-bold text-gray-800">
+                      {followData?.following || 0}
+                    </span>
+                    <span className="text-sm text-gray-500">Following</span>
+                  </Flex>
                 </Flex>
               </Tooltip>
             </Flex>

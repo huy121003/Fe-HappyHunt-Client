@@ -22,7 +22,10 @@ function ChatBot() {
   ]);
   const { mutate, isPending } = useMutation({
     mutationFn: async (question: string) => {
-      const response = await QAChatbotsService.getAnswer(question);
+      const response = await QAChatbotsService.getAnswer({
+        message: question,
+        history: message,
+      });
       return response.data;
     },
     onSuccess: (data) => {
