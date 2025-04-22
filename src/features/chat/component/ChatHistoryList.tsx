@@ -1,9 +1,7 @@
 // ChatHistoryList.tsx
 import { useEffect, useState } from "react";
-import { ESocketNamespace } from "@/constants";
 import useChatFilter from "../hooks/useChatFilter";
 import { IChatItem, ISearchChat } from "../data/interface";
-import { useChatSocketProvider } from "../hooks/useChatSocketProvider";
 import { IPage } from "@/interfaces";
 import { Button, Card, Dropdown, Menu, Typography, Skeleton } from "antd";
 import { motion } from "framer-motion";
@@ -12,6 +10,7 @@ import { useAppSelector } from "@/redux/reduxHook";
 import { ETypeMessage } from "../data/constant";
 import ChatCard from "./ChatCard";
 import { useSocketListenerWithResponse } from "@/hooks/useSocketListenerWithResponse";
+import { useSocketProvider } from "@/hooks/useSocketProvider";
 
 interface IChatHistoryListProps {
   onClose: () => void;
@@ -25,7 +24,7 @@ function ChatHistoryList({ onClose }: IChatHistoryListProps) {
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
   const { computedFilter, handleChangeViewType, viewType } = useChatFilter();
-  const socket = useChatSocketProvider();
+  const socket = useSocketProvider();
   useEffect(() => {
     if (!socket) return;
     const payload: ISearchChat = computedFilter;
@@ -40,7 +39,6 @@ function ChatHistoryList({ onClose }: IChatHistoryListProps) {
   }, [computedFilter, socket]);
 
   useSocketListenerWithResponse(
-    ESocketNamespace.chat,
     "chat_history",
     (data: IPage<IChatItem[]>) => {
       if (data && data.documentList) {
@@ -50,7 +48,6 @@ function ChatHistoryList({ onClose }: IChatHistoryListProps) {
     }
   );
   useSocketListenerWithResponse(
-    ESocketNamespace.chat,
     "chat_updated",
     (data: IChatItem) => {
       if (chatHistory.find((item) => item._id === data._id)) {
@@ -64,7 +61,6 @@ function ChatHistoryList({ onClose }: IChatHistoryListProps) {
     }
   );
   useSocketListenerWithResponse(
-    ESocketNamespace.chat,
     "chat_read",
     (data: IChatItem) => {
       setChatHistory((prev) =>
@@ -72,13 +68,9 @@ function ChatHistoryList({ onClose }: IChatHistoryListProps) {
       );
     }
   );
-  useSocketListenerWithResponse(
-    ESocketNamespace.chat,
-    "count_not_read",
-    (data: number) => {
-      setCountNotRead(data);
-    }
-  );
+  useSocketListenerWithResponse("count_not_read", (data: number) => {
+    setCountNotRead(data);
+  });
   const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (total === chatHistory.length || isLoadingMore) return;
 

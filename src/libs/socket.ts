@@ -4,14 +4,19 @@ import { io, Socket } from "socket.io-client";
 // Đối tượng lưu trữ các kết nối socket theo namespace
 const sockets: Record<string, Socket> = {};
 
-export const getSocket = (namespace: ESocketNamespace): Socket => {
+export const getSocket = (
+  namespace: ESocketNamespace = ESocketNamespace.app,
+  accountId?: number
+): Socket => {
   if (!sockets[namespace]) {
     const socket = io(`${import.meta.env.VITE_PUBLIC_URL}${namespace}`, {
       transports: ["websocket"],
       reconnectionAttempts: 3,
       timeout: 10000,
       withCredentials: true,
-
+      query: {
+        accountId: accountId,
+      },
       auth: {
         token: localStorage.getItem("access_token"),
       },
@@ -33,7 +38,9 @@ export const getSocket = (namespace: ESocketNamespace): Socket => {
   return sockets[namespace];
 };
 
-export const disconnectSocket = (namespace: ESocketNamespace) => {
+export const disconnectSocket = (
+  namespace: ESocketNamespace = ESocketNamespace.app
+) => {
   if (sockets[namespace]) {
     sockets[namespace].disconnect();
     delete sockets[namespace];
@@ -41,14 +48,17 @@ export const disconnectSocket = (namespace: ESocketNamespace) => {
 };
 
 // Hàm để cập nhật socket với token mới
-export const updateSocketAuth = (namespace: ESocketNamespace) => {
+export const updateSocketAuth = (
+  namespace: ESocketNamespace = ESocketNamespace.app,
+  accountId?: number
+) => {
   if (sockets[namespace]) {
     // Ngắt kết nối socket cũ
     sockets[namespace].disconnect();
     delete sockets[namespace];
 
     // Tạo socket mới với token mới
-    return getSocket(namespace);
+    return getSocket(namespace, accountId);
   }
   return null;
 };

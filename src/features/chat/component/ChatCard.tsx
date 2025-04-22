@@ -6,7 +6,7 @@ import { Image } from "antd";
 import TimeAgo from "@/components/ui/TimeAgo";
 import { truncateWithDots } from "@/configs/truncateWithDots";
 import { EStatusMessage } from "@/features/message/data/constant";
-import { useChatSocketProvider } from "../hooks/useChatSocketProvider";
+import { useSocketProvider } from "@/hooks/useSocketProvider";
 
 interface IProps {
   item: IChatItem;
@@ -14,12 +14,12 @@ interface IProps {
 }
 function ChatCard({ item, onClose }: IProps) {
   const { slugChat } = useParams();
-  const chatSocket = useChatSocketProvider();
+  const socket = useSocketProvider();
   const navigate = useNavigate();
   const account = useAppSelector((state) => state.auth?.account);
   const onReadMessage = () => {
-    if (!chatSocket) return;
-    chatSocket.emit("read_message", {
+    if (!socket) return;
+    socket.emit("read_message", {
       chat: item._id,
       sender: item.lastMessage.sender,
     });

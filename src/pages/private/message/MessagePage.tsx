@@ -1,11 +1,11 @@
 import { API_KEY } from "@/features/chat/data/constant";
-import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
 import ChatService from "@/features/chat/service";
 import MessageForm from "@/features/message/components/form/MessageForm";
 import InfoCard from "@/features/message/components/ui/InfoCard";
 import MessageList from "@/features/message/components/ui/MessageList";
 import { IMessagePayload } from "@/features/message/data/interface";
 import useMessageFilter from "@/features/message/hooks/useMessageFilter";
+import { useSocketProvider } from "@/hooks/useSocketProvider";
 
 import { useAppSelector } from "@/redux/reduxHook";
 import { useQuery } from "@tanstack/react-query";
@@ -18,7 +18,7 @@ function MessagePage() {
   const { computedFilter } = useMessageFilter();
   const account = useAppSelector((state) => state.auth.account);
 
-  const chatSocket = useChatSocketProvider();
+  const socket = useSocketProvider();
 
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [API_KEY.CHAT_DETAIL, slugChat],
@@ -28,18 +28,18 @@ function MessagePage() {
     },
   });
   useEffect(() => {
-    if (!chatSocket) return;
-    chatSocket.emit("join_chat", data?._id);
+    if (!socket) return;
+    socket.emit("join_chat", data?._id);
 
     return () => {
-      chatSocket?.emit("leave_chat", data?._id);
-      chatSocket?.off("message_history");
-      chatSocket?.off("new_message");
+      socket?.emit("leave_chat", data?._id);
+      socket?.off("message_history");
+      socket?.off("new_message");
     };
-  }, [chatSocket, slugChat, computedFilter, data?._id]);
+  }, [socket, slugChat, computedFilter, data?._id]);
 
   const handleSendMessage = (data: IMessagePayload) => {
-    chatSocket?.emit("send_message", data);
+    socket?.emit("send_message", data);
   };
   if (isLoading || !isFetched)
     return (

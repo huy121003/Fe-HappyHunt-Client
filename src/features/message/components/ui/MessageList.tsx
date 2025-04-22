@@ -5,11 +5,11 @@ import { useAppSelector } from "@/redux/reduxHook";
 
 import useMessageFilter from "../../hooks/useMessageFilter";
 import { IPage } from "@/interfaces";
-import { ESocketNamespace } from "@/constants";
+
 import { motion } from "framer-motion";
 import { container } from "@/libs/motion";
 
-import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
+
 import TypingIndicator from "@/components/TypingIndicator";
 
 import MessageCard from "./MessageCard";
@@ -18,6 +18,7 @@ import EvaluateShow from "@/features/evaluates/components/ui/EvaluateShow";
 import { useQuery } from "@tanstack/react-query";
 import { API_KEY } from "@/features/evaluates/data/constant";
 import EvaluateService from "@/features/evaluates/service";
+import { useSocketProvider } from "@/hooks/useSocketProvider";
 
 interface MessageListProps {
   chat: number;
@@ -30,7 +31,7 @@ function MessageList({ chat, post, isSeller, target }: MessageListProps) {
   const { computedFilter } = useMessageFilter();
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const chatSocket = useChatSocketProvider();
+  const socket = useSocketProvider();
   const [messages, setMessages] = useState<IMessageItem[]>([]);
   const account = useAppSelector((state) => state.auth.account);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -59,20 +60,19 @@ function MessageList({ chat, post, isSeller, target }: MessageListProps) {
   }, [evaluate, isFetched, isLoading, total, target]);
   // Fetch initial messages
   useEffect(() => {
-    if (!chatSocket) return;
+    if (!socket) return;
 
     setMessages([]); // Reset messages when chat changes
     setIsInitialLoad(true);
 
-    chatSocket.emit("fetch_messages", {
+    socket.emit("fetch_messages", {
       ...computedFilter,
       chat: chat,
     });
-  }, [chatSocket, chat, computedFilter]);
+  }, [socket, chat, computedFilter]);
 
   // Socket listener for message history
   useSocketListenerWithResponse(
-    ESocketNamespace.chat,
     "message_history",
     (data: IPage<IMessageItem[]>) => {
       if (data && data.documentList) {
@@ -95,43 +95,31 @@ function MessageList({ chat, post, isSeller, target }: MessageListProps) {
   );
 
   // Socket listener for new messages
-  useSocketListenerWithResponse(
-    ESocketNamespace.chat,
-    "new_message",
-    (newMessage: IMessageItem) => {
-      setMessages((prev) => [newMessage, ...prev]);
-      // Schedule scroll to bottom after the new message is rendered
-      setTimeout(scrollToBottom, 100);
-    }
-  );
-  useSocketListenerWithResponse(
-    ESocketNamespace.chat,
-    "message_read",
-    (data: IMessageItem[]) => {
-      if (data.length === 0) return;
+  useSocketListenerWithResponse("new_message", (newMessage: IMessageItem) => {
+    setMessages((prev) => [newMessage, ...prev]);
+    // Schedule scroll to bottom after the new message is rendered
+    setTimeout(scrollToBottom, 100);
+  });
+  useSocketListenerWithResponse("message_read", (data: IMessageItem[]) => {
+    if (data.length === 0) return;
 
-      setMessages((prev) =>
-        prev.map((msg) => data.find((item) => item._id === msg._id) || msg)
-      );
-    }
-  );
-  useSocketListenerWithResponse(ESocketNamespace.chat, "user_typing", (_) => {
+    setMessages((prev) =>
+      prev.map((msg) => data.find((item) => item._id === msg._id) || msg)
+    );
+  });
+  useSocketListenerWithResponse("user_typing", (_) => {
     setTyping(true);
     setTimeout(() => {
       scrollToBottom();
     }, 100);
   });
-  useSocketListenerWithResponse(
-    ESocketNamespace.chat,
-    "user_stop_typing",
-    (_) => {
-      setTyping(false);
-    }
-  );
+  useSocketListenerWithResponse("user_stop_typing", (_) => {
+    setTyping(false);
+  });
 
   const onReadMessage = () => {
-    if (!chatSocket) return;
-    chatSocket.emit("read_message", {
+    if (!socket) return;
+    socket.emit("read_message", {
       chat: chat,
       sender: messages.filter((msg) => msg.sender._id !== account?._id)[0]
         ?.sender?._id,
@@ -171,7 +159,7 @@ function MessageList({ chat, post, isSeller, target }: MessageListProps) {
       setIsLoadingMore(true);
       setLoading(true);
 
-      chatSocket?.emit("fetch_messages", {
+      socket?.emit("fetch_messages", {
         ...computedFilter,
         page: Math.ceil(messages.length / (computedFilter.size ?? 10)) + 1,
         chat: chat,

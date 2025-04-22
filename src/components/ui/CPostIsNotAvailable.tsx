@@ -1,5 +1,4 @@
 import { Button, Flex, Image, Typography } from "antd";
-import Bottom from "../layouts/AppLayout/Bottom/Bottom";
 import { useNavigate } from "react-router-dom";
 function CPostIsNotAvailable() {
   const naviagate = useNavigate();
@@ -25,7 +24,6 @@ function CPostIsNotAvailable() {
           Back to Home
         </Button>
       </Flex>
-      <Bottom />
     </>
   );
 }

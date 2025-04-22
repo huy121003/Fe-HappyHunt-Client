@@ -10,13 +10,14 @@ import {
 import { UploadFile } from "antd/es/upload/interface";
 import useUpload from "@/hooks/useUpload";
 import { useAppSelector } from "@/redux/reduxHook";
-import  { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
+
 import SampleMessageMOdal from "@/features/sample-message/components/ui/SampleMessageModal";
 import { useQuery } from "@tanstack/react-query";
 import { API_KEY } from "@/features/sample-message/data/constant";
 import SampleMessageService from "@/features/sample-message/service";
 import CTextArea from "@/components/form/CTextArea";
 import { truncateWithDots } from "@/configs/truncateWithDots";
+import { useSocketProvider } from "@/hooks/useSocketProvider";
 
 interface MessageFormProps {
   onFinish: (values: IMessagePayload) => void;
@@ -41,7 +42,7 @@ function MessageForm({ onFinish, chat, message }: MessageFormProps) {
   const [messageList, setMessageList] = useState<string[]>(message);
   const [form] = Form.useForm<IForm>();
   const [openSampleMessage, setOpenSampleMessage] = useState<boolean>(false);
-  const chatSocket = useChatSocketProvider();
+  const socket = useSocketProvider();
   const account = useAppSelector((state) => state.auth.account);
   const [showUpload, setShowUpload] = useState<boolean>(false);
   const { data } = useQuery({
@@ -88,16 +89,16 @@ function MessageForm({ onFinish, chat, message }: MessageFormProps) {
     setFileList([]);
   };
   const onTyping = () => {
-    if (!chatSocket) return;
-    chatSocket.emit("typing", {
+    if (!socket) return;
+    socket.emit("typing", {
       chat: chat,
       sender: account?._id,
       name: account?.name,
     });
   };
   const onStopTyping = () => {
-    if (!chatSocket) return;
-    chatSocket.emit("stop_typing", {
+    if (!socket) return;
+    socket.emit("stop_typing", {
       chat: chat,
       sender: account?._id,
       name: account?.name,

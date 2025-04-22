@@ -8,7 +8,7 @@ import RedirectPage from "@/pages/private/redirect/RedirectPage";
 import ProfilePage from "@/pages/private/profile/ProfilePage";
 import ProfileUpdateLayout from "@/features/profile/layout/ProfileUpdateLayout";
 import ChatPage from "@/pages/private/chat/ChatPage";
-import { ChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
+import { SocketProvider } from "@/hooks/useSocketProvider";
 import EvaluateLayout from "@/features/evaluates/components/ui/EvaluateLayout";
 
 //import RoleProtectedRoute from "@/components/layouts/RoleProtectedRoute";
@@ -80,11 +80,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ChatSocketProvider>
+      <SocketProvider>
         <AppLayout>
           <Outlet />
         </AppLayout>
-      </ChatSocketProvider>
+      </SocketProvider>
     ),
     children: [
       {

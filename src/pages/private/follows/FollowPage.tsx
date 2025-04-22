@@ -80,9 +80,9 @@ function FollowPage() {
             (followData?.documentList.length === 0 ? (
               <Flex className="w-full h-sereen items-center justify-center">
                 <Image
-                  src="./image8.png"
-                  width={200}
-                  height={200}
+                  src="/image8.png"
+                  width="50%"
+                  height="50%"
                   preview={false}
                 />
               </Flex>

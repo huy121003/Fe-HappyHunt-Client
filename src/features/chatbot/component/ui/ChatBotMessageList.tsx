@@ -35,7 +35,10 @@ function ChatBotMessageList({
       <Flex
         vertical
         className="
-  w-[400px] h-[500px]
+ lg:w-[calc(100vw/4)] lg:h-[calc(100vh/1.5)]
+ md:w-[calc(100vw/2)] md:h-[calc(100vh/1.5)]
+ sm:w-[calc(100vw/1.5)] sm:h-[calc(100vh/1.5)]
+ w-[calc(100vw-50px)] h-[calc(100vh-100px)]
   rounded-lg
   border-2 border-gray-300
   hover:border-orange-500
@@ -54,10 +57,10 @@ function ChatBotMessageList({
           <Flex justify="space-between" align="center" className="w-full">
             <Flex align="center" gap={10} justify="center">
               <Avatar
-                src="https://cdn-icons-png.flaticon.com/512/6014/6014401.png"
+                src="https://cdn0.iconfinder.com/data/icons/chatbot-10/128/chatbot-chat-robot-bot-face-message-communication-1024.png"
                 size={50}
               />
-              <Typography.Title level={5}>Support Assistant</Typography.Title>
+              <Typography.Title level={5}>HappyHunt Assistant</Typography.Title>
             </Flex>
 
             <Button type="text" icon={<CloseOutlined />} onClick={onCancel} />

@@ -5,7 +5,5 @@ export enum EMethod {
   DELETE = "DELETE",
 }
 export enum ESocketNamespace {
-  chat = "/chat",
-  message = "/messages",
-  notification = "/notification",
+  app = "/app",
 }

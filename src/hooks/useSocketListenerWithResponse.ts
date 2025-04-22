@@ -2,20 +2,22 @@ import { useEffect } from "react";
 import { getSocket } from "@/libs/socket";
 import { ESocketNamespace } from "@/constants";
 import { postMessageHandler } from "@/components/mesage/ToastMessage";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 export const useSocketListenerWithResponse = <T>(
-  namespace: ESocketNamespace,
   event: string,
   callback?: (data: T) => void
 ) => {
+  const account = useSelector((state: RootState) => state.auth.account);
   useEffect(() => {
-    const socket = getSocket(namespace);
-
+    const socket = getSocket(ESocketNamespace.app, Number(account?._id));
     const handleResponse = (data: {
       success: boolean;
       message?: string;
       data?: T;
     }) => {
+      console.log("data", data);
       if (!data.success) {
         postMessageHandler({
           text: data.message || "Something went wrong",
@@ -31,7 +33,7 @@ export const useSocketListenerWithResponse = <T>(
     return () => {
       socket.off(event, handleResponse);
     };
-  }, [namespace, event, callback]);
+  }, [event, callback]);
 
   return null;
 };

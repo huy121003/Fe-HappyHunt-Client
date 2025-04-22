@@ -1,10 +1,11 @@
 import TimeAgo from "@/components/ui/TimeAgo";
-import { ESocketNamespace } from "@/constants";
+
 import { IAccount } from "@/features/chat/data/interface";
-import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
+
 import { EPostStatus } from "@/features/posts/data/constant";
 import { IPost } from "@/features/posts/data/interface";
 import { useSocketListenerWithResponse } from "@/hooks/useSocketListenerWithResponse";
+import { useSocketProvider } from "@/hooks/useSocketProvider";
 import { Avatar, Card, Flex, Image, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +23,7 @@ function InfoCard({ post, user }: IProps) {
     status: "offline",
     timestamp: null,
   });
-  const socket = useChatSocketProvider();
+  const socket = useSocketProvider();
   useEffect(() => {
     socket?.emit("get_status_account", {
       accountId: user._id,
@@ -30,7 +31,6 @@ function InfoCard({ post, user }: IProps) {
     });
   }, [socket, user._id]);
   useSocketListenerWithResponse(
-    ESocketNamespace.chat,
     "status_account",
     (data: {
       accountId: number;

@@ -168,24 +168,22 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               <Flex
                 className="w-full"
                 gap={10}
-                onClick={() => naviagte(`/profile/${data.slug}/reviews`)}
+                {...(evaluateData?.averageStar !== 0 && {
+                  onClick: () => naviagte(`/profile/${data.slug}/reviews`),
+                })}
               >
-                {!evaluateData?.averageStar ? (
-                  <span className="text-gray-500">No evaluations</span>
-                ) : (
-                  <Flex gap={10}>
-                    <Flex>
-                      <Rate
-                        disabled
-                        allowHalf
-                        value={evaluateData?.averageStar}
-                      />
-                      <span className="text-gray-500">
-                        {"("} {evaluateData?.count || 0} Reviews{" )"}
-                      </span>
-                    </Flex>
+                <Flex gap={10}>
+                  <Flex>
+                    <Rate
+                      disabled
+                      allowHalf
+                      value={evaluateData?.averageStar}
+                    />
+                    <span className="text-gray-500">
+                      {"("} {evaluateData?.count || 0} Reviews{" )"}
+                    </span>
                   </Flex>
-                )}
+                </Flex>
               </Flex>
             </Tooltip>
             <Divider />
@@ -195,7 +193,9 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
                   justify="center"
                   align="center"
                   className="py-2 px-4 rounded-lg cursor-pointer w-full hover:bg-gray-50 transition-all duration-200 border border-gray-200"
-                  onClick={() => naviagte(`/profile/${data.slug}/followers`)}
+                  {...(followData?.follower !== 0 && {
+                    onClick: () => naviagte(`/profile/${data.slug}/followers`),
+                  })}
                 >
                   <Flex vertical align="center" gap={2}>
                     <span className="text-2xl font-bold text-gray-800">
@@ -211,7 +211,9 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
                   justify="center"
                   align="center"
                   className="py-2 px-4 rounded-lg cursor-pointer w-full hover:bg-gray-50 transition-all duration-200 border border-gray-200"
-                  onClick={() => naviagte(`/profile/${data.slug}/following`)}
+                  {...(followData?.following !== 0 && {
+                    onClick: () => naviagte(`/profile/${data.slug}/following`),
+                  })}
                 >
                   <Flex vertical align="center" gap={2}>
                     <span className="text-2xl font-bold text-gray-800">

@@ -16,6 +16,8 @@ const ChatPage: React.FC<ChatPageProps> = ({ children }) => {
   useEffect(() => {
     if (slugChat) {
       setShowChat(false);
+    } else {
+      setShowChat(true);
     }
   }, [slugChat]);
   useEffect(() => {

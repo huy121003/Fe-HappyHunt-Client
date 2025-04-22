@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Layout } from "antd";
 import Header from "./Header/Header";
 import { useLocation } from "react-router-dom";
-import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
+import { useSocketProvider } from "@/hooks/useSocketProvider";
 import { useAppSelector } from "@/redux/reduxHook";
 import ChatBot from "@/features/chatbot/component/ui/ChatBot";
 
@@ -13,7 +13,7 @@ interface AppLayoutProps {
 }
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
-  const socket = useChatSocketProvider();
+  const socket = useSocketProvider();
   const account = useAppSelector((state) => state.auth?.account);
   useEffect(() => {
     socket?.emit("online", account._id);

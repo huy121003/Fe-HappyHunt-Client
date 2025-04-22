@@ -23,7 +23,7 @@ import CButton from "@/components/buttons/CButton";
 import { useNavigate } from "react-router-dom";
 import PostService from "../../service";
 import { useAppSelector } from "@/redux/reduxHook";
-import { useChatSocketProvider } from "@/features/chat/hooks/useChatSocketProvider";
+
 import { IChat, IChatPayload } from "@/features/chat/data/interface";
 import {
   PhoneOutlined,
@@ -37,14 +37,15 @@ import {
   CheckCircleOutlined,
 } from "@ant-design/icons";
 import { useSocketListenerWithResponse } from "@/hooks/useSocketListenerWithResponse";
-import { ESocketNamespace } from "@/constants";
+
+import { useSocketProvider } from "@/hooks/useSocketProvider";
 
 interface InfoUserProps {
   record: IPost;
 }
 
 const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
-  const socket = useChatSocketProvider();
+  const socket = useSocketProvider();
 
   const navigate = useNavigate();
   const account = useAppSelector((state) => state.auth?.account);
@@ -64,13 +65,9 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
     record.status === EPostStatus.SELLING ||
     record.status === EPostStatus.REJECTED;
   const isSelling = record.status === EPostStatus.SELLING;
-  useSocketListenerWithResponse(
-    ESocketNamespace.chat,
-    "chat_created",
-    (data: IChat) => {
-      navigate(`/chat/${data.slug}`);
-    }
-  );
+  useSocketListenerWithResponse("chat_created", (data: IChat) => {
+    navigate(`/chat/${data.slug}`);
+  });
 
   const handleCreateChat = () => {
     if (!socket || !account) return;
@@ -225,7 +222,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                 type="text"
                 className="flex items-center gap-2 hover:scale-105 transition-transform"
                 onClick={() =>
-                  navigate(`/user/${record.createdBy._id}/evaluates`)
+                  navigate(`/profile/${record.createdBy.slug}/reviews`)
                 }
               >
                 <StarOutlined className="text-orange-500 text-lg" />

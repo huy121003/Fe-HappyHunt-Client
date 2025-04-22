@@ -25,7 +25,7 @@ function ChatBotCard({ item }: IChatBotCardProps) {
     >
       {item.sender === "bot" && (
         <Avatar
-          src=" https://cdn-icons-png.flaticon.com/512/6014/6014401.png"
+          src=" https://cdn0.iconfinder.com/data/icons/chatbot-10/128/chatbot-chat-robot-bot-face-message-communication-1024.png"
           size={30}
         />
       )}

@@ -119,7 +119,7 @@ const PostForm: React.FC<IPostFormProps> = ({
         )
         .map((file) => file.originFileObj),
       saveImages: data?.images?.filter((image) =>
-        fileList.find((file) => file.url === image.url)
+        fileList.some((file) => file.url === image.url)
       ),
       address: {
         province: values.province,
