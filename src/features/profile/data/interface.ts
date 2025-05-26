@@ -1,4 +1,4 @@
-import { ESex } from "./constant";
+import { EGender } from "./constant";
 
 export interface IProfile {
   _id: number;
@@ -27,6 +27,6 @@ export interface IProfile {
   slug: string;
   createdAt: string;
   dateOfBirth: string;
-  sex: ESex;
+  gender: EGender;
   background: string;
 }

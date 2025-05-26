@@ -9,7 +9,6 @@ import { IPage } from "@/interfaces";
 import { motion } from "framer-motion";
 import { container } from "@/libs/motion";
 
-
 import TypingIndicator from "@/components/TypingIndicator";
 
 import MessageCard from "./MessageCard";
@@ -25,9 +24,16 @@ interface MessageListProps {
   post: number;
   isSeller: boolean;
   target: number;
+  isBanned: boolean;
 }
 
-function MessageList({ chat, post, isSeller, target }: MessageListProps) {
+function MessageList({
+  chat,
+  post,
+  isSeller,
+  target,
+  isBanned,
+}: MessageListProps) {
   const { computedFilter } = useMessageFilter();
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -210,7 +216,7 @@ function MessageList({ chat, post, isSeller, target }: MessageListProps) {
         )}
       </motion.div>
       {typing && <TypingIndicator />}
-      {showEvaluate && (
+      {showEvaluate && !isBanned && (
         <EvaluateShow
           target={target}
           post={post}

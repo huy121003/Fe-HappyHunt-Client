@@ -13,7 +13,7 @@ import ForgotPasswordForm from "@/features/auth/components/form/ForgotPasswordFo
 
 function ForgotPasswordPage() {
   const navigate = useNavigate();
-  const { onSuccess, onError } = useAuthState();
+  const { onSuccess } = useAuthState();
   const [openOTP, setOpenOTP] = useState(false);
 
   const { mutate: sendOtpMutation, isPending: isSendOtpPending } = useMutation({
@@ -26,7 +26,6 @@ function ForgotPasswordPage() {
         setOpenOTP(true);
       });
     },
-    onError,
   });
   const { mutate: forgotPasswordMutation, isPending: isForgotPasswordPending } =
     useMutation({
@@ -35,11 +34,10 @@ function ForgotPasswordPage() {
         return res;
       },
       onSuccess: () => {
-        onSuccess("Forgot password successfully!", () => {
+        onSuccess("Your new password has sent your email", () => {
           navigate("/login");
         });
       },
-      onError,
     });
   const onForgotPassword = useCallback(
     (data: IForgotPasswordRequest) => {

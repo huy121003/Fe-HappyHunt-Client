@@ -4,12 +4,19 @@ import { motion } from "framer-motion";
 import TimeAgo from "@/components/ui/TimeAgo";
 import { useNavigate } from "react-router-dom";
 import { EPostStatus } from "@/features/posts/data/constant";
+import CButton from "@/components/buttons/CButton";
+import { useAppSelector } from "@/redux/reduxHook";
+import { useState } from "react";
+import ReportModal from "@/features/report/components/ui/ReportModal";
+import { ETargetType } from "@/features/report/data/constant";
 
 interface EvaluateCardProps {
   evaluate: IEvaluateItem;
 }
 
 function EvaluateCard({ evaluate }: EvaluateCardProps) {
+  const [open, setOpen] = useState(false);
+  const account = useAppSelector((state) => state.auth.account);
   const navigate = useNavigate();
   return (
     <motion.div
@@ -32,6 +39,17 @@ function EvaluateCard({ evaluate }: EvaluateCardProps) {
               {evaluate.createdBy.name || "Unknown User"}
             </Typography.Title>
           </Flex>
+        }
+        extra={
+          <CButton
+            hidden={evaluate.target._id !== account?._id}
+            type="primary"
+            danger
+            icon={<i className="fa-solid fa-flag"></i>}
+            onClick={() => setOpen(true)}
+          >
+            Report
+          </CButton>
         }
       >
         <Flex wrap gap={10}>
@@ -80,6 +98,12 @@ function EvaluateCard({ evaluate }: EvaluateCardProps) {
             </Flex>
           </Flex>
         </Card>
+        <ReportModal
+          target={evaluate._id}
+          targetType={ETargetType.REVIEW}
+          open={open}
+          setOpen={setOpen}
+        />
       </Card>
     </motion.div>
   );

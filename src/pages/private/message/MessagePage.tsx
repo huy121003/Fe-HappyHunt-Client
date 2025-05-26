@@ -72,30 +72,40 @@ function MessagePage() {
           target={
             data.buyer._id === account._id ? data.seller._id : data.buyer._id
           }
+          isBanned={!data.buyer.isBanned || !data.seller.isBanned}
         />
       </Flex>
-
-      <MessageForm
-        onFinish={handleSendMessage}
-        chat={data._id}
-        message={
-          data.post.category
-            ? data.buyer._id === account._id
-              ? data.post.category.messages.map(
-                  (message) => message.messageSeller
-                )
-              : data.post.category.messages.map(
-                  (message) => message.messageBuyer
-                )
-            : data.buyer._id === account._id
-              ? data.post.categoryParent.messages.map(
-                  (message) => message.messageBuyer
-                )
-              : data.post.categoryParent.messages.map(
-                  (message) => message.messageSeller
-                )
-        }
-      />
+      {data.buyer.isBanned && data.seller.isBanned ? (
+        <MessageForm
+          onFinish={handleSendMessage}
+          chat={data._id}
+          message={
+            data.post.category
+              ? data.buyer._id === account._id
+                ? data.post.category.messages.map(
+                    (message) => message.messageSeller
+                  )
+                : data.post.category.messages.map(
+                    (message) => message.messageBuyer
+                  )
+              : data.buyer._id === account._id
+                ? data.post.categoryParent.messages.map(
+                    (message) => message.messageBuyer
+                  )
+                : data.post.categoryParent.messages.map(
+                    (message) => message.messageSeller
+                  )
+          }
+        />
+      ) : (
+        <Card className="w-full !p-0 !m-0 rounded-none border-t border-gray-200">
+          <Flex justify="center" align="center" className="h-full">
+            <span className="text-xl text-gray-500 font-semibold">
+              This account has been banned . You cannot send messages
+            </span>
+          </Flex>
+        </Card>
+      )}
     </Flex>
   );
 }

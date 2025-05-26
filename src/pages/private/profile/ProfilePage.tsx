@@ -5,7 +5,7 @@ import ProfileInfo from "@/features/profile/components/ProfileInfo";
 import { API_KEY } from "@/features/profile/data/constant";
 import ProfileService from "@/features/profile/service";
 import { useQuery } from "@tanstack/react-query";
-import { Breadcrumb, Divider, Flex } from "antd";
+import { Breadcrumb, Divider, Flex, Image, Typography } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import Bottom from "@/components/layouts/AppLayout/Bottom/Bottom";
 const ProfilePage = () => {
@@ -19,6 +19,7 @@ const ProfilePage = () => {
     },
   });
   if (isLoading || !isFetched) return <CLoadingPage />;
+
   return (
     <>
       <ContentLayout
@@ -39,10 +40,24 @@ const ProfilePage = () => {
           </Breadcrumb>
         }
       >
-        <Flex className="w-full lg:flex-row flex-col" gap={10}>
-          {data && <ProfileInfo data={data} />}
-          {data?._id && <PostListStatus id={data?._id} />}
-        </Flex>
+        {data?.isBanned ? (
+          <Flex className="w-full lg:flex-row flex-col" gap={10}>
+            {data && <ProfileInfo data={data} />}
+            {data?._id && <PostListStatus id={data?._id} />}
+          </Flex>
+        ) : (
+          <Flex
+            className="w-full  h-[calc(100vh-200px)]
+          justify-center items-center"
+            vertical
+            gap={10}
+          >
+            <Image src="/image8.png" width={400} height={400} preview={false} />
+            <Typography.Text className="text-2xl text-gray-500">
+              Profile not found or has been banned
+            </Typography.Text>
+          </Flex>
+        )}
       </ContentLayout>
       <Divider />
       <Bottom />

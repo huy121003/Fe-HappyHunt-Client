@@ -1,4 +1,4 @@
-import TimeAgo from "@/components/ui/TimeAgo";
+
 
 import { IAccount } from "@/features/chat/data/interface";
 
@@ -49,9 +49,14 @@ function InfoCard({ post, user }: IProps) {
         className={`!p-0 !m-0  w-full flex-col flex rounded-none
       
         `}
-        onClick={() => navigate(`/profile/${user.slug}`)}
       >
-        <Flex gap={10} align="center">
+        <Flex
+          gap={10}
+          align="center"
+          onClick={() => {
+            navigate(`/profile/${user.slug}`);
+          }}
+        >
           <Avatar src={user.avatar} size={40} />
           <Flex vertical>
             <Typography.Title level={4}>{user.name}</Typography.Title>
@@ -64,20 +69,17 @@ function InfoCard({ post, user }: IProps) {
               <span
                 className={`${isOnline.status === "online" ? "text-green-500" : "text-red-500"}`}
               >
-                {isOnline.status === "online" ? (
-                  "Online"
-                ) : (
-                  <TimeAgo date={String(isOnline.timestamp)} />
-                )}
+                {isOnline.status === "online" && "Online"}
               </span>
             </Flex>
           </Flex>
         </Flex>
       </Card>
       <Card
-        {...(post.status === EPostStatus.SELLING && {
-          onClick: () => navigate(`/detail-post/${post.slug}`),
-        })}
+        {...(post.status === EPostStatus.SELLING &&
+          user.isBanned && {
+            onClick: () => navigate(`/detail-post/${post.slug}`),
+          })}
         className={`!p-0 !m-0 rounded-none   ${post.status !== EPostStatus.SELLING ? "bg-gray-100" : ""}`}
       >
         <Flex gap={10} align="center">

@@ -14,7 +14,7 @@ import useAuthState from "@/features/auth/hooks/useAuthState";
 
 function RegisterPage() {
   const navigate = useNavigate();
-  const { onSuccess, onError } = useAuthState();
+  const { onSuccess } = useAuthState();
   const [openOTP, setOpenOTP] = useState(false);
 
   const { mutate: sendOtpMutation, isPending: isSendOtpPending } = useMutation({
@@ -27,7 +27,7 @@ function RegisterPage() {
         setOpenOTP(true);
       });
     },
-    onError,
+  
   });
   const { mutate: registerMutation, isPending: isRegisterPending } =
     useMutation({
@@ -40,7 +40,7 @@ function RegisterPage() {
           navigate("/login");
         });
       },
-      onError,
+   
     });
   const onRegister = useCallback(
     (data: IRegisterRequest) => {

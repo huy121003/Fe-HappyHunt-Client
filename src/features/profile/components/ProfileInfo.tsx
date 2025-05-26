@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IProfile } from "../data/interface";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { API_KEY } from "@/features/follow/data/constant";
@@ -22,13 +22,16 @@ import {
   EnvironmentOutlined,
   EditOutlined,
   TeamOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { postMessageHandler } from "@/components/mesage/ToastMessage";
 import { useAppSelector } from "@/redux/reduxHook";
-import { ESex } from "../data/constant";
 import useFollowerState from "@/features/follow/hooks/useFollowerState";
 import TimeAgo from "@/components/ui/TimeAgo";
 import { useNavigate } from "react-router-dom";
+import { EGender } from "../data/constant";
+import ReportModal from "@/features/report/components/ui/ReportModal";
+import { ETargetType } from "@/features/report/data/constant";
 
 interface IProfileInfoProps {
   data: IProfile;
@@ -36,6 +39,7 @@ interface IProfileInfoProps {
 
 const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
   const naviagte = useNavigate();
+  const [open, setOpen] = useState(false);
   const { onSuccess } = useFollowerState();
   const account = useAppSelector((state) => state.auth?.account);
 
@@ -145,12 +149,12 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
           <Flex vertical className="px-6 pt-3 w-full" gap={4}>
             <Flex align="center" gap={8}>
               <span className="font-semibold text-3xl">{data.name}</span>
-              {data.sex && data.sex === ESex.MALE ? (
+              {data.gender && data.gender === EGender.MALE ? (
                 <i className="fas fa-mars text-blue-500 text-3xl"></i>
-              ) : data.sex === ESex.FEMALE ? (
+              ) : data.gender === EGender.FEMALE ? (
                 <i className="fas fa-venus text-pink-500 text-3xl"></i>
               ) : (
-                data.sex === ESex.OTHER && (
+                data.gender === EGender.OTHER && (
                   <i className="fas fa-genderless text-gray-500 text-3xl"></i>
                 )
               )}
@@ -230,14 +234,26 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
             {/* Actions */}
             <Flex vertical className="w-full" gap={10}>
               {!isOwner ? (
-                <CButton
-                  type="primary"
-                  icon={<TeamOutlined />}
-                  className="w-full h-10"
-                  onClick={handleFollowToggle}
-                >
-                  {followDetailData ? "Unfollow" : "Follow"}
-                </CButton>
+                <>
+                  {" "}
+                  <CButton
+                    type="primary"
+                    icon={<TeamOutlined />}
+                    className="w-full h-10"
+                    onClick={handleFollowToggle}
+                  >
+                    {followDetailData ? "Unfollow" : "Follow"}
+                  </CButton>
+                  <CButton
+                    danger
+                    icon={<ExclamationCircleOutlined />}
+                    onClick={() => setOpen(true)}
+                    className="w-full h-10"
+                    style={{ borderRadius: "8px" }}
+                  >
+                    Report Account
+                  </CButton>
+                </>
               ) : (
                 <CButton
                   type="primary"
@@ -293,6 +309,13 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               </Flex>
             </Flex>
           </Flex>
+          <ReportModal
+            open={open}
+            setOpen={setOpen}
+            target={data._id}
+            targetType={ETargetType.ACCOUNT}
+
+          />
         </Flex>
       )}
     </Card>

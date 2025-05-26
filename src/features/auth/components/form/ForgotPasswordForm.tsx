@@ -28,7 +28,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [data, setData] = useState<IForgotPasswordRequest>({
-    phoneNumber: "",
+    email: "",
     otp: "",
   });
   const handleChange = (enteredOtp: any) => {
@@ -37,7 +37,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   const onSubmitSendOtp = async () => {
     const values = await form.validateFields();
     onSendOtp({
-      phoneNumber: values.phoneNumber,
+      email: values.email,
     });
     setData({ ...data, ...values });
   };
@@ -52,16 +52,16 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
             onFinish={onSubmitSendOtp}
           >
             <Form.Item
-              label="Phone number"
-              name="phoneNumber"
+              label="Email"
+              name="email"
               rules={[
                 {
                   required: true,
-                  message: "Please input your phone number!",
+                  message: "Please input your Email!",
                 },
               ]}
             >
-              <CInput placeholder="Phone number" />
+              <CInput placeholder="Email" />
             </Form.Item>
           </Form>
           <CButton
@@ -95,7 +95,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
                   onClick={() => {
                     setOpenOTP(!openOTP);
                     setData({
-                      phoneNumber: "",
+                      email: "",
 
                       otp: "",
                     });

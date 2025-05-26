@@ -1,4 +1,4 @@
-import { ESex } from "@/features/profile/data/constant";
+import { EGender } from "@/features/profile/data/constant";
 import { IType } from "./constant";
 import { UploadFile } from "antd";
 
@@ -12,7 +12,7 @@ export interface ILoginResponse {
   access_token: string;
   _id: number;
   name: string;
-  phoneNumber: string;
+  email: string;
   description: string;
   username: string;
   isBanned: boolean;
@@ -36,28 +36,28 @@ export interface ILoginResponse {
   };
   slug: string;
   background: string;
-  sex: ESex;
+  gender: EGender;
   dateOfBirth: string;
 }
 export interface IRegisterRequest {
-  phoneNumber: string;
+  email: string;
   username: string;
   password: string;
   otp: string;
 }
 
 export interface IRegisterOtpRequest {
-  phoneNumber: string;
+  email: string;
   username: string;
 }
 
 export interface IForgotPasswordRequest {
-  phoneNumber: string;
+  email: string;
   otp: string;
 }
 
 export interface IForgotPasswordOtpRequest {
-  phoneNumber: string;
+  email: string;
 }
 export interface IGetAccountInfoResponse extends ILoginResponse {}
 export interface IRefreshTokenResponse {
@@ -71,7 +71,7 @@ export interface IChangePassword {
 export interface IUpdateProfile {
   name: string;
   description: string;
-  sex: ESex;
+  gender: EGender;
   dateOfBirth: string;
   address: {
     province: number;
@@ -81,4 +81,9 @@ export interface IUpdateProfile {
   };
   background: string | UploadFile;
   avatar: string | UploadFile;
+}
+
+export interface IVipStatus {
+  isVip: boolean;
+  dateVipExpired: Date;
 }

@@ -15,6 +15,7 @@ export interface IAccount {
   name: string;
   avatar: string;
   slug: string;
+  isBanned: boolean;
 }
 
 export interface IChatItem {

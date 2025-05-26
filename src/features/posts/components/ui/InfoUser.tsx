@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IPost } from "../../data/interface";
 import { useQuery } from "@tanstack/react-query";
 import { API_KEY as API_KEY_EVALUATE } from "@/features/evaluates/data/constant";
@@ -26,7 +26,7 @@ import { useAppSelector } from "@/redux/reduxHook";
 
 import { IChat, IChatPayload } from "@/features/chat/data/interface";
 import {
-  PhoneOutlined,
+
   MessageOutlined,
   UserOutlined,
   EditOutlined,
@@ -40,6 +40,9 @@ import { useSocketListenerWithResponse } from "@/hooks/useSocketListenerWithResp
 
 import { useSocketProvider } from "@/hooks/useSocketProvider";
 
+import ReportModal from "@/features/report/components/ui/ReportModal";
+import { ETargetType } from "@/features/report/data/constant";
+
 interface InfoUserProps {
   record: IPost;
 }
@@ -48,6 +51,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
   const socket = useSocketProvider();
 
   const navigate = useNavigate();
+  const [openReport, setOpenReport] = useState(false);
   const account = useAppSelector((state) => state.auth?.account);
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY_EVALUATE.EVALUATE_COUNT],
@@ -146,7 +150,7 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
                 <CButton
                   danger
                   icon={<WarningOutlined />}
-                  onClick={() => navigate(`/report/${record.slug}`)}
+                  onClick={() => setOpenReport(true)}
                   className="px-6 py-2 rounded-lg border-2 border-red-500 text-red-500 hover:bg-red-50 transition-all duration-300"
                 >
                   Report
@@ -269,16 +273,6 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
             {!isOwner && isSelling && (
               <>
                 <CButton
-                  type="default"
-                  icon={<PhoneOutlined />}
-                  onClick={() =>
-                    window.open(`tel:${record.createdBy.phoneNumber}`)
-                  }
-                  className="flex-1 px-6 py-2 rounded-lg border-2 border-gray-200 text-gray-700 hover:border-orange-500 hover:text-orange-500 transition-all duration-300"
-                >
-                  Call
-                </CButton>
-                <CButton
                   onClick={handleCreateChat}
                   type="primary"
                   icon={<MessageOutlined />}
@@ -299,6 +293,12 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
           </Flex>
         </Card>
       </Flex>
+      <ReportModal
+        targetType={ETargetType.POST}
+        target={record._id}
+        open={openReport}
+        setOpen={setOpenReport}
+      />
     </Spin>
   );
 };

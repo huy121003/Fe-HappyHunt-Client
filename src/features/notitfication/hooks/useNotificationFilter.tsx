@@ -1,4 +1,3 @@
-import useTablePagination from "@/hooks/useTablePagination";
 import { useMemo, useState } from "react";
 import { ISearchNotification } from "../data/interface";
 import { useAppSelector } from "@/redux/reduxHook";

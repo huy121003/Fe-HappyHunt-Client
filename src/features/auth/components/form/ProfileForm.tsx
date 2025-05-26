@@ -21,7 +21,7 @@ import CTextArea from "@/components/form/CTextArea";
 import CInput from "@/components/form/CInput";
 import dayjs from "dayjs";
 import CSelect from "@/components/form/CSelect";
-import { ESex } from "@/features/profile/data/constant";
+import { EGender } from "@/features/profile/data/constant";
 
 import ImgCrop from "antd-img-crop";
 import useUpload from "@/hooks/useUpload";
@@ -66,41 +66,45 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
   const ward = Form.useWatch(["ward"], form);
   useEffect(() => {
     if (data) {
-      setFileList([
-        {
-          uid: `${Date.now()}`,
-          name: data?.background?.split("/").pop() || "image.png",
-          status: "done",
-          url: data?.background || "",
-        },
-      ]);
-      setAvatar([
-        {
-          uid: `${Date.now()}`,
-          name: data?.avatar?.split("/").pop() || "image.png",
-          status: "done",
-          url: data?.avatar || "",
-        },
-      ]);
+      if (data.background)
+        setFileList([
+          {
+            uid: `${Date.now()}`,
+            name: data?.background?.split("/").pop() || "image.png",
+            status: "done",
+            url: data?.background || "",
+          },
+        ]);
+      if (data.avatar)
+        setAvatar([
+          {
+            uid: `${Date.now()}`,
+            name: data?.avatar?.split("/").pop() || "image.png",
+            status: "done",
+            url: data?.avatar || "",
+          },
+        ]);
       form.setFieldsValue({
         ...data,
         province: data.address.province?._id,
         district: data.address.district?._id,
         ward: data.address.ward?._id,
         specificAddress: data.address.specificAddress,
-        sex: data.sex,
+        gender: data.gender,
         dateOfBirth: dayjs(data.dateOfBirth),
       });
     }
   }, [data, form]);
   const onFinish = async () => {
+    console.log(avatar);
     const values = await form.validateFields();
+
     const payload: IUpdateProfile = {
       name: values.name,
       description: values.description,
       background: fileList[0]?.originFileObj ?? "",
       avatar: avatar[0]?.originFileObj || "",
-      sex: values.sex,
+      gender: values.gender,
       dateOfBirth: dayjs(values.dateOfBirth).format("YYYY-MM-DD"),
       address: {
         province: values.province,
@@ -132,12 +136,12 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
           name="avatar"
           valuePropName="fileList"
           getValueFromEvent={(e) => e.fileList}
-          rules={[
-            {
-              required: true,
-              message: "Please upload an avatar image!",
-            },
-          ]}
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: "Please upload an avatar image!",
+          //   },
+          // ]}
         >
           <ImgCrop rotationSlider>
             <Upload
@@ -209,27 +213,27 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
           />
         </Form.Item>
         <Form.Item
-          name="sex"
-          label="Sex"
+          name="gender"
+          label="Gender"
           rules={[
             {
               required: true,
-              message: "Please select sex",
+              message: "Please select gender!",
             },
           ]}
         >
           <CSelect
             options={[
               {
-                value: ESex.FEMALE,
+                value: EGender.FEMALE,
                 label: "Female",
               },
               {
-                value: ESex.MALE,
+                value: EGender.MALE,
                 label: "Male",
               },
               {
-                value: ESex.OTHER,
+                value: EGender.OTHER,
                 label: "Other",
               },
             ]}
