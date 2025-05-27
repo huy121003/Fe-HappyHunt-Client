@@ -32,7 +32,7 @@ const SortBy: React.FC<SortByProps> = ({ handleSelectSort }) => {
                 label: "Newest",
               }
         }
-        className="min-w-[200px] shadow-sm rounded-xl hover:shadow-md transition-all duration-300"
+        className=" shadow-sm rounded-xl hover:shadow-md transition-all duration-300"
         onChange={handleSelectSort}
         options={[
           ...(searchValue

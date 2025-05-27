@@ -1,5 +1,14 @@
-import React from "react";
-import { Card, Typography, Collapse, Space, Radio, Flex } from "antd";
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  Typography,
+  Collapse,
+  Space,
+  Radio,
+  Flex,
+  Button,
+  Drawer,
+} from "antd";
 import {
   FilterOutlined,
   DollarOutlined,
@@ -40,6 +49,17 @@ const PostFilter: React.FC<IProps> = ({
   handleSelectDistrict,
   computtedFilter,
 }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1000);
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1000);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const renderAttributeInput = (attribute: IAttribute) => {
     switch (attribute.type) {
       case Type.SELECT:
@@ -50,12 +70,12 @@ const PostFilter: React.FC<IProps> = ({
             allowClear
             showSearch
             className="w-full !rounded-lg"
-            options={[
-              ...(attribute?.values?.map((value) => ({
+            options={
+              attribute?.values?.map((value) => ({
                 label: value,
                 value: value,
-              })) || []),
-            ]}
+              })) || []
+            }
             onChange={(value) =>
               handleSelectAttribute({
                 name: attribute.name,
@@ -67,7 +87,7 @@ const PostFilter: React.FC<IProps> = ({
       case Type.BOOLEAN:
         return (
           <Radio.Group
-            defaultValue={"all"}
+            defaultValue="all"
             className="w-full flex flex-col space-y-2"
             options={[
               { label: "All", value: "all" },
@@ -109,7 +129,120 @@ const PostFilter: React.FC<IProps> = ({
     }
   };
 
-  return (
+  const FilterContent = (
+    <Collapse
+      defaultActiveKey={["price", "location"]}
+      ghost
+      expandIconPosition="end"
+      expandIcon={({ isActive }) => (
+        <DownOutlined rotate={isActive ? 180 : 0} className="text-gray-400" />
+      )}
+      className="filter-collapse"
+    >
+      {/* Price Range Filter */}
+      <Panel
+        header={
+          <Text
+            strong
+            className="text-black font-medium flex items-center text-base"
+          >
+            <DollarOutlined className="mr-3 text-orange-500 text-lg" />
+            Price Range
+          </Text>
+        }
+        key="price"
+        className="filter-panel"
+      >
+        <div className="px-6 pb-6">
+          <CPriceRange
+            min={0}
+            max={100000000}
+            onMaxChange={handleMaxPriceChange}
+            onMinChange={handleMinPriceChange}
+          />
+        </div>
+      </Panel>
+
+      {/* Location Filter */}
+      <Panel
+        header={
+          <Text
+            strong
+            className="text-black font-medium flex items-center text-base"
+          >
+            <GlobalOutlined className="mr-3 text-orange-500 text-lg" />
+            Location
+          </Text>
+        }
+        key="location"
+        className="filter-panel"
+      >
+        <Space direction="vertical" className="w-full px-6 pb-6" size="middle">
+          <SelectProvince
+            placeholder="Select Province"
+            onChange={(value) => handleSelectProvince(value)}
+            showSearch
+            allowClear
+            className="!rounded-lg"
+            style={{ width: "100%" }}
+          />
+          <SelectDictrict
+            disabled={!computtedFilter.province}
+            province={computtedFilter.province}
+            placeholder="Select District"
+            onChange={(value) => handleSelectDistrict(value)}
+            showSearch
+            allowClear
+            className="!rounded-lg"
+            style={{ width: "100%" }}
+          />
+        </Space>
+      </Panel>
+
+      {/* Attributes Filter */}
+      {childrenLength === 0 &&
+        attributes
+          .filter((attribute) => attribute.isFilter)
+          .map((attribute, index) => (
+            <Panel
+              header={
+                <Text
+                  strong
+                  className="text-black font-medium flex items-center text-base"
+                >
+                  <TagsOutlined className="mr-3 text-orange-500 text-lg" />
+                  {attribute.name}
+                </Text>
+              }
+              key={`attribute-${index}`}
+              className="filter-panel"
+            >
+              <div className="px-6 pb-6">{renderAttributeInput(attribute)}</div>
+            </Panel>
+          ))}
+    </Collapse>
+  );
+
+  return isMobile ? (
+    <>
+      <Button
+        icon={<FilterOutlined />}
+        onClick={() => setOpenDrawer(true)}
+        className="mb-4"
+        type="primary"
+      />
+
+      <Drawer
+        title="Filters"
+        placement="left"
+        onClose={() => setOpenDrawer(false)}
+        open={openDrawer}
+        width={300}
+      >
+        {FilterContent}
+      </Drawer>
+    </>
+  ) : (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
@@ -136,112 +269,7 @@ const PostFilter: React.FC<IProps> = ({
           </Flex>
         }
       >
-        <Collapse
-          defaultActiveKey={[
-            "price",
-            "seller",
-            "location",
-            "attribute-0",
-            "attribute-1",
-          ]}
-          ghost
-          expandIconPosition="end"
-          expandIcon={({ isActive }) => (
-            <DownOutlined
-              rotate={isActive ? 180 : 0}
-              className="text-gray-400"
-            />
-          )}
-          className="filter-collapse"
-        >
-          {/* Price Range Filter */}
-          <Panel
-            header={
-              <Text
-                strong
-                className="text-black font-medium flex items-center text-base"
-              >
-                <DollarOutlined className="mr-3 text-orange-500 text-lg" />
-                Price Range
-              </Text>
-            }
-            key="price"
-            className="filter-panel"
-          >
-            <div className="px-6 pb-6">
-              <CPriceRange
-                min={0}
-                max={100000000}
-                onMaxChange={handleMaxPriceChange}
-                onMinChange={handleMinPriceChange}
-              />
-            </div>
-          </Panel>
-
-          {/* Location Filter */}
-          <Panel
-            header={
-              <Text
-                strong
-                className="text-black font-medium flex items-center text-base"
-              >
-                <GlobalOutlined className="mr-3 text-orange-500 text-lg" />
-                Location
-              </Text>
-            }
-            key="location"
-            className="filter-panel"
-          >
-            <Space
-              direction="vertical"
-              className="w-full px-6 pb-6"
-              size="middle"
-            >
-              <SelectProvince
-                placeholder="Select Province"
-                onChange={(value) => handleSelectProvince(value)}
-                showSearch
-                allowClear
-                className="!rounded-lg"
-                style={{ width: "100%" }}
-              />
-              <SelectDictrict
-                disabled={!computtedFilter.province}
-                province={computtedFilter.province}
-                placeholder="Select District"
-                onChange={(value) => handleSelectDistrict(value)}
-                showSearch
-                allowClear
-                className="!rounded-lg"
-                style={{ width: "100%" }}
-              />
-            </Space>
-          </Panel>
-
-          {/* Attributes Filter */}
-          {childrenLength === 0 &&
-            attributes
-              .filter((attribute) => attribute.isFilter)
-              .map((attribute, index) => (
-                <Panel
-                  header={
-                    <Text
-                      strong
-                      className="text-black font-medium flex items-center text-base"
-                    >
-                      <TagsOutlined className="mr-3 text-orange-500 text-lg" />
-                      {attribute.name}
-                    </Text>
-                  }
-                  key={`attribute-${index}`}
-                  className="filter-panel"
-                >
-                  <div className="px-6 pb-6">
-                    {renderAttributeInput(attribute)}
-                  </div>
-                </Panel>
-              ))}
-        </Collapse>
+        {FilterContent}
       </Card>
     </motion.div>
   );
