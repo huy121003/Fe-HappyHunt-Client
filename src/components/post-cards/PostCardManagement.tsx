@@ -19,6 +19,7 @@ import {
   ShareAltOutlined,
   BarChartOutlined,
   MoreOutlined,
+  ThunderboltOutlined,
 } from "@ant-design/icons";
 import TimeAgo from "@/components/ui/TimeAgo";
 import { IPostItem } from "../../features/posts/data/interface";
@@ -32,6 +33,7 @@ import ReasonRejectedModal, {
 } from "@/features/posts/components/ui/ReasonRejectedModal";
 import { postMessageHandler } from "../mesage/ToastMessage";
 import ViewAnalyticModal from "@/features/posts/components/ui/ViewAnalyticModal";
+import PostPushAtModal from "@/features/posts/components/ui/PostPushAtModal";
 
 interface IProps {
   record: IPostItem;
@@ -51,6 +53,7 @@ const PostCardManagement: React.FC<IProps> = ({
   setRecord,
 }) => {
   const [showReason, setShowReason] = useState(false);
+  const [openPushAt, setOpenPushAt] = useState(false);
   const [isOpenViewAnalyticModal, setIsOpenViewAnalyticModal] = useState(false);
   const client = useQueryClient();
   const navigate = useNavigate();
@@ -151,11 +154,14 @@ const PostCardManagement: React.FC<IProps> = ({
 
       <Menu.Item
         hidden={record.status !== EPostStatus.SELLING}
-        key="promote"
+        key="push_post"
         icon={<i className="fas fa-bullhorn" />}
         disabled={!isSelling}
+        onClick={() => {
+          setOpenPushAt(true);
+        }}
       >
-        Promote Post
+        Push Post
       </Menu.Item>
     </Menu>
   );
@@ -170,17 +176,27 @@ const PostCardManagement: React.FC<IProps> = ({
         borderTopRightRadius: "0.75rem",
         padding: "16px 24px",
       }}
-      bodyStyle={{ padding: "20px" }}
       title={
         <Flex align="center" justify="space-between">
-          <Typography.Title
-            level={5}
-            className="mb-0 truncate"
-            style={{ maxWidth: "70%" }}
-            title={record?.name}
-          >
-            {record?.name}
-          </Typography.Title>
+          <Flex align="center" gap={8} style={{ maxWidth: "70%" }}>
+            <Typography.Title
+              level={5}
+              className="mb-0 truncate"
+              title={record?.name}
+            >
+              {record?.name}
+            </Typography.Title>
+            {record.pushedAt && (
+              <Tooltip title={`Priority post`}>
+                <ThunderboltOutlined
+                  className="
+                  text-xl
+                text-flame-orange
+                "
+                />
+              </Tooltip>
+            )}
+          </Flex>
           <Tag
             icon={getStatusIcon(record?.status)}
             color={getStatusColor(record?.status)}
@@ -387,6 +403,16 @@ const PostCardManagement: React.FC<IProps> = ({
         isOpen={isOpenViewAnalyticModal}
         setIsOpen={setIsOpenViewAnalyticModal}
         totalClick={record?.clickCount}
+      />
+      <PostPushAtModal
+        open={openPushAt}
+        setOpen={setOpenPushAt}
+        id={record._id}
+        price={
+          record?.category
+            ? record?.category?.pricePush
+            : record?.categoryParent?.pricePush
+        }
       />
     </Card>
   );

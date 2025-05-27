@@ -29,7 +29,7 @@ function CatgoryForYou() {
 
   return (
     <Card
-      className="m-4 shadow-sm border-0 overflow-hidden bg-white rounded-xl border-t-2 border-t-orange-500"
+      className="m-4 border-0 overflow-hidden bg-white rounded-xl "
       bodyStyle={{ padding: 0 }}
     >
       <div className="p-6">
@@ -40,8 +40,8 @@ function CatgoryForYou() {
               level={4}
               className="m-0 text-gray-800 font-semibold"
             >
-              <AppstoreOutlined className="text-2xl text-orange-500" />
-              Categories you might be interested in
+              <AppstoreOutlined className="text-2xl mr-4 text-orange-500" />
+              Browse By Category
             </Typography.Title>
           </Flex>
         </Flex>

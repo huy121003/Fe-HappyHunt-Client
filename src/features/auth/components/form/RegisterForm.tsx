@@ -26,7 +26,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [data, setData] = useState<IRegisterRequest>({
-    phoneNumber: "",
+    email: "",
     username: "",
     password: "",
     otp: "",
@@ -37,7 +37,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   const onSubmitSendOtp = async () => {
     const values = await form.validateFields();
     onSendOtp({
-      phoneNumber: values.phoneNumber,
+      email: values.email,
       username: values.username,
     });
     setData({ ...data, ...values });
@@ -53,21 +53,17 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             onFinish={onSubmitSendOtp}
           >
             <Form.Item
-              label="Phone number"
-              name="phoneNumber"
+              label="Email"
+              name="email"
               rules={[
                 {
                   required: true,
                   whitespace: true,
-                  message: "Please input your phone number!",
-                },
-                {
-                  pattern: new RegExp(/^(0[3|5|7|8|9])+([0-9]{8})\b/g),
-                  message: "Invalid phone number",
+                  message: "Please input your Email!",
                 },
               ]}
             >
-              <CInput placeholder="Phone number" />
+              <CInput placeholder="Email" />
             </Form.Item>
             <Form.Item
               label="Username"
@@ -136,7 +132,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                   onClick={() => {
                     setOpenOTP(!openOTP);
                     setData({
-                      phoneNumber: "",
+                      email: "",
                       username: "",
                       password: "",
                       otp: "",

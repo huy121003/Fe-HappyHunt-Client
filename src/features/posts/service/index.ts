@@ -98,6 +98,22 @@ class PostService {
       false
     );
   };
+  static getAllPagiantionManager = (
+    params: ISearchPost
+  ): Promise<IPagedResponse<IPostItem[]>> => {
+    const { attribute, ...filter } = params;
+    let newParams = new URLSearchParams(filter as any).toString();
+    if (attribute && attribute.length > 0) {
+      attribute.forEach(({ name, value }) => {
+        newParams += `&attribute[]=${name}:${value}`;
+      });
+    }
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/pagination-manager?${newParams}`,
+      false
+    );
+  };
   static getById = (id: number): Promise<ICommonResponse<IPost>> => {
     return apiRequest(EMethod.GET, `${PostService.baseUrl}/${id}`, false);
   };
@@ -140,6 +156,21 @@ class PostService {
       `${PostService.baseUrl}/count-status-profile/${id}`,
       false
     );
+  };
+  static pushAt = (id: number, price: Number): Promise<ICommonResponse> => {
+    return apiRequest(
+      EMethod.PATCH,
+      `${PostService.baseUrl}/push/${id}`,
+      true,
+      {
+        price,
+      }
+    );
+  };
+  static getPushAt = (
+    id: number
+  ): Promise<ICommonResponse<{ pushedAt: Date }>> => {
+    return apiRequest(EMethod.GET, `${PostService.baseUrl}/push/${id}`, false);
   };
 }
 

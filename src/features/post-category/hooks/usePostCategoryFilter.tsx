@@ -57,6 +57,7 @@ const usePostCategoryFilter = () => {
     minPrice,
     maxPrice,
     search,
+    
   ]);
   const handleSetSearch = (value: string) => {
     setSearch(value);

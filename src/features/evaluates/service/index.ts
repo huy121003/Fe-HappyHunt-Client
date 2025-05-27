@@ -2,6 +2,7 @@ import apiRequest from "@/libs/axios";
 import { EMethod } from "@/constants";
 import { ICommonResponse, IPagedResponse } from "@/interfaces";
 import {
+  ICount,
   ICountEvaluate,
   IEvaluateItem,
   IEvaluatePayload,
@@ -11,7 +12,17 @@ import {
 class EvaluateService {
   private static baseUrl = "/evaluate";
   static create = (data: IEvaluatePayload): Promise<ICommonResponse> => {
-    return apiRequest(EMethod.POST, `${EvaluateService.baseUrl}`, true, data);
+    return apiRequest(EMethod.POST, `${EvaluateService.baseUrl}`, false, data);
+  };
+  static count = (
+    id: number
+
+  ): Promise<ICommonResponse<ICount>> => {
+    return apiRequest(
+      EMethod.GET,
+      `${EvaluateService.baseUrl}/countEvaluate/${id}`,
+      false
+    );
   };
   static getByUserId = (
     target: number,
@@ -25,6 +36,17 @@ class EvaluateService {
       false
     );
   };
+  static getOne = (
+    post: number,
+    target: number
+  ): Promise<ICommonResponse<IEvaluateItem>> => {
+    return apiRequest(
+      EMethod.GET,
+      `${EvaluateService.baseUrl}/detail?post=${post}&target=${target}`,
+      false
+    );
+  };
+
   static countEvaluate = (
     id: number
   ): Promise<ICommonResponse<ICountEvaluate>> => {

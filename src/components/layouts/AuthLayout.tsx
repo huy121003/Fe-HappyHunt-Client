@@ -1,5 +1,5 @@
-import { Carousel, Flex, Image } from 'antd';
-import CLogo from '../ui/CLogo';
+import { Carousel, Flex, Image } from "antd";
+import CLogo from "../ui/CLogo";
 interface AuthLayoutProps {
   children: React.ReactNode;
 }
@@ -13,13 +13,13 @@ function AuthLayout({ children }: AuthLayoutProps) {
       <div className="hidden lg:block w-1/2 ">
         <Carousel autoplay>
           {[
-            '/image1.png',
-            '/image2.png',
-            '/image3.png',
-            '/image4.png',
-            '/image5.png',
+            "/image1.png",
+            "/image2.png",
+            "/image3.png",
+            "/image4.png",
+            "/image5.png",
             // '/image6.png',
-            '/image7.png',
+            "/image7.png",
           ].map((src, index) => (
             <div key={index} className="rounded-lg overflow-hidden">
               <Image src={src} preview={false} className="w-full rounded-lg " />

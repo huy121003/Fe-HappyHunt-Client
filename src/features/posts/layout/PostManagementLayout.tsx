@@ -190,7 +190,7 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
                       >
                         <i className="fas fa-coins mr-2"></i> Balance:{" "}
                         <span className="font-bold ml-1">
-                          {account?.balance || 0}
+                          {account?.balance?.toLocaleString() || 0} VND
                         </span>
                         <PlusOutlined className="ml-2 text-amber-600 group-hover:text-white transition-all duration-300" />
                       </Typography.Title>

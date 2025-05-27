@@ -10,7 +10,7 @@ const Description: React.FC<IProps> = ({ description }) => {
   return (
     <Flex
       vertical
-      className="p-6 bg-white rounded-xl shadow-sm gap-4 border-t-2 border-t-orange-500"
+      className="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 gap-4 border-t-2 border-t-orange-500"
     >
       <Flex align="center" gap={2}>
         <FileTextOutlined className="text-2xl text-orange-500" />
@@ -20,7 +20,7 @@ const Description: React.FC<IProps> = ({ description }) => {
       </Flex>
       <Typography.Paragraph
         style={{ whiteSpace: "pre-wrap" }}
-        className="text-gray-600 leading-relaxed"
+        className="text-gray-600 leading-relaxed text-base"
       >
         {description}
       </Typography.Paragraph>

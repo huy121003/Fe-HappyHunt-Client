@@ -44,3 +44,9 @@ export interface ISearchCategory extends ISearchParams {
   name?: string;
   parent?: number | null;
 }
+
+export interface ISocket<T> {
+  type: number;
+  nsp: string;
+  data: [string, T];
+}

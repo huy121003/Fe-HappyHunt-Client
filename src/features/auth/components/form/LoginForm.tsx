@@ -43,16 +43,16 @@ function LoginForm() {
     <>
       <Form<ILoginRequest> layout="vertical" form={form} onFinish={onSubmit}>
         <Form.Item
-          label="Phone number or Username"
-          name="phoneOrUsername"
+          label="Email or Username"
+          name="emailOrUsername"
           rules={[
             {
               required: true,
-              message: "Please input your phone number or username!",
+              message: "Please input your Email or username!",
             },
           ]}
         >
-          <CInput placeholder="Phone number or Username" />
+          <CInput placeholder="Email or Username" />
         </Form.Item>
         <Form.Item
           label="Password"

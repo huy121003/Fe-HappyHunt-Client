@@ -3,9 +3,11 @@ import PostCardSold from "@/components/post-cards/PostCardSold";
 import { API_KEY, EPostStatus } from "@/features/posts/data/constant";
 import usePostFilter from "@/features/posts/hooks/usePostFilter";
 import PostService from "@/features/posts/service";
+import { container, itemAnimation } from "@/libs/motion";
 import { ShopOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Card, Flex, Image, Pagination, Spin, Tabs } from "antd";
+import { motion } from "framer-motion";
 interface IPostListStatusProps {
   id: number;
 }
@@ -58,14 +60,14 @@ function PostListStatus({ id }: IPostListStatusProps) {
   return (
     <Card className=" w-full lg:w-2/3 min-h-screen">
       <Tabs
-        className="w-full"
+        className="w-full bg-white"
         type="card"
         size="large"
         tabBarStyle={{
           padding: "12px 16px 0",
           marginBottom: 0,
           borderBottom: "1px solid #f0f0f0",
-          background: "#fafafa",
+          background: "#fff",
         }}
         onTabClick={(key) => {
           key === "SOLD" && handleSetSold(true);
@@ -81,24 +83,34 @@ function PostListStatus({ id }: IPostListStatusProps) {
             <Spin />
           </div>
         ))}
-      <Flex
-        gap={10}
-        className={`w-full my-4 
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className={`w-full my-4 gap-4
           ${status === EPostStatus.SELLING ? "flex-row grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1" : "flex-col"}
           `}
       >
         {data?.documentList &&
           data?.documentList?.length > 0 &&
           data?.documentList?.map((item) => (
-            <>
+            <motion.div
+              key={item._id}
+              variants={itemAnimation}
+              className="group h-full"
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.2 },
+              }}
+            >
               {status === EPostStatus.SELLING ? (
                 <PortCard1 record={item} />
               ) : (
                 <PostCardSold data={item} />
               )}
-            </>
+            </motion.div>
           ))}
-      </Flex>
+      </motion.div>
       {data?.documentList && data?.documentList?.length > 0 ? (
         <Flex justify="end" className="w-full mt-10">
           <Pagination

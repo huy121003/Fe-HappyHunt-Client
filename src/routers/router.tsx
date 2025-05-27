@@ -7,6 +7,9 @@ import PostManagementLayout from "@/features/posts/layout/PostManagementLayout";
 import RedirectPage from "@/pages/private/redirect/RedirectPage";
 import ProfilePage from "@/pages/private/profile/ProfilePage";
 import ProfileUpdateLayout from "@/features/profile/layout/ProfileUpdateLayout";
+import ChatPage from "@/pages/private/chat/ChatPage";
+import { SocketProvider } from "@/hooks/useSocketProvider";
+import EvaluateLayout from "@/features/evaluates/components/ui/EvaluateLayout";
 
 //import RoleProtectedRoute from "@/components/layouts/RoleProtectedRoute";
 const withSuspense = (
@@ -51,6 +54,11 @@ const FollowPage = lazy(() => import("@/pages/private/follows/FollowPage"));
 const FavoritePostPage = lazy(
   () => import("@/pages/private/favorite-post/FavoritePostPage")
 );
+const SelectChat = lazy(() => import("@/features/chat/component/SelectChat"));
+const MessagePage = lazy(() => import("@/pages/private/message/MessagePage"));
+const EvaluatePage = lazy(
+  () => import("@/pages/private/evaluate/EvaluatePage")
+);
 const router = createBrowserRouter([
   {
     path: "*",
@@ -72,9 +80,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <AppLayout>
-        <Outlet />
-      </AppLayout>
+      <SocketProvider>
+        <AppLayout>
+          <Outlet />
+        </AppLayout>
+      </SocketProvider>
     ),
     children: [
       {
@@ -114,6 +124,28 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: withSuspense(<ProfilePage />, <CLoadingPage />),
+              },
+              {
+                path: "reviews",
+                element: (
+                  <EvaluateLayout>
+                    <Outlet />
+                  </EvaluateLayout>
+                ),
+                children: [
+                  {
+                    index: true,
+                    element: withSuspense(<EvaluatePage />, <CLoadingPage />),
+                  },
+                  {
+                    path: "buyer",
+                    element: withSuspense(<EvaluatePage />, <CLoadingPage />),
+                  },
+                  {
+                    path: "seller",
+                    element: withSuspense(<EvaluatePage />, <CLoadingPage />),
+                  },
+                ],
               },
               {
                 path: "followers",
@@ -204,16 +236,20 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "messages",
-        element: <Outlet />,
+        path: "chat",
+        element: (
+          <ChatPage>
+            <Outlet />
+          </ChatPage>
+        ),
         children: [
           {
             index: true,
-            element: withSuspense(<div>Messages</div>, <CLoadingPage />),
+            element: withSuspense(<SelectChat />, <CLoadingPage />),
           },
           {
             path: ":slugChat",
-            element: withSuspense(<div>Chat</div>, <CLoadingPage />),
+            element: withSuspense(<MessagePage />, <CLoadingPage />),
           },
         ],
       },

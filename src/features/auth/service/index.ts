@@ -10,6 +10,7 @@ import {
   IRegisterOtpRequest,
   IRegisterRequest,
   IUpdateProfile,
+  IVipStatus,
 } from "../data/interface";
 const convertObjectToFormData = (data: IUpdateProfile) => {
   const formData = new FormData();
@@ -21,7 +22,7 @@ const convertObjectToFormData = (data: IUpdateProfile) => {
   if (data.background) {
     formData.append("background", data.background as unknown as Blob);
   }
-  formData.append("sex", data.sex);
+  formData.append("gender", data.gender);
   formData.append("dateOfBirth", data.dateOfBirth);
   formData.append("address", JSON.stringify(data.address));
   return formData;
@@ -111,6 +112,12 @@ class AuthService {
       true,
       convertObjectToFormData(data)
     );
+  };
+  static activeVip = (): Promise<ICommonResponse<null>> => {
+    return apiRequest(EMethod.PATCH, `${this.baseUrl}/active-vip`, true);
+  };
+  static getVipStatus = (): Promise<ICommonResponse<IVipStatus>> => {
+    return apiRequest(EMethod.GET, `${this.baseUrl}/get-vip-status`, true);
   };
 }
 export default AuthService;

@@ -118,9 +118,6 @@ function PostCategoryParentPage() {
               <CategoryChildSelect data={children} />
             )}
             <Card
-              className={`${
-                postData?.documentList.length === 0 && "bg-gray-100"
-              } shadow-md border border-gray-200`}
               headStyle={{ backgroundColor: "white" }}
               title={
                 <TabsIndividual

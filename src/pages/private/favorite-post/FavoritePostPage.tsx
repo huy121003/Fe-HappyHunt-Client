@@ -23,6 +23,7 @@ function FavoritePostPage() {
     },
   });
   if (isLoading || !isFetched) return <CLoadingPage />;
+
   return (
     <>
       <ContentLayout
@@ -51,20 +52,16 @@ function FavoritePostPage() {
           </Breadcrumb>
         }
       >
-        <Card className="w-full min-h-screen">
-          {data && data.documentList?.length === 0 ? (
-            <Flex className="w-full h-sereen items-center justify-center">
-              <Image
-                src="./image8.png"
-                width={200}
-                height={200}
-                preview={false}
-              />
-            </Flex>
-          ) : (
+        <Card
+          className="w-full min-h-screen"
+          title={`
+          Favorite Post (${data?.totalDocuments || 0} / 100)
+          `}
+        >
+          {data && data.documentList?.length > 0 ? (
             <>
               <FavoritePostList data={data?.documentList || []} />
-              <Flex className="w-full" justify="end" gap={10}>
+              <Flex className="w-full mt-4" justify="end" gap={10}>
                 <Pagination
                   defaultCurrent={1}
                   total={data?.totalDocuments}
@@ -76,6 +73,18 @@ function FavoritePostPage() {
                 />
               </Flex>
             </>
+          ) : (
+            <Flex className="w-full  items-center justify-center" vertical>
+              <Image
+                src="/image8.png"
+                width={400}
+                height={400}
+                preview={false}
+              />
+              <span className="text-xl font-medium text-gray-400">
+                You have no favorite posts yet
+              </span>
+            </Flex>
           )}
         </Card>
       </ContentLayout>

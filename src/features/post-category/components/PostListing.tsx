@@ -1,8 +1,10 @@
 import PortCard1 from "@/components/post-cards/PortCard1";
 import PostCard2 from "@/components/post-cards/PostCard2";
 import { IPostItem } from "@/features/posts/data/interface";
-import { Flex, Image, Spin, Pagination } from "antd";
+import { container, itemAnimation } from "@/libs/motion";
+import { Flex, Spin, Pagination, Empty } from "antd";
 import { PaginationConfig } from "antd/es/pagination";
+import { motion } from "framer-motion";
 
 interface IProps {
   data: IPostItem[];
@@ -11,6 +13,7 @@ interface IProps {
   showListType: "grid" | "list";
   loading: boolean;
 }
+
 const PostListing = ({
   data,
   pagiantion,
@@ -22,34 +25,58 @@ const PostListing = ({
     <Flex vertical className="w-full min-h-[calc(100vh-200px)] items-center">
       {loading ? (
         <Flex className="h-[400px] w-full items-center justify-center">
-          <Spin size="large" />
+          <Spin size="large" className="scale-150" />
         </Flex>
       ) : data?.length > 0 ? (
         <>
           {showListType === "grid" ? (
-            <div className="w-full grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-6">
+            <motion.div
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 auto-rows-fr"
+            >
               {data.map((item) => (
-                <div
+                <motion.div
                   key={item._id}
-                  className="transform transition-all duration-300 hover:-translate-y-1"
+                  variants={itemAnimation}
+                  className="group h-full"
+                  whileHover={{
+                    scale: 1.02,
+                    transition: { duration: 0.2 },
+                  }}
                 >
-                  <PortCard1 record={item} />
-                </div>
+                  <div className="h-full bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                    <PortCard1 record={item} />
+                  </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           ) : (
-            <div className="w-full space-y-4">
+            <motion.div
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="w-full space-y-6"
+            >
               {data.map((item) => (
-                <div
+                <motion.div
                   key={item._id}
-                  className="transform transition-all duration-300 hover:-translate-y-1"
+                  variants={itemAnimation}
+                  className="group"
+                  whileHover={{
+                    scale: 1.01,
+                    transition: { duration: 0.2 },
+                  }}
                 >
-                  <PostCard2 record={item} />
-                </div>
+                  <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                    <PostCard2 record={item} />
+                  </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           )}
-          <Flex className="w-full justify-end mt-8">
+          <Flex className="w-full justify-center mt-12">
             <Pagination
               defaultCurrent={1}
               total={pagiantion.total}
@@ -58,21 +85,43 @@ const PostListing = ({
               onChange={onChange}
               pageSize={pagiantion.pageSize}
               className="custom-pagination"
+              itemRender={(_, type, originalElement) => {
+                if (type === "page") {
+                  return (
+                    <motion.div
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {originalElement}
+                    </motion.div>
+                  );
+                }
+                return originalElement;
+              }}
             />
           </Flex>
         </>
       ) : (
-        <Flex vertical gap={4} className="items-center justify-center py-12">
-          <Image
-            src="/image8.png"
-            width="300px"
-            preview={false}
-            className="opacity-75"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col items-center justify-center py-16 px-4"
+        >
+          <Empty
+            image="/image8.png"
+            imageStyle={{ height: 200 }}
+            description={
+              <div className="flex flex-col items-center">
+                <span className="text-xl font-medium text-gray-400 mb-2">
+                  No Posts Found
+                </span>
+                <p className="text-gray-400 text-center">
+                  Try adjusting your search or filter criteria
+                </p>
+              </div>
+            }
           />
-          <span className="text-xl font-medium text-gray-400">
-            No Posts Found
-          </span>
-        </Flex>
+        </motion.div>
       )}
     </Flex>
   );

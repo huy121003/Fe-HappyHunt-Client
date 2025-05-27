@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IProfile } from "../data/interface";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { API_KEY } from "@/features/follow/data/constant";
@@ -12,24 +12,26 @@ import {
   Spin,
   Typography,
   Divider,
-  Badge,
   Tooltip,
+  Rate,
 } from "antd";
 import CButton from "@/components/buttons/CButton";
 import {
   ShareAltOutlined,
-  StarFilled,
   CalendarOutlined,
   EnvironmentOutlined,
   EditOutlined,
   TeamOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { postMessageHandler } from "@/components/mesage/ToastMessage";
 import { useAppSelector } from "@/redux/reduxHook";
-import { ESex } from "../data/constant";
 import useFollowerState from "@/features/follow/hooks/useFollowerState";
 import TimeAgo from "@/components/ui/TimeAgo";
 import { useNavigate } from "react-router-dom";
+import { EGender } from "../data/constant";
+import ReportModal from "@/features/report/components/ui/ReportModal";
+import { ETargetType } from "@/features/report/data/constant";
 
 interface IProfileInfoProps {
   data: IProfile;
@@ -37,6 +39,7 @@ interface IProfileInfoProps {
 
 const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
   const naviagte = useNavigate();
+  const [open, setOpen] = useState(false);
   const { onSuccess } = useFollowerState();
   const account = useAppSelector((state) => state.auth?.account);
 
@@ -106,7 +109,7 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
 
   return (
     <Card
-      className=" w-full lg:w-1/3 min-h-[calc(100vh/2)] rounded-xl shadow-md "
+      className=" w-full lg:w-1/3 min-h-[calc(100vh/2)] border-0 shadow-lg "
       bordered={false}
     >
       {!isLoaded ? (
@@ -126,48 +129,32 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               borderRadius: "8px 8px 0 0",
             }}
           >
-            <Badge
-              count={
-                evaluateData?.averageStar ? (
-                  <Flex align="center" className="bg-white p-1 rounded-md">
-                    <StarFilled
-                      style={{ color: "#ffa41b", fontSize: "16px" }}
-                    />
-                    <span className="ml-1 font-semibold text-gray-800">
-                      {evaluateData.averageStar}
-                    </span>
-                  </Flex>
-                ) : null
-              }
-              offset={[-10, 10]}
-            >
-              <Image
-                src={data.avatar || "https://via.placeholder.com/150"}
-                alt={data.name}
-                width={120}
-                height={120}
-                preview={false}
-                className="rounded-full border-4 border-white absolute"
-                style={{
-                  left: "24px",
-                  bottom: "-60px",
-                  objectFit: "contain",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                }}
-              />
-            </Badge>
+            <Image
+              src={data.avatar || "https://via.placeholder.com/150"}
+              alt={data.name}
+              width={120}
+              height={120}
+              preview={false}
+              className="rounded-full border-4 border-white absolute"
+              style={{
+                left: "24px",
+                bottom: "-60px",
+                objectFit: "contain",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+              }}
+            />
           </div>
 
           {/* User Info */}
           <Flex vertical className="px-6 pt-3 w-full" gap={4}>
             <Flex align="center" gap={8}>
               <span className="font-semibold text-3xl">{data.name}</span>
-              {data.sex && data.sex === ESex.MALE ? (
+              {data.gender && data.gender === EGender.MALE ? (
                 <i className="fas fa-mars text-blue-500 text-3xl"></i>
-              ) : data.sex === ESex.FEMALE ? (
+              ) : data.gender === EGender.FEMALE ? (
                 <i className="fas fa-venus text-pink-500 text-3xl"></i>
               ) : (
-                data.sex === ESex.OTHER && (
+                data.gender === EGender.OTHER && (
                   <i className="fas fa-genderless text-gray-500 text-3xl"></i>
                 )
               )}
@@ -181,41 +168,63 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
             </Typography.Paragraph>
 
             {/* Stats */}
-            <Flex className="w-full justify-between mb-3">
-              <Tooltip title="Evaluations">
-                <Flex vertical align="center" className="py-2 px-4 rounded-lg">
-                  <span className="text-lg font-semibold text-gray-800">
-                    {evaluateData?.count || 0}
-                  </span>
-                  <span className="text-xs text-gray-500">evaluations</span>
+            <Tooltip title="View Reviews">
+              <Flex
+                className="w-full"
+                gap={10}
+                {...(evaluateData?.averageStar !== 0 && {
+                  onClick: () => naviagte(`/profile/${data.slug}/reviews`),
+                })}
+              >
+                <Flex gap={10}>
+                  <Flex>
+                    <Rate
+                      disabled
+                      allowHalf
+                      value={evaluateData?.averageStar}
+                    />
+                    <span className="text-gray-500">
+                      {"("} {evaluateData?.count || 0} Reviews{" )"}
+                    </span>
+                  </Flex>
+                </Flex>
+              </Flex>
+            </Tooltip>
+            <Divider />
+            <Flex className="mb-3 gap-10 w-full justify-between">
+              <Tooltip title="View Followers">
+                <Flex
+                  justify="center"
+                  align="center"
+                  className="py-2 px-4 rounded-lg cursor-pointer w-full hover:bg-gray-50 transition-all duration-200 border border-gray-200"
+                  {...(followData?.follower !== 0 && {
+                    onClick: () => naviagte(`/profile/${data.slug}/followers`),
+                  })}
+                >
+                  <Flex vertical align="center" gap={2}>
+                    <span className="text-2xl font-bold text-gray-800">
+                      {followData?.follower || 0}
+                    </span>
+                    <span className="text-sm text-gray-500">Followers</span>
+                  </Flex>
                 </Flex>
               </Tooltip>
 
-              <Tooltip title="Followers">
+              <Tooltip title="View Following">
                 <Flex
-                  vertical
+                  justify="center"
                   align="center"
-                  className="py-2 px-4 rounded-lg cursor-pointer"
-                  onClick={() => naviagte(`/profile/${data.slug}/followers`)}
+                  className="py-2 px-4 rounded-lg cursor-pointer w-full hover:bg-gray-50 transition-all duration-200 border border-gray-200"
+                  {...(followData?.following !== 0 && {
+                    onClick: () => naviagte(`/profile/${data.slug}/following`),
+                  })}
                 >
-                  <span className="text-lg font-semibold text-gray-800">
-                    {followData?.follower || 0}
-                  </span>
-                  <span className="text-xs text-gray-500">followers</span>
-                </Flex>
-              </Tooltip>
-
-              <Tooltip title="Following">
-                <Flex
-                  vertical
-                  align="center"
-                  className="py-2 px-4  rounded-lg *:cursor-pointer"
-                  onClick={() => naviagte(`/profile/${data.slug}/following`)}
-                >
-                  <span className="text-lg font-semibold text-gray-800">
-                    {followData?.following || 0}
-                  </span>
-                  <span className="text-xs text-gray-500">following</span>
+                  <Flex vertical align="center" gap={2}>
+                    <span className="text-2xl font-bold text-gray-800">
+                      {followData?.following || 0}
+                    </span>
+                    <span className="text-sm text-gray-500">Following</span>
+                  </Flex>
                 </Flex>
               </Tooltip>
             </Flex>
@@ -225,14 +234,26 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
             {/* Actions */}
             <Flex vertical className="w-full" gap={10}>
               {!isOwner ? (
-                <CButton
-                  type="primary"
-                  icon={<TeamOutlined />}
-                  className="w-full h-10"
-                  onClick={handleFollowToggle}
-                >
-                  {followDetailData ? "Unfollow" : "Follow"}
-                </CButton>
+                <>
+                  {" "}
+                  <CButton
+                    type="primary"
+                    icon={<TeamOutlined />}
+                    className="w-full h-10"
+                    onClick={handleFollowToggle}
+                  >
+                    {followDetailData ? "Unfollow" : "Follow"}
+                  </CButton>
+                  <CButton
+                    danger
+                    icon={<ExclamationCircleOutlined />}
+                    onClick={() => setOpen(true)}
+                    className="w-full h-10"
+                    style={{ borderRadius: "8px" }}
+                  >
+                    Report Account
+                  </CButton>
+                </>
               ) : (
                 <CButton
                   type="primary"
@@ -288,6 +309,13 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               </Flex>
             </Flex>
           </Flex>
+          <ReportModal
+            open={open}
+            setOpen={setOpen}
+            target={data._id}
+            targetType={ETargetType.ACCOUNT}
+
+          />
         </Flex>
       )}
     </Card>

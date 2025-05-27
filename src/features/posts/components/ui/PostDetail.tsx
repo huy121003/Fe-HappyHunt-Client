@@ -20,8 +20,8 @@ const PostDetail: React.FC<IProps> = ({ data, isLoading }) => {
     return <CLoadingPage />;
   }
   return (
-    <Flex vertical className=" bg-gray-100 p-2 w-full" justify="center">
-      <Card className="bg-gray-100 !m-0" bodyStyle={{ padding: 0 }}>
+    <Flex vertical className="  p-2 w-full" justify="center">
+      <Card className="border-0 !m-0" bodyStyle={{ padding: 0 }}>
         <Flex
           justify="center"
           className=" lg:flex-row flex-col rounded-lg  mb-2 "
@@ -29,7 +29,7 @@ const PostDetail: React.FC<IProps> = ({ data, isLoading }) => {
         >
           {/* Image carousel section */}
           <Flex
-            className="lg:w-3/5 w-full rounded-lg bg-white p-2  border-t-2 border-t-flame-orange "
+            className="lg:w-3/5 w-full rounded-lg bg-white p-2 "
             vertical
             gap={10}
           >
