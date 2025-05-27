@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Typography, Collapse, Space, Radio, Flex, Badge } from "antd";
+import { Card, Typography, Collapse, Space, Radio, Flex } from "antd";
 import {
   FilterOutlined,
   DollarOutlined,
@@ -133,7 +133,6 @@ const PostFilter: React.FC<IProps> = ({
               <FilterOutlined className="mr-3 text-orange-500 text-xl" />
               Filters
             </Text>
-            <Badge count={0} showZero color="#ff6b00" />
           </Flex>
         }
       >

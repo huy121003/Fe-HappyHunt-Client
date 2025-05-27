@@ -8,7 +8,7 @@ import { API_KEY } from "@/features/posts/data/constant";
 import { API_KEY as API_KEY_CATEGORY } from "@/features/categories/data/constants";
 import PostService from "@/features/posts/service";
 import { useAppSelector } from "@/redux/reduxHook";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined, ThunderboltOutlined } from "@ant-design/icons";
 import { truncateWithDots } from "@/configs/truncateWithDots";
 import ButtonFavorite1 from "@/features/favorite-posts/components/ButtonFavorite1";
 
@@ -127,15 +127,28 @@ const PostCard2: React.FC<IProps> = ({ record }) => {
             <Flex
               className="text-xs text-gray-400 mb-0.5"
               align="center"
-              gap={1}
+              justify="space-between"
+              gap={10}
             >
-              <i className="fas fa-tag text-orange-500"></i>
-              <span>{record.categoryParent?.name}</span>
-              {record.category && (
-                <>
-                  <span className="mx-1">•</span>
-                  <span>{record.category?.name}</span>
-                </>
+              <Flex align="center" gap={4}>
+                <i className="fas fa-tag text-orange-500"></i>
+                <span>{record.categoryParent?.name}</span>
+                {record.category && (
+                  <>
+                    <span className="mx-1">•</span>
+                    <span>{record.category?.name}</span>
+                  </>
+                )}
+              </Flex>
+              {record.pushedAt && (
+                <Tooltip title={`Priority post`}>
+                  <ThunderboltOutlined
+                    className="
+                  text-xl
+                text-flame-orange
+                "
+                  />
+                </Tooltip>
               )}
             </Flex>
 

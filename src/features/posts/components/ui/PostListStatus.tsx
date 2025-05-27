@@ -20,7 +20,7 @@ const PostListStatus: React.FC<IProps> = ({
   openActiveModal,
   setOpenActiveModal,
 }) => {
-  console.log("PostList", data?.length);
+
   const [record, setRecord] = useState<IPostItem | null>(null);
   return (
     <Spin spinning={isLoading}>

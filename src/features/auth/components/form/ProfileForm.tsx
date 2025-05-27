@@ -96,7 +96,7 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
     }
   }, [data, form]);
   const onFinish = async () => {
-    console.log(avatar);
+
     const values = await form.validateFields();
 
     const payload: IUpdateProfile = {

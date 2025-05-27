@@ -17,7 +17,7 @@ export const useSocketListenerWithResponse = <T>(
       message?: string;
       data?: T;
     }) => {
-      console.log("data", data);
+
       if (!data.success) {
         postMessageHandler({
           text: data.message || "Something went wrong",

@@ -18,8 +18,7 @@ function NotificationDropDown({
   onOpen,
 }: NotificationDropDownProps) {
   const [open, setOpen] = useState(false);
-  console.log(notifications.length);
-  console.log(total);
+
   const handleMenuClick = (e: any) => {
     if (e.key === "Show More") {
       e.stopPropagation();

@@ -15,11 +15,12 @@ const usePostState = () => {
     client.invalidateQueries({ queryKey: [API_KEY.POST] });
     client.invalidateQueries({ queryKey: [API_KEY.POST_DETAIL] });
     client.invalidateQueries({ queryKey: [API_KEY.POST_STATUS] });
+    client.invalidateQueries({ queryKey: [API_KEY.POST_MANAGER] });
+    client.invalidateQueries({ queryKey: [API_KEY.POST_PUSH_AT] });
     if (onSuccessCallback) {
       onSuccessCallback();
     }
   };
- 
 
   return { onSuccess };
 };

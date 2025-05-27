@@ -17,9 +17,9 @@ function PostPage() {
   const { onSuccess } = usePostState();
   const account = useAppSelector((state) => state.auth.account);
   const { data, isLoading, isFetched } = useQuery({
-    queryKey: [API_KEY.POST, computtedFilter],
+    queryKey: [API_KEY.POST_MANAGER, computtedFilter],
     queryFn: async () => {
-      const response = await PostService.getAllPagination({
+      const response = await PostService.getAllPagiantionManager({
         ...computtedFilter,
         ...(account?._id ? { createdBy: account._id } : {}),
       });
@@ -30,7 +30,7 @@ function PostPage() {
   const { mutate: deleteMutate, isPending: deleteIsPending } = useMutation({
     mutationFn: async (record: IPostItem) => {
       const response = await PostService.remove(record._id);
-      console.log(response);
+
       return response.data;
     },
   });

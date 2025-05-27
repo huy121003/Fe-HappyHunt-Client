@@ -14,9 +14,11 @@ export interface ICategory {
   _id: number;
   name: string;
   slug: string;
+  pricePush: number;
   messages: IMessage[];
 }
 export interface IPost {
+  pushedAt: Date;
   _id: number;
   name: string;
   description: string;
@@ -58,6 +60,7 @@ export interface IPost {
   attributes: IAttribute[];
 }
 export interface IPostItem {
+  pushedAt: Date;
   _id: number;
   name: string;
   price: number;
