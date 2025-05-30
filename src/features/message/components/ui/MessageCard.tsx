@@ -32,11 +32,19 @@ const MessageCard = ({
         }`}
       >
         <Tooltip title={`${timeSendMessage(message.timeSend)}`}>
-          <Avatar
-            src={message.sender.avatar}
-            size={40}
-            className="border-2 border-white shadow-sm"
-          />
+          {message.sender.avatar ? (
+            <Avatar
+              src={message.sender.avatar}
+              size={40}
+              className="border-2 border-white shadow-sm"
+            />
+          ) : (
+            <Avatar
+              size={40}
+              className="bg-gray-300 text-gray-700 border-2 border-white shadow-sm"
+              icon={<i className="fas fa-user-circle text-2xl"></i>}
+            />
+          )}
         </Tooltip>
 
         <div

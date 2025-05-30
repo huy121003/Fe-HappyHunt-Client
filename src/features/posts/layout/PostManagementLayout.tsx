@@ -148,13 +148,17 @@ const PostManagementLayout: React.FC<Props> = ({ children }) => {
                     offset={[-5, 5]}
                     color="green"
                   >
-                    <Image
-                      src={account?.avatar}
-                      width={60}
-                      height={60}
-                      className="rounded-full border-2 border-flame-orange p-1"
-                      preview={false}
-                    />
+                    {account?.avatar ? (
+                      <Image
+                        src={account?.avatar}
+                        alt="User Avatar"
+                        width={40}
+                        height={40}
+                        className="rounded-full"
+                      />
+                    ) : (
+                      <i className="fas fa-user-circle text-6xl text-gray-500"></i>
+                    )}
                   </Badge>
                   <Flex vertical>
                     <Typography.Title level={4} className="mb-0">

@@ -129,20 +129,32 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               borderRadius: "8px 8px 0 0",
             }}
           >
-            <Image
-              src={data.avatar || "https://via.placeholder.com/150"}
-              alt={data.name}
-              width={120}
-              height={120}
-              preview={false}
-              className="rounded-full border-4 border-white absolute"
-              style={{
-                left: "24px",
-                bottom: "-60px",
-                objectFit: "contain",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-              }}
-            />
+            {data?.avatar ? (
+              <Image
+                src={data.avatar}
+                alt={data.name}
+                width={120}
+                height={120}
+                preview={false}
+                className="rounded-full border-4 border-white absolute"
+                style={{
+                  left: "24px",
+                  bottom: "-60px",
+                  objectFit: "contain",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                }}
+              />
+            ) : (
+              <i
+                className="fas fa-user-circle text-6xl text-gray-500 absolute"
+                style={{
+                  left: "24px",
+                  bottom: "-60px",
+                  fontSize: "120px",
+                  color: "#160909",
+                }}
+              ></i>
+            )}
           </div>
 
           {/* User Info */}
@@ -314,7 +326,6 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
             setOpen={setOpen}
             target={data._id}
             targetType={ETargetType.ACCOUNT}
-
           />
         </Flex>
       )}

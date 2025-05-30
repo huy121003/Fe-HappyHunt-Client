@@ -26,7 +26,6 @@ import { useAppSelector } from "@/redux/reduxHook";
 
 import { IChat, IChatPayload } from "@/features/chat/data/interface";
 import {
-
   MessageOutlined,
   UserOutlined,
   EditOutlined,
@@ -180,13 +179,17 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
           <Flex justify="space-between" align="center" className="mb-6">
             <Flex align="center" gap={4}>
               <Badge dot={false} status="success">
-                <Image
-                  src={record.createdBy.avatar}
-                  width={60}
-                  height={60}
-                  className="rounded-xl border-2 border-gray-100 object-cover hover:border-orange-500 transition-colors"
-                  preview={false}
-                />
+                {record.createdBy.avatar ? (
+                  <Image
+                    src={record.createdBy.avatar}
+                    width={60}
+                    height={60}
+                    className="rounded-xl border-2 border-gray-100 object-cover hover:border-orange-500 transition-colors"
+                    preview={false}
+                  />
+                ) : (
+                  <i className="fas fa-user-circle text-gray-400 text-6xl"></i>
+                )}
               </Badge>
               <Flex vertical gap={1}>
                 <Typography.Title

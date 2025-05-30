@@ -9,3 +9,14 @@ export interface IMessageChatbotPayload {
     content: string;
   }[];
 }
+
+export interface IDescriptionPayload {
+  categoryParent: number;
+  category: number;
+  name: string;
+  price: number;
+  attributes: {
+    name: string;
+    value: string;
+  }[];
+}
