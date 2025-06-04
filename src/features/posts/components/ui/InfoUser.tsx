@@ -10,13 +10,13 @@ import EvaluateService from "@/features/evaluates/service";
 import {
   Card,
   Flex,
-  Image,
   Spin,
   Typography,
   Divider,
   Badge,
   Button,
   Tag,
+  Avatar,
 } from "antd";
 import TimeAgo from "@/components/ui/TimeAgo";
 import CButton from "@/components/buttons/CButton";
@@ -180,15 +180,19 @@ const InfoUser: React.FC<InfoUserProps> = ({ record }) => {
             <Flex align="center" gap={4}>
               <Badge dot={false} status="success">
                 {record.createdBy.avatar ? (
-                  <Image
+                  <Avatar
                     src={record.createdBy.avatar}
-                    width={60}
-                    height={60}
+                    size={60}
                     className="rounded-xl border-2 border-gray-100 object-cover hover:border-orange-500 transition-colors"
-                    preview={false}
                   />
                 ) : (
-                  <i className="fas fa-user-circle text-gray-400 text-6xl"></i>
+                  <Avatar
+                    size={60}
+                    className="bg-gray-300 text-gray-700 border-2 border-gray-100 object-cover hover:border-orange-500 transition-colors"
+                    style={{ fontSize: "24px" }}
+                  >
+                    {record.createdBy.name.charAt(0).toUpperCase()}
+                  </Avatar>
                 )}
               </Badge>
               <Flex vertical gap={1}>

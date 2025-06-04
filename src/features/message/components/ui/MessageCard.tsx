@@ -42,8 +42,9 @@ const MessageCard = ({
             <Avatar
               size={40}
               className="bg-gray-300 text-gray-700 border-2 border-white shadow-sm"
-              icon={<i className="fas fa-user-circle text-2xl"></i>}
-            />
+            >
+              {message.sender.name?.charAt(0).toUpperCase()}
+            </Avatar>
           )}
         </Tooltip>
 
@@ -74,7 +75,7 @@ const MessageCard = ({
                 className="text-wrap break-words text-white"
                 style={{ whiteSpace: "pre-line" }}
               >
-                {decryptMessage(message.message)}
+                {message.message && decryptMessage(message.message)}
               </Typography.Paragraph>
             </div>
           )}

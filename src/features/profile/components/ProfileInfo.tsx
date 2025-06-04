@@ -14,6 +14,7 @@ import {
   Divider,
   Tooltip,
   Rate,
+  Avatar,
 } from "antd";
 import CButton from "@/components/buttons/CButton";
 import {
@@ -145,15 +146,18 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
                 }}
               />
             ) : (
-              <i
-                className="fas fa-user-circle text-6xl text-gray-500 absolute"
+              <Avatar
+                size={120}
+                className="rounded-full border-4 border-white absolute"
                 style={{
                   left: "24px",
                   bottom: "-60px",
-                  fontSize: "120px",
-                  color: "#160909",
+                  backgroundColor: "#241f1f",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                 }}
-              ></i>
+              >
+                {data.name.charAt(0).toUpperCase()}
+              </Avatar>
             )}
           </div>
 

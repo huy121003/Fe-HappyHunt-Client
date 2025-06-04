@@ -71,12 +71,20 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               rules={[
                 {
                   required: true,
-                  whitespace: true,
                   message: "Please input your username!",
                 },
                 {
+                  whitespace: true,
+                  message: "Username cannot be empty or only spaces!",
+                },
+                {
                   validator: async (_, value) => {
-                    if (!/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*$/g.test(value)) {
+                    if (
+                      value &&
+                      !/^[a-zA-Z0-9]+\.[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*$/.test(
+                        value
+                      )
+                    ) {
                       return Promise.reject(
                         "Invalid username format (e.g., admin.super, admin123.232)"
                       );
@@ -88,6 +96,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             >
               <CInput placeholder="Username" />
             </Form.Item>
+
             <Form.Item
               label="Password"
               name="password"

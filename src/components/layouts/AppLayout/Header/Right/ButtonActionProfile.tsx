@@ -93,11 +93,12 @@ function ButtonActionProfile() {
               ) : (
                 <Avatar
                   size={40}
-                  icon={<i className="fa-solid fa-user-circle" />}
-                  className={`
-                    ${profile.isVip && "border-2 border-yellow-500"}
-                    `}
-                />
+                  className={`bg-gray-300 text-gray-700 border border-gray-200 ${
+                    profile.isVip && "border-2 border-yellow-500"
+                  }`}
+                >
+                  {profile?.name?.charAt(0).toUpperCase()}
+                </Avatar>
               )}
             </Badge>
 

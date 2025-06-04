@@ -65,9 +65,10 @@ function ChatCard({ item, onClose }: IProps) {
         ) : (
           <Avatar
             size={60}
-            className="bg-gray-300 text-gray-700"
-            icon={<i className="fas fa-user-circle text-4xl"></i>}
-          />
+            className="bg-gray-300 text-gray-700 border border-gray-200"
+          >
+            {otherUser.name?.charAt(0).toUpperCase()}
+          </Avatar>
         )}
       </div>
 

@@ -31,6 +31,7 @@ const PostListing = ({
         <>
           {showListType === "grid" ? (
             <motion.div
+              key={data.length} // Force re-render when data changes
               variants={container}
               initial="hidden"
               animate="show"
@@ -54,6 +55,7 @@ const PostListing = ({
             </motion.div>
           ) : (
             <motion.div
+              key={data.length} // Force re-render when data changes
               variants={container}
               initial="hidden"
               animate="show"

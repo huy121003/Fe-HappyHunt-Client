@@ -76,7 +76,7 @@ function MessageForm({ onFinish, chat, message }: MessageFormProps) {
 
     const payload: IMessagePayload = {
       sender: Number(account?._id),
-      message: encryptMessage(values.message),
+      message: values.message ? encryptMessage(values.message) : "",
       ...(imageBase64 && { image: imageBase64 }),
       chat: chat,
     };
@@ -194,6 +194,13 @@ function MessageForm({ onFinish, chat, message }: MessageFormProps) {
                 //     },
                 //   },
                 // ]}
+                required
+                rules={[
+                  {
+                    whitespace: true,
+                    message: "Please type a message!",
+                  },
+                ]}
               >
                 <CTextArea
                   autoSize={{ minRows: 1, maxRows: 3 }}
