@@ -18,7 +18,7 @@ import SampleMessageService from "@/features/sample-message/service";
 import CTextArea from "@/components/form/CTextArea";
 import { truncateWithDots } from "@/configs/truncateWithDots";
 import { useSocketProvider } from "@/hooks/useSocketProvider";
-
+import { encryptMessage } from "@/configs/encrypt";
 interface MessageFormProps {
   onFinish: (values: IMessagePayload) => void;
   chat: number;
@@ -76,7 +76,7 @@ function MessageForm({ onFinish, chat, message }: MessageFormProps) {
 
     const payload: IMessagePayload = {
       sender: Number(account?._id),
-      message: values.message,
+      message: encryptMessage(values.message),
       ...(imageBase64 && { image: imageBase64 }),
       chat: chat,
     };

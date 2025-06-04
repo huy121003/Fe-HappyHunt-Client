@@ -80,20 +80,20 @@ const PostForm: React.FC<IPostFormProps> = ({
   }, [navigate]);
   const onFinish = async () => {
     const values = await form.getFieldsValue();
-    if (fileList.length < 3 || fileList.length > 10) {
+    if (fileList.length < 2 || fileList.length > 5) {
       form.setFields([
         {
           name: "images",
-          errors: ["Please upload 3 to 10 images"],
+          errors: ["Please upload 2 to 5 images"],
         },
       ]);
       return;
     }
-    if (values.price < 1000 || values.price > 100000000) {
+    if (values.price < 1000 || values.price > 100000000000) {
       form.setFields([
         {
           name: "price",
-          errors: ["Price must be between 1.000 and 100.000.000 VND"],
+          errors: ["Price must be between 1.000 and 100.000.000.000 VND"],
         },
       ]);
       return;

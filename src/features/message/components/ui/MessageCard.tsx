@@ -5,7 +5,7 @@ import { IMessageItem } from "../../data/interface";
 import { timeSendMessage } from "@/configs/date.";
 import { itemAnimation } from "@/libs/motion";
 import { EStatusMessage } from "../../data/constant";
-
+import { decryptMessage } from "@/configs/encrypt";
 interface MessageCardProps {
   message: IMessageItem;
   isOwnMessage: boolean;
@@ -74,7 +74,7 @@ const MessageCard = ({
                 className="text-wrap break-words text-white"
                 style={{ whiteSpace: "pre-line" }}
               >
-                {message.message}
+                {decryptMessage(message.message)}
               </Typography.Paragraph>
             </div>
           )}

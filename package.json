@@ -22,6 +22,7 @@
     "antd-img-crop": "^4.24.0",
     "axios": "^1.7.9",
     "compromise": "^14.14.4",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.13",
     "fe-happyhunt-client": "file:",
     "framer-motion": "^12.6.3",

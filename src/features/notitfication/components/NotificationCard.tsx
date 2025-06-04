@@ -243,7 +243,7 @@ function NotificationCard({ notification }: NotificationCardProps) {
             style={{ cursor: "pointer" }}
             onClick={() => {
               onReadNotification();
-              navigate(`/post-management`);
+              navigate(`/post-management/selling`);
             }}
           >
             <Badge dot={!notification.read} offset={[-8, 8]}>
@@ -311,7 +311,7 @@ function NotificationCard({ notification }: NotificationCardProps) {
             style={{ cursor: "pointer" }}
             onClick={() => {
               onReadNotification();
-              navigate(`/post-management`);
+              navigate(`/post-management/rejected`);
             }}
           >
             <Badge dot={!notification.read} offset={[-8, 8]}>
