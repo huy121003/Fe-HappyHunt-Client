@@ -34,7 +34,22 @@ function EvaluateCard({ evaluate }: EvaluateCardProps) {
               navigate(`/profile/${evaluate.createdBy.slug}`);
             }}
           >
-            <Avatar src={evaluate.createdBy.avatar} size={40} />
+            {evaluate.createdBy.avatar ? (
+              <Image
+                src={evaluate.createdBy.avatar}
+                width={50}
+                height={50}
+                className="rounded-full"
+              />
+            ) : (
+              <Avatar
+                size={50}
+                className="bg-gray-300 text-gray-700 border border-gray-200"
+                style={{ fontSize: "24px" }}
+              >
+                {evaluate.createdBy.name.charAt(0).toUpperCase()}
+              </Avatar>
+            )}
             <Typography.Title level={5}>
               {evaluate.createdBy.name || "Unknown User"}
             </Typography.Title>

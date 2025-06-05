@@ -7,7 +7,7 @@ import TimeAgo from "@/components/ui/TimeAgo";
 import { truncateWithDots } from "@/configs/truncateWithDots";
 import { EStatusMessage } from "@/features/message/data/constant";
 import { useSocketProvider } from "@/hooks/useSocketProvider";
-
+import { decryptMessage } from "@/configs/encrypt";
 interface IProps {
   item: IChatItem;
   onClose: () => void;
@@ -53,14 +53,23 @@ function ChatCard({ item, onClose }: IProps) {
     >
       {/* Avatar Section */}
       <div className="flex-shrink-0">
-        <Avatar
-          size={48}
-          src={otherUser.avatar}
-          alt={otherUser.name}
-          className="border-2 border-gray-200"
-        >
-          {otherUser.name?.charAt(0)?.toUpperCase()}
-        </Avatar>
+        {otherUser.avatar ? (
+          <Image
+            src={otherUser.avatar}
+            width={60}
+            height={60}
+            preview={false}
+            className="rounded-full object-cover border border-gray-200"
+            fallback="/api/placeholder/40/40"
+          />
+        ) : (
+          <Avatar
+            size={60}
+            className="bg-gray-300 text-gray-700 border border-gray-200"
+          >
+            {otherUser.name?.charAt(0).toUpperCase()}
+          </Avatar>
+        )}
       </div>
 
       {/* Content Section */}
@@ -116,7 +125,10 @@ function ChatCard({ item, onClose }: IProps) {
                 )}
                 <span className="truncate">
                   {item.lastMessage.message
-                    ? truncateWithDots(item.lastMessage.message, 30)
+                    ? truncateWithDots(
+                        decryptMessage(item.lastMessage.message),
+                        30
+                      )
                     : item?.lastMessage?.image
                       ? "Photo"
                       : ""}

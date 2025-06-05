@@ -17,6 +17,9 @@ import AddressForm from "./AddressForm";
 import { checkText } from "@/configs/checkText";
 import { useAppSelector } from "@/redux/reduxHook";
 import { postMessageHandler } from "@/components/mesage/ToastMessage";
+import { useMutation } from "@tanstack/react-query";
+import { IDescriptionPayload } from "@/features/chatbot/data/interface";
+import QAChatbotsService from "@/features/chatbot/service";
 
 interface IPostFormProps {
   onSubmit: (values: IPostPayload, id?: number) => void;
@@ -77,20 +80,20 @@ const PostForm: React.FC<IPostFormProps> = ({
   }, [navigate]);
   const onFinish = async () => {
     const values = await form.getFieldsValue();
-    if (fileList.length < 3 || fileList.length > 10) {
+    if (fileList.length < 2 || fileList.length > 5) {
       form.setFields([
         {
           name: "images",
-          errors: ["Please upload 3 to 10 images"],
+          errors: ["Please upload 2 to 5 images"],
         },
       ]);
       return;
     }
-    if (values.price < 1000 || values.price > 100000000) {
+    if (values.price < 1000 || values.price > 100000000000) {
       form.setFields([
         {
           name: "price",
-          errors: ["Price must be between 1.000 and 100.000.000 VND"],
+          errors: ["Price must be between 1.000 and 100.000.000.000 VND"],
         },
       ]);
       return;
@@ -130,6 +133,57 @@ const PostForm: React.FC<IPostFormProps> = ({
     };
 
     onSubmit(payload);
+  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (payload: IDescriptionPayload) => {
+      const res = await QAChatbotsService.getDescription(payload);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      form.setFieldsValue({
+        description: data,
+      });
+    },
+    onError: (error: any) => {
+      postMessageHandler({
+        type: "error",
+        text: error.message || "An error occurred while saving the post",
+      });
+    },
+  });
+  const handleGenerateDescription = async () => {
+    const name = form.getFieldValue("name");
+    const attribute = form.getFieldValue("attributes");
+    const price = form.getFieldValue("price");
+    const category = form.getFieldValue("category");
+    if (!name || !category || !price || !attribute) {
+      postMessageHandler({
+        type: "error",
+        text: "Please fill in all required fields before generating description",
+      });
+      return;
+    }
+    // check all value attribute is not empty
+    if (attribute.some((attr: any) => !attr.name || !attr.value)) {
+      postMessageHandler({
+        type: "error",
+        text: "Please fill in all attribute fields before generating description",
+      });
+      return;
+    }
+
+    const attributes = attribute?.map((attr: any) => ({
+      name: attr.name,
+      value: attr.value,
+    }));
+
+    mutate({
+      name,
+      attributes,
+      price: price ? Number(price) : 0,
+      category: category ? Number(category.split("-")[1]) : 0,
+      categoryParent: category ? Number(category.split("-")[0]) : 0,
+    });
   };
 
   return (
@@ -264,43 +318,52 @@ const PostForm: React.FC<IPostFormProps> = ({
                         maxLength={50}
                       />
                     </Form.Item>
-                    <Form.Item
-                      name="description"
-                      label="Description"
-                      rules={[
-                        {
-                          validator: (_, value) => {
-                            const errors: string[] = [];
-                            if (value.split(/\s+/).length < 10) {
-                              errors.push(
-                                "Description must be at least 10 words!"
-                              );
-                            }
-                            const profanityCheck = checkProfanity(value);
-                            if (profanityCheck) {
-                              errors.push(profanityCheck);
-                            }
-                            const resText = checkText(value);
-                            if (resText) {
-                              errors.push(resText);
-                            }
-                            if (errors.length > 0) {
-                              return Promise.reject(
-                                new Error(errors.join("\n"))
-                              );
-                            }
-                            return Promise.resolve();
+                    <Flex className="w-full">
+                      <Form.Item
+                        name="description"
+                        label="Description"
+                        rules={[
+                          {
+                            validator: (_, value) => {
+                              const errors: string[] = [];
+                              if (value.split(/\s+/).length < 10) {
+                                errors.push(
+                                  "Description must be at least 10 words!"
+                                );
+                              }
+                              const profanityCheck = checkProfanity(value);
+                              if (profanityCheck) {
+                                errors.push(profanityCheck);
+                              }
+                              const resText = checkText(value);
+                              if (resText) {
+                                errors.push(resText);
+                              }
+                              if (errors.length > 0) {
+                                return Promise.reject(
+                                  new Error(errors.join("\n"))
+                                );
+                              }
+                              return Promise.resolve();
+                            },
                           },
-                        },
-                      ]}
-                      className="w-full"
-                    >
-                      <CTextArea
-                        placeholder="Enter description"
-                        showCount
-                        maxLength={1500}
+                        ]}
+                        className="w-full"
+                      >
+                        <CTextArea
+                          placeholder="Enter description"
+                          showCount
+                          maxLength={1500}
+                        />
+                      </Form.Item>
+                      <Button
+                        icon={
+                          <i className="fa-solid fa-lightbulb text-flame-orange"></i>
+                        }
+                        loading={isPending}
+                        onClick={handleGenerateDescription}
                       />
-                    </Form.Item>
+                    </Flex>
                     <Typography.Title level={4}>
                       Seller Information
                     </Typography.Title>

@@ -1,5 +1,3 @@
-
-
 import { IAccount } from "@/features/chat/data/interface";
 
 import { EPostStatus } from "@/features/posts/data/constant";
@@ -57,7 +55,22 @@ function InfoCard({ post, user }: IProps) {
             navigate(`/profile/${user.slug}`);
           }}
         >
-          <Avatar src={user.avatar} size={40} />
+          {user.avatar ? (
+            <Image
+              src={user.avatar}
+              width={60}
+              height={60}
+              className="rounded-full"
+            />
+          ) : (
+            <Avatar
+              size={60}
+              className="bg-gray-300"
+              style={{ fontSize: "24px" }}
+            >
+              {user.name.charAt(0).toUpperCase()}
+            </Avatar>
+          )}
           <Flex vertical>
             <Typography.Title level={4}>{user.name}</Typography.Title>
             <Flex gap={5} align="center">

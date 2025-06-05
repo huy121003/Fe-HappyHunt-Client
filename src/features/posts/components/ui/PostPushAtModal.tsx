@@ -129,7 +129,7 @@ const PostPushAtModal: React.FC<IPostPushAtModalProps> = ({
           >
             <Text strong>Expires at: </Text>
             <Text style={{ fontSize: 16, fontWeight: 600 }}>
-              {expiryDate.toLocaleString()}
+              {expiryDate?.toLocaleString()}
             </Text>
           </Card>
         </div>
@@ -176,7 +176,7 @@ const PostPushAtModal: React.FC<IPostPushAtModalProps> = ({
               <Text strong>Cost</Text>
               <Tag color="orange">
                 {" "}
-                {price.toLocaleString()}
+                {price?.toLocaleString()}
                 VNĐ
               </Tag>
             </div>

@@ -1,5 +1,5 @@
 import { IPostItem } from "@/features/posts/data/interface";
-import { Badge, Flex, Image, Tag, Tooltip } from "antd";
+import { Avatar, Badge, Flex, Image, Tag, Tooltip } from "antd";
 import React, { useState } from "react";
 import TimeAgo from "../ui/TimeAgo";
 import { useNavigate } from "react-router-dom";
@@ -178,14 +178,24 @@ const PostCard2: React.FC<IProps> = ({ record }) => {
                 </span>
               </Flex>
               <Flex gap={10} justify="start" className="mt-4">
-                <Image
-                  src={record.createdBy.avatar}
-                  width={24}
-                  height={24}
-                  className="rounded-full"
-                  preview={false}
-                  alt={record.createdBy.name}
-                />
+                {record.createdBy.avatar ? (
+                  <Image
+                    src={record.createdBy.avatar}
+                    width={24}
+                    height={24}
+                    className="rounded-full"
+                    preview={false}
+                    alt={record.createdBy.name}
+                  />
+                ) : (
+                  <Avatar
+                    size={24}
+                    className="bg-gray-300 text-gray-700 border border-gray-200"
+                    style={{ fontSize: "14px" }}
+                  >
+                    {record.createdBy.name.charAt(0).toUpperCase()}
+                  </Avatar>
+                )}
                 <span className="text-gray-700 text-sm">
                   {record.createdBy.name}
                 </span>

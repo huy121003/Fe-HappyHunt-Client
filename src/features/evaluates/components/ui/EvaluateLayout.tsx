@@ -68,7 +68,21 @@ function EvaluateLayout({ children }: EvaluateLayoutProps) {
           className="w-full"
           title={
             <Flex gap={10} className="p-2">
-              <Avatar src={profile.avatar} size={100} />
+              {profile.avatar ? (
+                <Avatar
+                  size={100}
+                  src={profile.avatar}
+                  className="rounded-full"
+                />
+              ) : (
+                <Avatar
+                  size={100}
+                  className="bg-gray-300 text-gray-700 border border-gray-200"
+                  style={{ fontSize: "24px" }}
+                >
+                  {profile.name.charAt(0).toUpperCase()}
+                </Avatar>
+              )}
               <Flex vertical gap={5}>
                 <Typography.Title level={3}>{profile.name}</Typography.Title>
                 <Flex gap={10}>

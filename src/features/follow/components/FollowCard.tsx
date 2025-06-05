@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Image, Tooltip, Typography } from "antd";
+import { Avatar, Button, Card, Flex, Image, Tooltip, Typography } from "antd";
 
 import { IFollowItem } from "../data/interface";
 import useFollowerState from "../hooks/useFollowerState";
@@ -13,6 +13,9 @@ function FollowCard({ item }: IProps) {
   const location = useLocation();
   const { onSuccess } = useFollowerState();
   const isFollowers = location.pathname.includes("followers");
+  const avatarUrl = isFollowers
+    ? item.createdBy?.avatar
+    : item?.following?.avatar;
   const naviagte = useNavigate();
   const { mutate, isPending } = useMutation({
     mutationFn: async (item: IFollowItem) => {
@@ -53,16 +56,26 @@ function FollowCard({ item }: IProps) {
               )
             }
           >
-            <Image
-              src={
-                isFollowers ? item.createdBy?.avatar : item?.following?.avatar
-              }
-              alt=""
-              width={60}
-              height={60}
-              preview={false}
-              className="rounded-full w-10 h-10"
-            />
+            {avatarUrl ? (
+              <Image
+                src={avatarUrl}
+                alt=""
+                width={60}
+                height={60}
+                preview={false}
+                className="rounded-full w-10 h-10"
+              />
+            ) : (
+              <Avatar
+                size={60}
+                className="bg-gray-300 text-gray-700 border border-gray-200"
+                style={{ fontSize: "24px" }}
+              >
+                {isFollowers
+                  ? item.createdBy?.name.charAt(0).toUpperCase()
+                  : item?.following?.name.charAt(0).toUpperCase()}
+              </Avatar>
+            )}
             <Typography.Title
               level={5}
               className="m-0 text-gray-800 font-semibold"

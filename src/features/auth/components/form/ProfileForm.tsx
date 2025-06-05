@@ -91,12 +91,13 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
         ward: data.address.ward?._id,
         specificAddress: data.address.specificAddress,
         gender: data.gender,
-        dateOfBirth: dayjs(data.dateOfBirth),
+        ...(data.dateOfBirth && {
+          dateOfBirth: dayjs(data.dateOfBirth, "YYYY-MM-DD"),
+        }),
       });
     }
   }, [data, form]);
   const onFinish = async () => {
-
     const values = await form.validateFields();
 
     const payload: IUpdateProfile = {

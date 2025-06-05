@@ -156,7 +156,7 @@ const PostFilter: React.FC<IProps> = ({
         <div className="px-6 pb-6">
           <CPriceRange
             min={0}
-            max={100000000}
+            max={1000000000}
             onMaxChange={handleMaxPriceChange}
             onMinChange={handleMinPriceChange}
           />

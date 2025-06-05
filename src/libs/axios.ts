@@ -8,7 +8,7 @@ const NO_RETRY_HEADER = "x-no-retry";
 const apiConfig = axios.create({
   baseURL,
   withCredentials: true,
-  timeout: 5000,
+  timeout: 10000,
 });
 
 // Lấy access token từ localStorage

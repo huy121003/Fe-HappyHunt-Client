@@ -5,7 +5,7 @@ import { IMessageItem } from "../../data/interface";
 import { timeSendMessage } from "@/configs/date.";
 import { itemAnimation } from "@/libs/motion";
 import { EStatusMessage } from "../../data/constant";
-
+import { decryptMessage } from "@/configs/encrypt";
 interface MessageCardProps {
   message: IMessageItem;
   isOwnMessage: boolean;
@@ -32,11 +32,20 @@ const MessageCard = ({
         }`}
       >
         <Tooltip title={`${timeSendMessage(message.timeSend)}`}>
-          <Avatar
-            src={message.sender.avatar}
-            size={40}
-            className="border-2 border-white shadow-sm"
-          />
+          {message.sender.avatar ? (
+            <Avatar
+              src={message.sender.avatar}
+              size={40}
+              className="border-2 border-white shadow-sm"
+            />
+          ) : (
+            <Avatar
+              size={40}
+              className="bg-gray-300 text-gray-700 border-2 border-white shadow-sm"
+            >
+              {message.sender.name?.charAt(0).toUpperCase()}
+            </Avatar>
+          )}
         </Tooltip>
 
         <div
@@ -66,7 +75,7 @@ const MessageCard = ({
                 className="text-wrap break-words text-white"
                 style={{ whiteSpace: "pre-line" }}
               >
-                {message.message}
+                {message.message && decryptMessage(message.message)}
               </Typography.Paragraph>
             </div>
           )}
