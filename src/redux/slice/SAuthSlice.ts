@@ -22,6 +22,7 @@ export const initialState = {
           isDelete: false,
         },
       ],
+      version: 0,
     },
     username: "",
     address: null,
@@ -64,6 +65,7 @@ export const SAuthSlice = createSlice({
         role: {
           _id: null,
           name: "",
+          version: 0,
           permissions: [
             {
               name: "",

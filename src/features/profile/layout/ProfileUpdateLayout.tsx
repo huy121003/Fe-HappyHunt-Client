@@ -15,7 +15,10 @@ function ProfileUpdateLayout({ children }: IProps) {
       <ContentLayout
         title={
           <Breadcrumb>
-            <Breadcrumb.Item className="text-lg font-semibold text-flame-orange cursor-pointer">
+            <Breadcrumb.Item
+              className="text-lg font-semibold text-flame-orange cursor-pointer"
+              onClick={() => navigate("/")}
+            >
               Home
             </Breadcrumb.Item>
 

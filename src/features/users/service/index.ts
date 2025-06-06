@@ -19,16 +19,5 @@ class UserService {
   static getBySlug = (slug: string): Promise<ICommonResponse<IUser>> => {
     return apiRequest(EMethod.GET, `${this.baseUrl}/${slug}`, false);
   };
-  static delete = (id: number): Promise<ICommonResponse<null>> => {
-    return apiRequest(EMethod.DELETE, `${this.baseUrl}/${id}`, false);
-  };
-  static banned = (
-    id: number,
-    banned: boolean
-  ): Promise<ICommonResponse<null>> => {
-    return apiRequest(EMethod.PATCH, `${this.baseUrl}/${id}/banned`, false, {
-      isBanned: banned,
-    });
-  };
 }
 export default UserService;
