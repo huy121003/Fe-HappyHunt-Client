@@ -17,9 +17,13 @@ function MessagePage() {
   const accountBlock = useAppSelector(
     (state) => state.auth.account.accountBlock as number[]
   );
+  const blockAccount = useAppSelector(
+    (state) => state.auth.account.blockAccount as number[]
+  );
   const postBlock = useAppSelector(
     (state) => state.auth.account.postBlock as number[]
   );
+
   const { slugChat } = useParams();
   const { computedFilter } = useMessageFilter();
   const account = useAppSelector((state) => state.auth.account);
@@ -83,9 +87,11 @@ function MessagePage() {
       </Flex>
       {data.buyer.isBanned &&
       data.seller.isBanned &&
-      !accountBlock.includes(data.buyer._id) &&
-      !accountBlock.includes(data.seller._id) &&
-      !postBlock.includes(data.post._id) ? (
+      !accountBlock?.includes(data.buyer._id) &&
+      !accountBlock?.includes(data.seller._id) &&
+      !blockAccount?.includes(data.buyer._id) &&
+      !blockAccount?.includes(data.seller._id) &&
+      !postBlock?.includes(data.post._id) ? (
         <MessageForm
           onFinish={handleSendMessage}
           chat={data._id}
@@ -111,7 +117,17 @@ function MessagePage() {
         <Card className="w-full !p-0 !m-0 rounded-none border-t border-gray-200">
           <Flex justify="center" align="center" className="h-full">
             <span className="text-xl text-gray-500 font-semibold">
-              This account has been blocked . You cannot send messages
+              {accountBlock?.includes(data.buyer._id) ||
+              accountBlock?.includes(data.seller._id)
+                ? "You have blocked this user"
+                : blockAccount?.includes(data.buyer._id) ||
+                    blockAccount?.includes(data.seller._id)
+                  ? "You have been blocked by this user"
+                  : postBlock?.includes(data.post._id) &&
+                    "This post has been blocked"}
+            </span>
+            <span className="text-xl text-gray-500 font-semibold">
+              . You cannot send messages to this user
             </span>
           </Flex>
         </Card>
