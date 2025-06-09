@@ -29,6 +29,8 @@ export const initialState = {
     _id: null,
     balance: 0,
     slug: null,
+    accountBlock: [],
+    postBlock: [],
   },
 };
 
@@ -81,6 +83,8 @@ export const SAuthSlice = createSlice({
         address: null,
         _id: null,
         balance: 0,
+        accountBlock: [],
+        postBlock: [],
       };
     },
   },

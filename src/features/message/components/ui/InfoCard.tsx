@@ -15,11 +15,9 @@ function InfoCard({ post, user }: IProps) {
   const [isOnline, setIsOnline] = useState<{
     accountId: number;
     status: "online" | "offline";
-    timestamp: string | null;
   }>({
     accountId: user._id,
     status: "offline",
-    timestamp: null,
   });
   const socket = useSocketProvider();
   useEffect(() => {
@@ -30,11 +28,7 @@ function InfoCard({ post, user }: IProps) {
   }, [socket, user._id]);
   useSocketListenerWithResponse(
     "status_account",
-    (data: {
-      accountId: number;
-      status: "online" | "offline";
-      timestamp: string | null;
-    }) => {
+    (data: { accountId: number; status: "online" | "offline" }) => {
       if (data.accountId === user._id) {
         setIsOnline(data);
       }

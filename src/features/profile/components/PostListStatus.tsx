@@ -23,7 +23,7 @@ function PostListStatus({ id }: IPostListStatusProps) {
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [API_KEY.POST_PROFILE, computtedFilter],
     queryFn: async () => {
-      const response = await PostService.getAllPagination({
+      const response = await PostService.getAllPagiantionManager({
         ...computtedFilter,
         createdBy: id,
       });
