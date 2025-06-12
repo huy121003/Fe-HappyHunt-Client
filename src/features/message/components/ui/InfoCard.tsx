@@ -52,15 +52,15 @@ function InfoCard({ post, user }: IProps) {
           {user.avatar ? (
             <Image
               src={user.avatar}
-              width={60}
-              height={60}
+              width={40}
+              height={40}
               className="rounded-full"
             />
           ) : (
             <Avatar
-              size={60}
+              size={40}
               className="bg-gray-300"
-              style={{ fontSize: "24px" }}
+              style={{ fontSize: "20px" }}
             >
               {user.name.charAt(0).toUpperCase()}
             </Avatar>
@@ -98,14 +98,16 @@ function InfoCard({ post, user }: IProps) {
           />
           <Flex gap={5} vertical>
             <Typography.Title level={4}>{post.name}</Typography.Title>
-            <span className="text-red-500 font-bold">
-              {post.price.toLocaleString()} VNĐ
-            </span>
+
+            {post.status !== EPostStatus.SELLING ? (
+              <span className="text-gray-500">This post is hidden or sold</span>
+            ) : (
+              <span className="text-red-500 font-bold">
+                {post.price.toLocaleString()} VNĐ
+              </span>
+            )}
           </Flex>
         </Flex>
-        {post.status !== EPostStatus.SELLING && (
-          <span className="text-gray-500">This post is hidden or sold</span>
-        )}
       </Card>
     </>
   );
