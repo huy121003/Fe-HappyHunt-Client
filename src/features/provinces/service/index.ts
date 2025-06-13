@@ -1,15 +1,15 @@
-import apiRequest from '@/libs/axios';
-import { EMethod } from '@/constants';
-import { ICommonResponse, IPagedResponse } from '@/interfaces';
+import apiRequest from "@/libs/axios";
+import { EMethod } from "@/constants";
+import { ICommonResponse, IPagedResponse } from "@/interfaces";
 import {
   IProvince,
   IProvinceItem,
   IProvincePayload,
   ISearchProvince,
-} from '../data/interface';
+} from "../data/interface";
 
 class ProvincesService {
-  private static baseUrl = 'province';
+  private static baseUrl = "province";
 
   static getAll = (
     params?: ISearchProvince

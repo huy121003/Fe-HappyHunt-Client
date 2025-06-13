@@ -1,10 +1,10 @@
-import { ICommonResponse, IPagedResponse } from '@/interfaces';
-import { ISearchWard, IWard, IWardItem, IWardPayload } from '../data/interface';
-import { EMethod } from '@/constants';
-import apiRequest from '@/libs/axios';
+import { ICommonResponse, IPagedResponse } from "@/interfaces";
+import { ISearchWard, IWard, IWardItem, IWardPayload } from "../data/interface";
+import { EMethod } from "@/constants";
+import apiRequest from "@/libs/axios";
 
 class WardService {
-  private static baseUrl = 'ward';
+  private static baseUrl = "ward";
   static getAll = (
     params?: ISearchWard
   ): Promise<IPagedResponse<IWardItem[]>> => {

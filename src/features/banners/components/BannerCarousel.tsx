@@ -13,7 +13,7 @@ function BannerCarousel() {
   });
   return (
     <Spin spinning={isLoading}>
-      <div className="w-screen h-[calc(100vw/2)] overflow-hidden">
+      <div className="w-screen h-[calc(100vw/3)] overflow-hidden">
         <Carousel autoplay>
           {data?.map((item) => (
             <div key={item._id}>
