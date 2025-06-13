@@ -257,6 +257,7 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
                     icon={<TeamOutlined />}
                     className="w-full h-10"
                     onClick={handleFollowToggle}
+                    loading={isPending || unfollowIsPending}
                   >
                     {followDetailData ? "Unfollow" : "Follow"}
                   </CButton>

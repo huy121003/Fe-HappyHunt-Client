@@ -1,15 +1,15 @@
-import apiRequest from '@/libs/axios';
-import { EMethod } from '@/constants';
-import { ICommonResponse, IPagedResponse } from '@/interfaces';
+import apiRequest from "@/libs/axios";
+import { EMethod } from "@/constants";
+import { ICommonResponse, IPagedResponse } from "@/interfaces";
 import {
   IDistrict,
   IDistrictItem,
   IDistrictPayload,
   ISearchDistrict,
-} from '../data/interface';
+} from "../data/interface";
 
 class DistrictsService {
-  private static baseUrl = 'district';
+  private static baseUrl = "district";
 
   static getAll = (
     params?: ISearchDistrict

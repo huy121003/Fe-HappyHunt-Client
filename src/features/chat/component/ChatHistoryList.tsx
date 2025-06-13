@@ -38,36 +38,27 @@ function ChatHistoryList({ onClose }: IChatHistoryListProps) {
     };
   }, [computedFilter, socket]);
 
-  useSocketListenerWithResponse(
-    "chat_history",
-    (data: IPage<IChatItem[]>) => {
-      if (data && data.documentList) {
-        setChatHistory((prev) => [...prev, ...data.documentList]);
-        setTotal(data.totalDocuments);
-      }
+  useSocketListenerWithResponse("chat_history", (data: IPage<IChatItem[]>) => {
+    if (data && data.documentList) {
+      setChatHistory((prev) => [...prev, ...data.documentList]);
+      setTotal(data.totalDocuments);
     }
-  );
-  useSocketListenerWithResponse(
-    "chat_updated",
-    (data: IChatItem) => {
-      if (chatHistory.find((item) => item._id === data._id)) {
-        setChatHistory((prev) => [
-          data,
-          ...prev.filter((item) => item._id !== data._id),
-        ]);
-      } else {
-        setChatHistory((prev) => [data, ...prev]);
-      }
+  });
+  useSocketListenerWithResponse("chat_updated", (data: IChatItem) => {
+    if (chatHistory.find((item) => item._id === data._id)) {
+      setChatHistory((prev) => [
+        data,
+        ...prev.filter((item) => item._id !== data._id),
+      ]);
+    } else {
+      setChatHistory((prev) => [data, ...prev]);
     }
-  );
-  useSocketListenerWithResponse(
-    "chat_read",
-    (data: IChatItem) => {
-      setChatHistory((prev) =>
-        prev.map((item) => (item._id === data._id ? data : item))
-      );
-    }
-  );
+  });
+  useSocketListenerWithResponse("chat_read", (data: IChatItem) => {
+    setChatHistory((prev) =>
+      prev.map((item) => (item._id === data._id ? data : item))
+    );
+  });
   useSocketListenerWithResponse("count_not_read", (data: number) => {
     setCountNotRead(data);
   });

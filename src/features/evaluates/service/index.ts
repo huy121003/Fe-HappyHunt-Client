@@ -14,10 +14,7 @@ class EvaluateService {
   static create = (data: IEvaluatePayload): Promise<ICommonResponse> => {
     return apiRequest(EMethod.POST, `${EvaluateService.baseUrl}`, false, data);
   };
-  static count = (
-    id: number
-
-  ): Promise<ICommonResponse<ICount>> => {
+  static count = (id: number): Promise<ICommonResponse<ICount>> => {
     return apiRequest(
       EMethod.GET,
       `${EvaluateService.baseUrl}/countEvaluate/${id}`,

@@ -1,8 +1,8 @@
-import { ISearchParams } from '@/interfaces';
-import { TablePaginationConfig, TableProps } from 'antd';
-import { useMemo, useState } from 'react';
+import { ISearchParams } from "@/interfaces";
+import { TablePaginationConfig, TableProps } from "antd";
+import { useMemo, useState } from "react";
 
-type TTableOnChange = TableProps<any>['onChange'];
+type TTableOnChange = TableProps<any>["onChange"];
 
 interface IProps {
   defaultPagination?: ISearchParams;

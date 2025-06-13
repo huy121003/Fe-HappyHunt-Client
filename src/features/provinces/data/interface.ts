@@ -1,4 +1,4 @@
-import { ISearchParams } from '@/interfaces';
+import { ISearchParams } from "@/interfaces";
 
 export interface IProvince {
   name: string;

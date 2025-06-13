@@ -6,6 +6,7 @@ import { IReportPayload } from "../../data/interface";
 import ReportService from "../../service";
 import { postMessageHandler } from "@/components/mesage/ToastMessage";
 import ReportForm from "../form/ReportForm";
+import { useNavigate } from "react-router-dom";
 interface ReportModalProps {
   targetType: ETargetType;
   target: number;
@@ -18,6 +19,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
   open,
   setOpen,
 }) => {
+  const navigate = useNavigate();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: IReportPayload) => {
       const res = await ReportService.create(data);
@@ -29,6 +31,8 @@ const ReportModal: React.FC<ReportModalProps> = ({
         type: "success",
         text: `Report for ${targetType} submitted successfully.`,
       });
+      navigate("/"); // Redirect to reports page after submission
+      window.location.reload(); // Reload the page to reflect changes
     },
   });
   const onSubmit = (data: IReportPayload) => {
@@ -46,7 +50,6 @@ const ReportModal: React.FC<ReportModalProps> = ({
       <ReportForm
         targetType={targetType}
         target={target}
-
         onSubmit={onSubmit}
         onCancel={() => setOpen(false)}
         loading={isPending}

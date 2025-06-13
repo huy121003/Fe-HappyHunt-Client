@@ -1,14 +1,14 @@
-import { IPagedResponse } from '@/interfaces';
-import { useQuery } from '@tanstack/react-query';
-import { debounce } from 'lodash';
-import { useRef, useState } from 'react';
+import { IPagedResponse } from "@/interfaces";
+import { useQuery } from "@tanstack/react-query";
+import { debounce } from "lodash";
+import { useRef, useState } from "react";
 
 const SIZE = 30;
 
 export interface IFilters {
   page: number;
   size: number;
-  search?: string | '';
+  search?: string | "";
 }
 
 interface IProps<T> {
@@ -26,7 +26,7 @@ const useLoadMore = <T>({ key, fetchFn }: IProps<T>) => {
   });
 
   const { isFetching, refetch } = useQuery({
-    queryKey: [key, 'scroll'],
+    queryKey: [key, "scroll"],
     queryFn: async () => {
       const result = await fetchFn(filters.current);
 
