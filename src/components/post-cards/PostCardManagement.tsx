@@ -25,7 +25,7 @@ import TimeAgo from "@/components/ui/TimeAgo";
 import { IPostItem } from "../../features/posts/data/interface";
 import { API_KEY, EPostStatus } from "../../features/posts/data/constant";
 import StatusModal from "../../features/posts/components/ui/StatusModal";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_KEY as API_KEY_CATEGORY } from "@/features/categories/data/constants";
 import ReasonRejectedModal, {
