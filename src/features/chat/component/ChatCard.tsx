@@ -67,7 +67,7 @@ function ChatCard({ item, onClose }: IProps) {
             size={60}
             className="bg-gray-300 text-gray-700 border border-gray-200"
           >
-            {otherUser.name?.charAt(0).toUpperCase()}
+            {otherUser?.name?.charAt(0).toUpperCase()}
           </Avatar>
         )}
       </div>
@@ -97,7 +97,7 @@ function ChatCard({ item, onClose }: IProps) {
             overflow: "hidden",
           }}
         >
-          {item.post.name}
+          {item.post?.name}
         </Typography.Text>
 
         {/* Last Message */}

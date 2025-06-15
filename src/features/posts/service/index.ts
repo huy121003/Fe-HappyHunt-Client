@@ -172,6 +172,13 @@ class PostService {
   ): Promise<ICommonResponse<{ pushedAt: Date }>> => {
     return apiRequest(EMethod.GET, `${PostService.baseUrl}/push/${id}`, false);
   };
+  static renew = (id: number): Promise<ICommonResponse> => {
+    return apiRequest(
+      EMethod.PATCH,
+      `${PostService.baseUrl}/renew/${id}`,
+      false
+    );
+  };
 }
 
 export default PostService;

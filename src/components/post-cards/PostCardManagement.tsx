@@ -26,7 +26,7 @@ import { IPostItem } from "../../features/posts/data/interface";
 import { API_KEY, EPostStatus } from "../../features/posts/data/constant";
 import StatusModal from "../../features/posts/components/ui/StatusModal";
 import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_KEY as API_KEY_CATEGORY } from "@/features/categories/data/constants";
 import ReasonRejectedModal, {
   RejectedImage,
@@ -34,6 +34,8 @@ import ReasonRejectedModal, {
 import { postMessageHandler } from "../mesage/ToastMessage";
 import ViewAnalyticModal from "@/features/posts/components/ui/ViewAnalyticModal";
 import PostPushAtModal from "@/features/posts/components/ui/PostPushAtModal";
+import PostService from "@/features/posts/service";
+import usePostState from "@/features/posts/hooks/usePostState";
 
 interface IProps {
   record: IPostItem;
@@ -57,7 +59,7 @@ const PostCardManagement: React.FC<IProps> = ({
   const [isOpenViewAnalyticModal, setIsOpenViewAnalyticModal] = useState(false);
   const client = useQueryClient();
   const navigate = useNavigate();
-
+  const { onSuccess } = usePostState();
   const isSelling = record?.status === EPostStatus.SELLING;
   const canEdit = isSelling || record?.status === EPostStatus.REJECTED;
   const openReason = () => {
@@ -74,7 +76,20 @@ const PostCardManagement: React.FC<IProps> = ({
   const onOpen = () => {
     setOpenActiveModal(true);
   };
-
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await PostService.renew(id);
+      return res.data;
+    },
+    onSuccess: () => {
+      onSuccess("Post renewed successfully", () => {
+        //navigate("/post-management/waiting");
+      });
+    },
+  });
+  const onRenew = (id: number) => {
+    mutate(id);
+  };
   const getStatusColor = (status: EPostStatus): string => {
     switch (status) {
       case EPostStatus.SELLING:
@@ -132,6 +147,16 @@ const PostCardManagement: React.FC<IProps> = ({
           Edit Post
         </Menu.Item>
       )}
+      {record.status === EPostStatus.HIDDEN && (
+        <Menu.Item
+          key="renew"
+          icon={<BarChartOutlined />}
+          onClick={() => onRenew(record._id)}
+          disabled={isPending}
+        >
+          Renew
+        </Menu.Item>
+      )}
       {isSelling && (
         <Menu.Item
           key="hide"
@@ -150,6 +175,7 @@ const PostCardManagement: React.FC<IProps> = ({
       >
         View Analytics
       </Menu.Item>
+
       <Menu.Divider />
 
       <Menu.Item
