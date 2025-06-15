@@ -77,7 +77,7 @@ function MessagePage() {
       <Flex className="flex-1 flex overflow-hidden">
         <MessageList
           chat={data._id}
-          post={data.post._id}
+          post={data.post?._id}
           isSeller={account._id === data.seller._id}
           target={
             data.buyer._id === account._id ? data.seller._id : data.buyer._id
@@ -91,20 +91,20 @@ function MessagePage() {
       !accountBlock?.includes(data.seller._id) &&
       !blockAccount?.includes(data.buyer._id) &&
       !blockAccount?.includes(data.seller._id) &&
-      !postBlock?.includes(data.post._id) ? (
+      !postBlock?.includes(data.post?._id) ? (
         <MessageForm
           onFinish={handleSendMessage}
           chat={data._id}
           message={
             data.post.category
-              ? data.buyer._id === account._id
+              ? data.buyer?._id === account?._id
                 ? data.post.category.messages.map(
                     (message) => message.messageSeller
                   )
                 : data.post.category.messages.map(
                     (message) => message.messageBuyer
                   )
-              : data.buyer._id === account._id
+              : data.buyer?._id === account?._id
                 ? data.post.categoryParent.messages.map(
                     (message) => message.messageBuyer
                   )
